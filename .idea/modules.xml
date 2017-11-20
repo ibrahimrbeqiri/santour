@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/santour.iml" filepath="$PROJECT_DIR$/santour.iml" />
+      <module fileurl="file://C:\Users\ibraa\AndroidStudioProjects\santour\santour.iml" filepath="C:\Users\ibraa\AndroidStudioProjects\santour\santour.iml" />
     </modules>
   </component>
 </project>
