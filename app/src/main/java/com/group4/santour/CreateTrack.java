@@ -14,6 +14,8 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 /**
@@ -126,4 +128,11 @@ public class CreateTrack extends AppCompatActivity
                 .newInstance(true).show(getSupportFragmentManager(), "dialog");
     }
 
+    public void  createTrack(View v) {
+        String titelname = ((EditText) findViewById(R.id.editText)).getText().toString();
+        System.out.print(titelname);
+
+    }
+
 }
+
