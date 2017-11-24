@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1003816536236",
+    "firebase_url": "https://santour-fea92.firebaseio.com",
+    "project_id": "santour-fea92",
+    "storage_bucket": "santour-fea92.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1003816536236:android:99ff474291445cd3",
+        "android_client_info": {
+          "package_name": "com.group4.santour"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1003816536236-n5ikd9ps3qijo93duo31igbaesl3lj80.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.group4.santour",
+            "certificate_hash": "9c4b09c17a281988674ec2c3ae5966b1959f9b3d"
+          }
+        },
+        {
+          "client_id": "1003816536236-q1pk43shdh6hm2s56ji5i7igb3vasamt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABaTyIPQ3_C4_BOhjYHVLInYLsbr4gyrs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1003816536236-q1pk43shdh6hm2s56ji5i7igb3vasamt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

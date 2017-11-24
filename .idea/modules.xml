@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\Users\Joey\Documents\GitHub\santour\app\app.iml" filepath="C:\Users\Joey\Documents\GitHub\santour\app\app.iml" />
       <module fileurl="file://$PROJECT_DIR$/santour.iml" filepath="$PROJECT_DIR$/santour.iml" />
+      <module fileurl="file://C:\Users\Joey\Documents\GitHub\santour\santour.iml" filepath="C:\Users\Joey\Documents\GitHub\santour\santour.iml" />
     </modules>
   </component>
 </project>
