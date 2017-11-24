@@ -6,9 +6,20 @@
     android:layout_height="match_parent"
     tools:context="com.group4.santour.MainActivity">
 
+<<<<<<< HEAD
     <android.widget.ListView
         android:id="@+id/listViewTest"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+=======
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TEST"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+>>>>>>> ab8cdf2d29d3faa165a0dcfff82f67a59957109f
 
 </android.support.constraint.ConstraintLayout>
