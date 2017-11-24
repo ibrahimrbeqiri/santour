@@ -18,12 +18,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-/**
- * This demo shows how GMS Location can be used to check for changes to the users location.  The
- * "My Location" button uses GMS Location to set the blue dot representing the users location.
- * Permission for {@link android.Manifest.permission#ACCESS_FINE_LOCATION} is requested at run
- * time. If the permission has not been granted, the Activity is finished with an error message.
- */
 public class CreateTrack extends AppCompatActivity
         implements
         OnMyLocationButtonClickListener,
@@ -31,17 +25,8 @@ public class CreateTrack extends AppCompatActivity
         OnMapReadyCallback,
         ActivityCompat.OnRequestPermissionsResultCallback {
 
-    /**
-     * Request code for location permission request.
-     *
-     * @see #onRequestPermissionsResult(int, String[], int[])
-     */
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
 
-    /**
-     * Flag indicating whether a requested permission has been denied after returning in
-     * {@link #onRequestPermissionsResult(int, String[], int[])}.
-     */
     private boolean mPermissionDenied = false;
 
     private GoogleMap mMap;
@@ -70,9 +55,6 @@ public class CreateTrack extends AppCompatActivity
         enableMyLocation();
     }
 
-    /**
-     * Enables the My Location layer if the fine location permission has been granted.
-     */
     private void enableMyLocation() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -124,10 +106,7 @@ public class CreateTrack extends AppCompatActivity
             mPermissionDenied = false;
         }
     }
-
-    /**
-     * Displays a dialog with error message explaining that the location permission is missing.
-     */
+    
     private void showMissingPermissionError() {
         PermissionUtils.PermissionDeniedDialog
                 .newInstance(true).show(getSupportFragmentManager(), "dialog");
