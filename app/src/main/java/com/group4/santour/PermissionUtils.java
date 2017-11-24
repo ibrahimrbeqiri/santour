@@ -89,7 +89,7 @@ public abstract class PermissionUtils {
         public void onDismiss(DialogInterface dialog) {
             super.onDismiss(dialog);
             if (mFinishActivity) {
-                Toast.makeText(getActivity(), "Permission Required!",
+                Toast.makeText(getActivity(), "Restart the app and give permission!",
                         Toast.LENGTH_SHORT).show();
                 getActivity().finish();
             }
@@ -140,7 +140,7 @@ public abstract class PermissionUtils {
             mFinishActivity = arguments.getBoolean(ARGUMENT_FINISH_ACTIVITY);
 
             return new AlertDialog.Builder(getActivity())
-                    .setMessage("Permission for the Location!")
+                    .setMessage("The app would like to use your location!")
                     .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -161,7 +161,7 @@ public abstract class PermissionUtils {
             super.onDismiss(dialog);
             if (mFinishActivity) {
                 Toast.makeText(getActivity(),
-                       "Permission required!",
+                       "Restart the app and give permission!",
                         Toast.LENGTH_SHORT)
                         .show();
                 getActivity().finish();

@@ -56,6 +56,11 @@ public class CreateTrack extends AppCompatActivity
         mapFragment.getMapAsync(this);
     }
 
+    public void createTrack(View v) {
+        String titlename = ((EditText) findViewById(R.id.editText)).getText().toString();
+        System.out.println(titlename);
+
+    }
     @Override
     public void onMapReady(GoogleMap map) {
         mMap = map;
@@ -128,11 +133,6 @@ public class CreateTrack extends AppCompatActivity
                 .newInstance(true).show(getSupportFragmentManager(), "dialog");
     }
 
-    public void  createTrack(View v) {
-        String titelname = ((EditText) findViewById(R.id.editText)).getText().toString();
-        System.out.print(titelname);
-
-    }
 
 }
 
