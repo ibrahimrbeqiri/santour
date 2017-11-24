@@ -36,3 +36,4 @@ obj/
 .externalNativeBuild
 .idea/modules.xml
 local.properties
+app/src/main/AndroidManifest.xml
