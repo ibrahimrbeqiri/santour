@@ -57,8 +57,8 @@ public class CreateTrack extends AppCompatActivity
     }
 
     public void createTrack(View v) {
-        String titlename = ((EditText) findViewById(R.id.editText)).getText().toString();
-        System.out.println(titlename);
+        String trackname = ((EditText) findViewById(R.id.editText)).getText().toString();
+        System.out.println(trackname);
 
     }
     @Override
