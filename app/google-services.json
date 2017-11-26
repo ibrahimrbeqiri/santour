@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "1003816536236-6oa25uki273kl4biuskphlvgk087i10a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.group4.santour",
+            "certificate_hash": "078603bacdcded7ddd37764302b25dbe19424f6b"
+          }
+        },
+        {
           "client_id": "1003816536236-n5ikd9ps3qijo93duo31igbaesl3lj80.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
