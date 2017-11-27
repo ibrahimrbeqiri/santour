@@ -9,15 +9,17 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.Build;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -28,20 +30,31 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static android.location.Criteria.ACCURACY_FINE;
 
-public class CreateTrack extends FragmentActivity implements OnMapReadyCallback, LocationListener, GoogleMap.OnMyLocationButtonClickListener, GoogleMap.OnMyLocationClickListener {
+public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
+        LocationListener,
+        GoogleMap.OnMyLocationButtonClickListener,
+        GoogleMap.OnMyLocationClickListener,
+        ActivityCompat.OnRequestPermissionsResultCallback {
 
 
     final static int PERMISSION_ALL = 1;
     final static String[] PERMISSIONS = {android.Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION};
 
+    private boolean mPermissionDenied = false;
+
     private GoogleMap mMap;
     private LocationManager locationManager;
     private Polyline gpsTrack;
+    private PolylineOptions options;
     private LatLng coordinates;
+    private ArrayList<LatLng> points;
+    private double latitude;
+    private double longitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,50 +65,83 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         mapFragment.getMapAsync(this);
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
-        if (Build.VERSION.SDK_INT >= 23 && !isPermissionGranted()) {
+        EditText lat = (EditText) findViewById(R.id.lat);
+        lat.setText("LATITUDE");
+        EditText lon = (EditText) findViewById(R.id.lon);
+        lat.setText("LONGITUDE");
+
+        Button POD = (Button) findViewById(R.id.POD);
+
+        POD.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                startActivity(new Intent(CreateTrack.this, CreatePoiPodActivity.class));
+            }
+        });
+
+        points = new ArrayList<LatLng>();
+
+        Button stop = findViewById(R.id.stop);
+        stop.setEnabled(false);
+
+        /*if (Build.VERSION.SDK_INT >= 24 && !isPermissionGranted()) {
             requestPermissions(PERMISSIONS, PERMISSION_ALL);
         }
         else {
             requestLocation();
-        }
+        }*/
         if (!isLocationEnabled())
             showAlert(1);
     }
-    public void createTrack(View v) {
+    public void startTrack(View v) {
+        Button start = findViewById(R.id.start);
+        start.setEnabled(false);
+        Button stop = findViewById(R.id.stop);
+        stop.setEnabled(true);
         String trackname = ((EditText) findViewById(R.id.editText)).getText().toString();
         System.out.println(trackname);
 
+
+        options = new PolylineOptions().width(6).color(Color.RED).geodesic(true);
+
+        for (int i = 0; i < points.size(); i++) {
+            LatLng point = points.get(i);
+            options.add(point);
+            System.out.println(point);
+        }
+
+
+        Toast.makeText(this, "GPS Data is being recorded!", Toast.LENGTH_SHORT).show();
+
+    }
+
+    public void stopTrack(View v) {
+        Button start = (Button) findViewById(R.id.start);
+        start.setEnabled(true);
+        Button stop = (Button) findViewById(R.id.stop);
+        stop.setEnabled(false);
+
+        gpsTrack = mMap.addPolyline(options);
+
+        Toast.makeText(this, "GPS Data is not being recorded!", Toast.LENGTH_SHORT).show();
     }
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        
-        try
-        {
-            mMap.setMyLocationEnabled(true);
-            mMap.setOnMyLocationButtonClickListener(this);
-            mMap.setOnMyLocationClickListener(this);
-        }
-        catch (SecurityException se)
-        {
-            se.getMessage();
-        }
-
-        PolylineOptions polylineOptions = new PolylineOptions();
-        polylineOptions.color(Color.CYAN);
-        polylineOptions.width(4);
-        gpsTrack = mMap.addPolyline(polylineOptions);
+        enableMyLocation();
+        //mMap.setMyLocationEnabled(true);
+        mMap.setOnMyLocationButtonClickListener(this);
+        mMap.setOnMyLocationClickListener(this);
     }
 
     @Override
     public void onLocationChanged(Location location) {
         coordinates = new LatLng(location.getLatitude(), location.getLongitude());
         mMap.moveCamera(CameraUpdateFactory.newLatLng(coordinates));
-        List<LatLng> points = gpsTrack.getPoints();
+        latitude = location.getLatitude();
+        longitude = location.getLongitude();
         points.add(coordinates);
-        gpsTrack.setPoints(points);
-    }
 
+    }
     @Override
     public void onStatusChanged(String s, int i, Bundle bundle) {
 
@@ -110,25 +156,78 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
     public void onProviderDisabled(String s) {
 
     }
-    private void requestLocation() {
-        Criteria criteria = new Criteria();
-        criteria.setAccuracy(ACCURACY_FINE);
-        criteria.setPowerRequirement(Criteria.POWER_HIGH);
-        String provider = locationManager.getBestProvider(criteria, true);
-
-        try {
-            locationManager.requestLocationUpdates(provider, 10000, 10, this);
-        }
-        catch (SecurityException se)
-        {
-            se.getMessage();
-        }
-    }
     private boolean isLocationEnabled() {
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
                 locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
     }
+    private void enableMyLocation() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            // Permission to access the location is missing.
+            PermissionUtils.requestPermission(this, PERMISSION_ALL,
+                    Manifest.permission.ACCESS_FINE_LOCATION, true);
+        } else if (mMap != null) {
+            // Access to the location has been granted to the app.
+            mMap.setMyLocationEnabled(true);
 
+            Criteria criteria = new Criteria();
+            criteria.setAccuracy(ACCURACY_FINE);
+            criteria.setPowerRequirement(Criteria.POWER_HIGH);
+            String provider = locationManager.getBestProvider(criteria, true);
+            locationManager.requestLocationUpdates(provider, 5000, 5, this);
+        }
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        if (requestCode != PERMISSION_ALL) {
+            return;
+        }
+
+        if (PermissionUtils.isPermissionGranted(permissions, grantResults,
+                Manifest.permission.ACCESS_FINE_LOCATION)) {
+            // Enable the my location layer if the permission has been granted.
+            enableMyLocation();
+
+        } else {
+            // Display the missing permission error dialog when the fragments resume.
+            mPermissionDenied = true;
+        }
+    }
+
+    @Override
+    protected void onResumeFragments() {
+        super.onResumeFragments();
+        if (mPermissionDenied) {
+            // Permission was not granted, display error dialog.
+            showMissingPermissionError();
+            mPermissionDenied = false;
+        }
+    }
+
+    private void showMissingPermissionError() {
+        PermissionUtils.PermissionDeniedDialog
+                .newInstance(true).show(getSupportFragmentManager(), "dialog");
+    }
+
+    /*private void requestLocation() {
+        Criteria criteria = new Criteria();
+        criteria.setAccuracy(ACCURACY_FINE);
+        criteria.setPowerRequirement(Criteria.POWER_HIGH);
+        String provider = locationManager.getBestProvider(criteria, true);
+        try {
+            locationManager.requestLocationUpdates(provider, 10000, 10, this);
+        }
+        catch (SecurityException se)
+        {Criteria criteria = new Criteria();
+        criteria.setAccuracy(ACCURACY_FINE);
+        criteria.setPowerRequirement(Criteria.POWER_HIGH);
+        String provider = locationManager.getBestProvider(criteria, true);
+        try {
+            locationManager.requestLocationUpdates(provider, 10000, 10, this);
+            se.getMessage();
+        }
+    }
     private boolean isPermissionGranted() {
         if (checkSelfPermission(android.Manifest.permission.ACCESS_COARSE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED || checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION)
@@ -139,7 +238,7 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
             Log.v("mylog", "Permission not granted");
             return false;
         }
-    }
+    }*/
     private void showAlert(final int status) {
         String message, title, btnText;
         if (status == 1) {

@@ -20,7 +20,7 @@ import android.widget.Toast;
  */
 public abstract class PermissionUtils {
 
-    public static void requestPermission(AppCompatActivity activity, int requestId,
+    public static void requestPermission(CreateTrack activity, int requestId,
                                          String permission, boolean finishActivity) {
         if (ActivityCompat.shouldShowRequestPermissionRationale(activity, permission)) {
             // Display a dialog with rationale.
