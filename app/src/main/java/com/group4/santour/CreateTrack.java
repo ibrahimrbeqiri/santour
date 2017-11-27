@@ -100,8 +100,8 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         String trackname = ((EditText) findViewById(R.id.editText)).getText().toString();
         System.out.println(trackname);
 
-
-        options = new PolylineOptions().width(6).color(Color.RED).geodesic(true);
+        System.out.println("Lat: " + latitude + ", Lon: " + longitude);
+        options = new PolylineOptions().width(10).color(Color.RED).geodesic(true);
 
         for (int i = 0; i < points.size(); i++) {
             LatLng point = points.get(i);
