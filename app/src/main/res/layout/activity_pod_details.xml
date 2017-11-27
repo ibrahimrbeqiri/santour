@@ -5,66 +5,69 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-            <!-- seekbar option 1 -->
-
     <CheckBox
+        android:id="@+id/verticality"
         android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/verticality" />
+        android:text="@string/verticality"
+        android:buttonTint="#000"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:clipChildren="false">
+        android:layout_marginTop="20dp">
 
         <TextView
             android:id="@+id/textMin1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/seekMin"
-            android:layout_below="@id/seekBar"
+            android:layout_below="@id/seekBar1"
             android:layout_marginTop="5dp"
             android:layout_marginStart="10dp"
             android:textSize="16sp"
-            android:textColor="#000"/>
+            android:textColor="#000"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/textMax1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/seekMax"
-            android:layout_below="@id/seekBar"
+            android:layout_below="@id/seekBar1"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="10dp"
             android:textSize="16sp"
             android:textColor="#000"
-            android:layout_alignParentEnd="true"/>
+            android:layout_alignParentEnd="true"
+            android:visibility="gone"/>
 
         <SeekBar
-            android:id="@+id/seekBar"
+            android:id="@+id/seekBar1"
             style="@style/Widget.AppCompat.SeekBar.Discrete"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:max="@string/seekMax"
-            android:progressTint="@string/black"
-            android:thumbTint="@string/black"
-            android:progress="3" />
+            android:max="10"
+            android:progressTint="#000"
+            android:thumbTint="#000"
+            android:progress="3"
+            android:visibility="gone"/>
 
     </RelativeLayout>
 
     <CheckBox
+        android:id="@+id/rocks"
         android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/rocks" />
+        android:text="@string/rocks"
+        android:buttonTint="#000"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:clipChildren="false">
+        android:layout_marginTop="20dp">
 
         <TextView
             android:id="@+id/textMin2"
@@ -75,7 +78,8 @@
             android:layout_marginTop="5dp"
             android:layout_marginStart="10dp"
             android:textSize="16sp"
-            android:textColor="#000"/>
+            android:textColor="#000"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/textMax2"
@@ -87,31 +91,34 @@
             android:layout_marginEnd="10dp"
             android:textSize="16sp"
             android:textColor="#000"
-            android:layout_alignParentEnd="true"/>
+            android:layout_alignParentEnd="true"
+            android:visibility="gone"/>
 
         <SeekBar
             android:id="@+id/seekBar2"
             style="@style/Widget.AppCompat.SeekBar.Discrete"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:progressTint="@string/black"
-            android:thumbTint="@string/black"
-            android:max="@string/seekMax"
-            android:progress="3" />
+            android:progressTint="#000"
+            android:thumbTint="#000"
+            android:max="10"
+            android:progress="3"
+            android:visibility="gone"/>
 
     </RelativeLayout>
 
     <CheckBox
+        android:id="@+id/slope"
         android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/slope" />
+        android:text="@string/slope"
+        android:buttonTint="#000"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:clipChildren="false">
+        android:layout_marginTop="20dp">
 
         <TextView
             android:id="@+id/textMin3"
@@ -122,7 +129,8 @@
             android:layout_marginTop="5dp"
             android:layout_marginStart="10dp"
             android:textSize="16sp"
-            android:textColor="#000"/>
+            android:textColor="#000"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/textMax3"
@@ -134,17 +142,19 @@
             android:layout_marginEnd="10dp"
             android:textSize="16sp"
             android:textColor="#000"
-            android:layout_alignParentEnd="true"/>
+            android:layout_alignParentEnd="true"
+            android:visibility="gone"/>
 
         <SeekBar
             android:id="@+id/seekBar3"
             style="@style/Widget.AppCompat.SeekBar.Discrete"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:max="@string/seekMax"
-            android:progressTint="@string/black"
-            android:thumbTint="@string/black"
-            android:progress="3" />
+            android:max="10"
+            android:progressTint="#000"
+            android:thumbTint="#000"
+            android:progress="3"
+            android:visibility="gone"/>
 
     </RelativeLayout>
 

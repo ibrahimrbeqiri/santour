@@ -75,7 +75,8 @@
                     android:layout_height="wrap_content"
                     android:onClick="sendCreatePOI"
                     android:text="@string/next"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    android:visibility="visible"/>
 
                 <Button
                     android:id="@+id/nextPOD"
@@ -83,7 +84,8 @@
                     android:layout_height="wrap_content"
                     android:text="@string/save"
                     android:onClick="sendNextPOD"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    android:visibility="visible"/>
 
             </LinearLayout>
 
