@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -24,13 +25,23 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
+
+import java.util.List;
+
+import static android.location.Criteria.ACCURACY_FINE;
 
 public class CreateTrack extends FragmentActivity implements OnMapReadyCallback, LocationListener, GoogleMap.OnMyLocationButtonClickListener, GoogleMap.OnMyLocationClickListener {
+
+
     final static int PERMISSION_ALL = 1;
-    final static String[] PERMISSIONS = {android.Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.ACCESS_FINE_LOCATION};
+    final static String[] PERMISSIONS = {android.Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION};
+
     private GoogleMap mMap;
-    LocationManager locationManager;
+    private LocationManager locationManager;
+    private Polyline gpsTrack;
+    private LatLng coordinates;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +69,7 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        
         try
         {
             mMap.setMyLocationEnabled(true);
@@ -68,12 +80,20 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         {
             se.getMessage();
         }
+
+        PolylineOptions polylineOptions = new PolylineOptions();
+        polylineOptions.color(Color.CYAN);
+        polylineOptions.width(4);
+        gpsTrack = mMap.addPolyline(polylineOptions);
     }
 
     @Override
     public void onLocationChanged(Location location) {
-        LatLng myCoordinates = new LatLng(location.getLatitude(), location.getLongitude());
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(myCoordinates));
+        coordinates = new LatLng(location.getLatitude(), location.getLongitude());
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(coordinates));
+        List<LatLng> points = gpsTrack.getPoints();
+        points.add(coordinates);
+        gpsTrack.setPoints(points);
     }
 
     @Override
@@ -92,9 +112,10 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
     }
     private void requestLocation() {
         Criteria criteria = new Criteria();
-        criteria.setAccuracy(Criteria.ACCURACY_FINE);
+        criteria.setAccuracy(ACCURACY_FINE);
         criteria.setPowerRequirement(Criteria.POWER_HIGH);
         String provider = locationManager.getBestProvider(criteria, true);
+
         try {
             locationManager.requestLocationUpdates(provider, 10000, 10, this);
         }
@@ -164,5 +185,6 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
     public void onMyLocationClick(@NonNull Location location) {
         Toast.makeText(this, "Current location:\n" + location, Toast.LENGTH_LONG).show();
     }
+
 }
 
