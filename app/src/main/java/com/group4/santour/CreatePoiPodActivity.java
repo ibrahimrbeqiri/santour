@@ -2,6 +2,7 @@ package com.group4.santour;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,21 +15,28 @@ import java.util.concurrent.ExecutionException;
 
 public class CreatePoiPodActivity extends AppCompatActivity {
 
-    ImageView imageView;
+    private Button btnCamera;
+    private ImageView imageView;
+
+    private static final int CAMERA_REQUEST_CODE = 1;
+
+  //  private StorageReference nStorage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_poi_pod);
 
-        Button btnCamera = (Button) findViewById(R.id.takePicture);
+      //  nStorage = FirebaseStorage.getInstance().getReference();
+
+        btnCamera = (Button) findViewById(R.id.takePicture);
         imageView = (ImageView)findViewById(R.id.imageView);
 
         btnCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intent, 0);
+                startActivityForResult(intent, CAMERA_REQUEST_CODE);
             }
         });
 
@@ -37,9 +45,17 @@ public class CreatePoiPodActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-        imageView.setImageBitmap(bitmap);
 
+        if(requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK) {
+            Uri uri = data.getData();
+
+         //   StorageReference filepath = nStorage.child("Photos").child(uri.getLastPathSegment());
+
+         //   filepath.putFile(uri).addOnSuccessListener
+
+            Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+            imageView.setImageBitmap(bitmap);
+        }
     }
 
     public void sendCreatePOI(View view)throws ExecutionException, InterruptedException{
