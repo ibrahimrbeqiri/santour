@@ -1,10 +1,8 @@
 <resources>
     <string name="app_name">santour</string>
     <string name="title_activity_location_map">Map</string>
-<<<<<<< HEAD
     <string name="title_activity_maptest">Map</string>
     <string name="title_activity_maps">Map</string>
-=======
     <string name="name">Name</string>
     <string name="takeP">Take Picture</string>
     <string name="gps">GPS Data</string>
@@ -18,5 +16,4 @@
     <string name="verticality">Verticality</string>
     <string name="rocks">Rocks</string>
     <string name="slope">Slope</string>
->>>>>>> dda111157fec74706b8d7525403fe960e53c82dc
 </resources>

@@ -61,6 +61,8 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         try
         {
             mMap.setMyLocationEnabled(true);
+            mMap.setOnMyLocationButtonClickListener(this);
+            mMap.setOnMyLocationClickListener(this);
         }
         catch (SecurityException se)
         {
