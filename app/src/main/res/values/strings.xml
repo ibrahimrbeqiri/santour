@@ -1,6 +1,22 @@
 <resources>
     <string name="app_name">santour</string>
     <string name="title_activity_location_map">Map</string>
+<<<<<<< HEAD
     <string name="title_activity_maptest">Map</string>
     <string name="title_activity_maps">Map</string>
+=======
+    <string name="name">Name</string>
+    <string name="takeP">Take Picture</string>
+    <string name="gps">GPS Data</string>
+    <string name="description">Description</string>
+    <string name="next">Next</string>
+    <string name="save">Save</string>
+    <string name="picture">Picture</string>
+    <string name="black">#000</string>
+    <string name="seekMin">0</string>
+    <string name="seekMax">10</string>
+    <string name="verticality">Verticality</string>
+    <string name="rocks">Rocks</string>
+    <string name="slope">Slope</string>
+>>>>>>> dda111157fec74706b8d7525403fe960e53c82dc
 </resources>
