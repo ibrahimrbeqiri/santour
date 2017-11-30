@@ -12,6 +12,7 @@ import android.location.LocationManager;
 import android.os.SystemClock;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -24,6 +25,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -32,13 +35,15 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         LocationListener,
         GoogleMap.OnMyLocationButtonClickListener,
         GoogleMap.OnMyLocationClickListener,
-        ActivityCompat.OnRequestPermissionsResultCallback {
+        ActivityCompat.OnRequestPermissionsResultCallback{
+
 
 
     final static int PERMISSION_ALL = 1;
@@ -50,11 +55,14 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
     private LocationManager locationManager;
     private Polyline gpsTrack;
     private PolylineOptions options;
+    private LatLng coordinates;
     private ArrayList<LatLng> points;
     private double latitude;
     private double longitude;
     private Button start;
     private Chronometer time;
+    private Location currentLocation;
+    private LatLng currentCoordinates;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,11 +72,9 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-
-        requestLocation();
-
         if (!isLocationEnabled())
             showAlert(1);
+
 
         Button POD = findViewById(R.id.POD);
         POD.setOnClickListener(new View.OnClickListener(){
@@ -87,9 +93,18 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         Button stop = findViewById(R.id.stop);
         stop.setEnabled(false);
 
+    }
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+        enableMyLocation();
+        mMap.setOnMyLocationButtonClickListener(this);
+        mMap.setOnMyLocationClickListener(this);
+
 
 
     }
+
     public void startTrack(View v) {
         Button start = findViewById(R.id.start);
         start.setEnabled(false);
@@ -98,27 +113,16 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         String trackname = ((EditText) findViewById(R.id.editText)).getText().toString();
         System.out.println(trackname);
 
-        Location currentLocation = mMap.getMyLocation();
-        LatLng currentCoordinates = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-
-        points = new ArrayList<LatLng>();
-        points.add(currentCoordinates);
-
         options = new PolylineOptions().width(10).color(Color.RED).geodesic(true);
+        points = new ArrayList<>();
+
+        points.add(currentCoordinates);
 
         time = findViewById(R.id.chronometer2);
         time.setBase(SystemClock.elapsedRealtime());
         time.start();
 
-        for (int i = 0; i < points.size(); i++) {
-            LatLng point = points.get(i);
-            options.add(point);
-        }
 
-        System.out.println(latitude);
-        System.out.println(longitude);
-
-        gpsTrack = mMap.addPolyline(options);
         Toast.makeText(this, "GPS Data is being recorded!", Toast.LENGTH_SHORT).show();
 
     }
@@ -131,11 +135,13 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
 
         time.stop();
 
-        for(int i = 0; i < points.size(); i++)
-        {
+        for (int i = 0; i < points.size(); i++) {
             LatLng point = points.get(i);
+            options.add(point);
             System.out.println(point);
         }
+        gpsTrack = mMap.addPolyline(options);
+
         Toast.makeText(this, "GPS Data is not being recorded!", Toast.LENGTH_SHORT).show();
 
         //make the Object and fill it into Database
@@ -170,22 +176,16 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         //private List<POD> podTrack;
         
     }
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-        enableMyLocation();
-        mMap.setOnMyLocationButtonClickListener(this);
-        mMap.setOnMyLocationClickListener(this);
-
-    }
 
     @Override
     public void onLocationChanged(Location location) {
         LatLng coordinates = new LatLng(location.getLatitude(), location.getLongitude());
         mMap.moveCamera(CameraUpdateFactory.newLatLng(coordinates));
 
-        longitude = location.getLongitude();
-        latitude = location.getLatitude();
+        TextView latitude = findViewById(R.id.latitude);
+        TextView longitude = findViewById(R.id.longitude);
+        latitude.setText("Latitude: " + String.valueOf(location.getLatitude()));
+        longitude.setText("Longitude: " + String.valueOf(location.getLongitude()));
 
         points.add(coordinates);
 
@@ -217,20 +217,20 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         } else if (mMap != null) {
             // Access to the location has been granted to the app.
             mMap.setMyLocationEnabled(true);
+            Criteria criteria = new Criteria();
+            criteria.setAccuracy(Criteria.ACCURACY_FINE);
+            criteria.setPowerRequirement(Criteria.POWER_HIGH);
+            String provider = locationManager.getBestProvider(criteria, true);
+            locationManager.requestLocationUpdates(provider, 0, 1, this);
 
-        }
-    }
-    private void requestLocation() {
-        Criteria criteria = new Criteria();
-        criteria.setAccuracy(Criteria.ACCURACY_FINE);
-        criteria.setPowerRequirement(Criteria.POWER_HIGH);
-        String provider = locationManager.getBestProvider(criteria, true);
-        try {
-            locationManager.requestLocationUpdates(provider, 2000, 0, this);
-        }
-        catch (SecurityException se)
-        {
-            se.getMessage();
+            currentLocation = locationManager.getLastKnownLocation(provider);
+            TextView latitude = findViewById(R.id.latitude);
+            TextView longitude = findViewById(R.id.longitude);
+            latitude.setText("Latitude: " + String.valueOf(currentLocation.getLatitude()));
+            longitude.setText("Longitude: " + String.valueOf(currentLocation.getLongitude()));
+
+            currentCoordinates = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(currentCoordinates));
         }
     }
     @Override
@@ -311,6 +311,5 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
     public void onMyLocationClick(@NonNull Location location) {
         Toast.makeText(this, "Current location:\n" + location, Toast.LENGTH_LONG).show();
     }
-
 }
 
