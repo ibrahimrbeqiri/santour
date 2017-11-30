@@ -58,6 +58,7 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
     private Location currentLocation;
     private LatLng currentCoordinates;
     private ArrayList<Location> locations;
+    private TextView distance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +91,7 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         Button stop = findViewById(R.id.stop);
         stop.setEnabled(false);
 
-        TextView distance = findViewById(R.id.distance);
+        distance = findViewById(R.id.distance);
         distance.setText("Distance: 0.00 km");
     }
     @Override
@@ -106,9 +107,14 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         Button stop = findViewById(R.id.stop);
         stop.setEnabled(true);
 
+        distance.setText("Distance: 0.00 km");
+
         options = new PolylineOptions().width(10).color(Color.RED).geodesic(true);
         points = new ArrayList<>();
         locations = new ArrayList<>();
+        if(gpsTrack != null) {
+            gpsTrack.remove();
+        }
 
         points.add(currentCoordinates);
         locations.add(currentLocation);
@@ -138,9 +144,8 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         Location beginning = locations.get(0);
         Location end = locations.get(locations.size() - 1);
 
-        float distance = beginning.distanceTo(end) / 1000;
-        TextView distanceView = findViewById(R.id.distance);
-        distanceView.setText("Distance: " + String.format("%.2f", distance) + " km");
+        float distanceMade = beginning.distanceTo(end) / 1000;
+        distance.setText("Distance: " + String.format("%.2f", distanceMade) + " km");
 
         Toast.makeText(this, "GPS Data is not being recorded!", Toast.LENGTH_SHORT).show();
 
