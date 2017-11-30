@@ -52,10 +52,7 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
     private LocationManager locationManager;
     private Polyline gpsTrack;
     private PolylineOptions options;
-    private LatLng coordinates;
     private ArrayList<LatLng> points;
-    private double latitude;
-    private double longitude;
     private Button start;
     private Chronometer time;
     private Location currentLocation;
@@ -93,6 +90,8 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         Button stop = findViewById(R.id.stop);
         stop.setEnabled(false);
 
+        TextView distance = findViewById(R.id.distance);
+        distance.setText("Distance: 0.00 km");
     }
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -106,20 +105,19 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         start.setEnabled(false);
         Button stop = findViewById(R.id.stop);
         stop.setEnabled(true);
-        String trackname = ((EditText) findViewById(R.id.editText)).getText().toString();
-        System.out.println(trackname);
 
         options = new PolylineOptions().width(10).color(Color.RED).geodesic(true);
         points = new ArrayList<>();
+        locations = new ArrayList<>();
 
         points.add(currentCoordinates);
+        locations.add(currentLocation);
 
         time = findViewById(R.id.chronometer2);
         time.setBase(SystemClock.elapsedRealtime());
         time.start();
 
         Toast.makeText(this, "GPS Data is being recorded!", Toast.LENGTH_SHORT).show();
-
     }
 
     public void stopTrack(View v) {
@@ -137,19 +135,12 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         }
         gpsTrack = mMap.addPolyline(options);
 
-        for(int i = 0; i < locations.size(); i++)
-        {
-            Location location = locations.get(i);
-            System.out.println(location);
+        Location beginning = locations.get(0);
+        Location end = locations.get(locations.size() - 1);
 
-        }
-        Location test = locations.get(0);
-        Location test2 = locations.get(4);
-
-        float distance = test.distanceTo(test2);
-        TextView tE = findViewById(R.id.distance);
-        tE.setText("Distance: " + String.valueOf(distance) + " m");
-        System.out.println(distance);
+        float distance = beginning.distanceTo(end) / 1000;
+        TextView distanceView = findViewById(R.id.distance);
+        distanceView.setText("Distance: " + String.format("%.2f", distance) + " km");
 
         Toast.makeText(this, "GPS Data is not being recorded!", Toast.LENGTH_SHORT).show();
 
@@ -193,14 +184,17 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
 
         TextView latitude = findViewById(R.id.latitude);
         TextView longitude = findViewById(R.id.longitude);
-        latitude.setText("Latitude: " + String.valueOf(location.getLatitude()));
-        longitude.setText("Longitude: " + String.valueOf(location.getLongitude()));
+        latitude.setText("Latitude: " + String.format("%.7f", location.getLatitude()));
+        longitude.setText("Longitude: " + String.format("%.7f", location.getLongitude()));
+
 
         if(coordinates != currentCoordinates) {
             points.add(coordinates);
+            currentCoordinates = coordinates;
         }
 
         locations.add(location);
+        currentLocation = location;
     }
     @Override
     public void onStatusChanged(String s, int i, Bundle bundle) {
@@ -238,11 +232,12 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
             currentLocation = locationManager.getLastKnownLocation(provider);
             TextView latitude = findViewById(R.id.latitude);
             TextView longitude = findViewById(R.id.longitude);
-            latitude.setText("Latitude: " + String.valueOf(currentLocation.getLatitude()));
-            longitude.setText("Longitude: " + String.valueOf(currentLocation.getLongitude()));
+            latitude.setText("Latitude: " + String.format("%.7f", currentLocation.getLatitude()));
+            longitude.setText("Longitude: " + String.format("%.7f", currentLocation.getLongitude()));
 
             currentCoordinates = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
             mMap.moveCamera(CameraUpdateFactory.newLatLng(currentCoordinates));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentCoordinates, 7));
 
         }
     }
