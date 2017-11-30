@@ -1,10 +1,12 @@
 package models;
 
+import java.io.Serializable;
+
 /**
  * Created by Vincent_2 on 26.11.2017.
  */
 
-public class GPSData {
+public class GPSData implements Serializable{
 
     private String idGPSData;
     private String xGPS;

@@ -1,5 +1,6 @@
 package models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,7 +8,7 @@ import java.util.List;
  * Created by Vincent_2 on 25.11.2017.
  */
 
-public class Track {
+public class Track implements Serializable{
 
     private String idTrack;
     private String nameTrack;
