@@ -25,8 +25,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -35,7 +33,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
@@ -63,6 +60,7 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
     private Chronometer time;
     private Location currentLocation;
     private LatLng currentCoordinates;
+    private ArrayList<Location> locations;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +73,8 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         if (!isLocationEnabled())
             showAlert(1);
 
+        points = new ArrayList<>();
+        locations = new ArrayList<>();
 
         Button POD = findViewById(R.id.POD);
         POD.setOnClickListener(new View.OnClickListener(){
@@ -118,7 +118,6 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         time.setBase(SystemClock.elapsedRealtime());
         time.start();
 
-
         Toast.makeText(this, "GPS Data is being recorded!", Toast.LENGTH_SHORT).show();
 
     }
@@ -137,6 +136,20 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
             System.out.println(point);
         }
         gpsTrack = mMap.addPolyline(options);
+
+        for(int i = 0; i < locations.size(); i++)
+        {
+            Location location = locations.get(i);
+            System.out.println(location);
+
+        }
+        Location test = locations.get(0);
+        Location test2 = locations.get(4);
+
+        float distance = test.distanceTo(test2);
+        TextView tE = findViewById(R.id.distance);
+        tE.setText("Distance: " + String.valueOf(distance) + " m");
+        System.out.println(distance);
 
         Toast.makeText(this, "GPS Data is not being recorded!", Toast.LENGTH_SHORT).show();
 
@@ -183,8 +196,11 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         latitude.setText("Latitude: " + String.valueOf(location.getLatitude()));
         longitude.setText("Longitude: " + String.valueOf(location.getLongitude()));
 
-        points.add(coordinates);
+        if(coordinates != currentCoordinates) {
+            points.add(coordinates);
+        }
 
+        locations.add(location);
     }
     @Override
     public void onStatusChanged(String s, int i, Bundle bundle) {
@@ -227,6 +243,7 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
 
             currentCoordinates = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
             mMap.moveCamera(CameraUpdateFactory.newLatLng(currentCoordinates));
+
         }
     }
     @Override
