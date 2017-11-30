@@ -34,8 +34,6 @@ import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.ArrayList;
 
-import static android.location.Criteria.ACCURACY_FINE;
-
 public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         LocationListener,
         GoogleMap.OnMyLocationButtonClickListener,
@@ -103,7 +101,7 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         Location currentLocation = mMap.getMyLocation();
         LatLng currentCoordinates = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
 
-        points = new ArrayList<>();
+        points = new ArrayList<LatLng>();
         points.add(currentCoordinates);
 
         options = new PolylineOptions().width(10).color(Color.RED).geodesic(true);
@@ -116,6 +114,9 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
             LatLng point = points.get(i);
             options.add(point);
         }
+
+        System.out.println(latitude);
+        System.out.println(longitude);
 
         gpsTrack = mMap.addPolyline(options);
 
@@ -136,7 +137,6 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
             LatLng point = points.get(i);
             System.out.println(point);
         }
-        System.out.println("dfdgdgdgdgdgd");
         Toast.makeText(this, "GPS Data is not being recorded!", Toast.LENGTH_SHORT).show();
     }
     @Override
@@ -153,10 +153,11 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         LatLng coordinates = new LatLng(location.getLatitude(), location.getLongitude());
         mMap.moveCamera(CameraUpdateFactory.newLatLng(coordinates));
 
-        latitude = location.getLatitude();
         longitude = location.getLongitude();
+        latitude = location.getLatitude();
 
         points.add(coordinates);
+
     }
     @Override
     public void onStatusChanged(String s, int i, Bundle bundle) {
@@ -194,7 +195,7 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         criteria.setPowerRequirement(Criteria.POWER_HIGH);
         String provider = locationManager.getBestProvider(criteria, true);
         try {
-            locationManager.requestLocationUpdates(provider, 2000, 2, this);
+            locationManager.requestLocationUpdates(provider, 2000, 0, this);
         }
         catch (SecurityException se)
         {
