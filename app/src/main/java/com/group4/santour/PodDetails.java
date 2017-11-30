@@ -57,7 +57,7 @@ public class PodDetails extends AppCompatActivity {
 
     public void sendSavePOD(View view)throws ExecutionException, InterruptedException{
         if(verticality.isChecked()){
-            pod.setDetailVerticality(String.valueOf(seekBar2.getProgress()));
+            pod.setDetailVerticality(String.valueOf(seekBar1.getProgress()));
         }
         if(rocks.isChecked()){
             pod.setDetailRocks(String.valueOf(seekBar2.getProgress()));
