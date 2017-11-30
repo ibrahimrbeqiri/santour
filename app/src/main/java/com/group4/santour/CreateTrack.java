@@ -118,7 +118,6 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         }
 
         gpsTrack = mMap.addPolyline(options);
-
         Toast.makeText(this, "GPS Data is being recorded!", Toast.LENGTH_SHORT).show();
 
     }
@@ -138,6 +137,38 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         }
         System.out.println("dfdgdgdgdgdgd");
         Toast.makeText(this, "GPS Data is not being recorded!", Toast.LENGTH_SHORT).show();
+
+        //make the Object and fill it into Database
+        //private String idTrack;
+        //private String nameTrack;
+        String trackname = ((EditText) findViewById(R.id.editText)).getText().toString();
+
+        //private String descriptionTrack;
+        //there is no description for the track is in the PO
+
+        // private String pictureTrack;
+        //Its also in the PO
+
+        //private String timer;
+        //
+
+        //private String km;
+        //we havent defined them yet
+
+        //its the first element from the GPSData
+        //private String startLocation;
+
+        //its the last element from the  GPSData
+        //private String endLocation;
+
+        //private List<GPSData> gpsTrack;
+        //points;
+
+        //comes from POI
+        //private List<POI> poiTrack;
+        //comes from POD
+        //private List<POD> podTrack;
+        
     }
     @Override
     public void onMapReady(GoogleMap googleMap) {
