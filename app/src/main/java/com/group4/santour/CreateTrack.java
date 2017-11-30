@@ -9,6 +9,7 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.SystemClock;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -18,6 +19,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,6 +31,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +59,8 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
     private ArrayList<LatLng> points;
     private double latitude;
     private double longitude;
+    private Button start;
+    private Chronometer time;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,32 +71,29 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         mapFragment.getMapAsync(this);
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
-        EditText lat = (EditText) findViewById(R.id.lat);
-        lat.setText("LATITUDE");
-        EditText lon = (EditText) findViewById(R.id.lon);
-        lat.setText("LONGITUDE");
+        if (!isLocationEnabled())
+            showAlert(1);
+
+        points = new ArrayList<LatLng>();
+        options = new PolylineOptions().width(10).color(Color.RED).geodesic(true);
 
         Button POD = (Button) findViewById(R.id.POD);
-
         POD.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 startActivity(new Intent(CreateTrack.this, CreatePoiPodActivity.class));
             }
         });
 
-        points = new ArrayList<LatLng>();
+        Button POI = (Button) findViewById(R.id.POI);
+        POI.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                startActivity(new Intent(CreateTrack.this, CreatePoiPodActivity.class));
+            }
+        });
 
         Button stop = findViewById(R.id.stop);
         stop.setEnabled(false);
 
-        /*if (Build.VERSION.SDK_INT >= 24 && !isPermissionGranted()) {
-            requestPermissions(PERMISSIONS, PERMISSION_ALL);
-        }
-        else {
-            requestLocation();
-        }*/
-        if (!isLocationEnabled())
-            showAlert(1);
     }
     public void startTrack(View v) {
         Button start = findViewById(R.id.start);
@@ -100,15 +103,16 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         String trackname = ((EditText) findViewById(R.id.editText)).getText().toString();
         System.out.println(trackname);
 
-        System.out.println("Lat: " + latitude + ", Lon: " + longitude);
-        options = new PolylineOptions().width(10).color(Color.RED).geodesic(true);
+        time = (Chronometer) findViewById(R.id.chronometer2);
+
+        time.setBase(SystemClock.elapsedRealtime());
+        time.start();
 
         for (int i = 0; i < points.size(); i++) {
             LatLng point = points.get(i);
             options.add(point);
-            System.out.println(point);
         }
-
+        gpsTrack = mMap.addPolyline(options);
 
         Toast.makeText(this, "GPS Data is being recorded!", Toast.LENGTH_SHORT).show();
 
@@ -120,7 +124,7 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         Button stop = (Button) findViewById(R.id.stop);
         stop.setEnabled(false);
 
-        gpsTrack = mMap.addPolyline(options);
+        time.stop();
 
         Toast.makeText(this, "GPS Data is not being recorded!", Toast.LENGTH_SHORT).show();
     }
@@ -128,9 +132,9 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         enableMyLocation();
-        //mMap.setMyLocationEnabled(true);
         mMap.setOnMyLocationButtonClickListener(this);
         mMap.setOnMyLocationClickListener(this);
+
     }
 
     @Override
@@ -139,8 +143,8 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         mMap.moveCamera(CameraUpdateFactory.newLatLng(coordinates));
         latitude = location.getLatitude();
         longitude = location.getLongitude();
-        points.add(coordinates);
 
+        points.add(coordinates);
     }
     @Override
     public void onStatusChanged(String s, int i, Bundle bundle) {
@@ -174,7 +178,7 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
             criteria.setAccuracy(ACCURACY_FINE);
             criteria.setPowerRequirement(Criteria.POWER_HIGH);
             String provider = locationManager.getBestProvider(criteria, true);
-            locationManager.requestLocationUpdates(provider, 5000, 5, this);
+            locationManager.requestLocationUpdates(provider, 2000, 2, this);
         }
     }
     @Override

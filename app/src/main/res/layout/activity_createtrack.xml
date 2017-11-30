@@ -86,27 +86,7 @@ tools:context="com.group4.santour.CreateTrack">
     app:layout_constraintVertical_bias="0.95"
     tools:text="+ POD" />
 
-<EditText
-    android:id="@+id/editText2"
-    android:layout_width="113dp"
-    android:layout_height="46dp"
-    android:layout_alignTop="@+id/start"
-    android:layout_marginBottom="8dp"
-    android:layout_marginEnd="8dp"
-    android:layout_marginStart="8dp"
-    android:layout_marginTop="8dp"
-    android:ems="10"
-    android:inputType="time"
-    android:text="Time"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintHorizontal_bias="0.058"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintVertical_bias="0.783"
-    tools:text="Time" />
-
-<EditText
+    <EditText
     android:id="@+id/editText"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -159,38 +139,35 @@ tools:context="com.group4.santour.CreateTrack">
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.026" />
 
-    <EditText
-        android:id="@+id/lat"
-        android:layout_width="131dp"
-        android:layout_height="41dp"
+    <Chronometer
+        android:id="@+id/chronometer2"
+        android:layout_width="103dp"
+        android:layout_height="43dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:ems="10"
-        android:inputType="numberDecimal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.118"
+        app:layout_constraintHorizontal_bias="0.082"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.527" />
+        app:layout_constraintVertical_bias="0.788" />
 
-    <EditText
-        android:id="@+id/lon"
-        android:layout_width="131dp"
-        android:layout_height="41dp"
+    <TextView
+        android:id="@+id/latlon"
+        android:layout_width="wrap_content"
+        android:layout_height="19dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:ems="10"
-        android:inputType="numberDecimal"
+        android:text="latlon"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.803"
+        app:layout_constraintHorizontal_bias="0.071"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.527" />
+        app:layout_constraintVertical_bias="0.561" />
 
 </android.support.constraint.ConstraintLayout>
