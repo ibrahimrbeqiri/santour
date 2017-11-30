@@ -1,5 +1,6 @@
 package com.group4.santour;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -7,15 +8,24 @@ import android.widget.CheckBox;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import java.util.concurrent.ExecutionException;
+
+import models.POD;
+
 public class PodDetails extends AppCompatActivity {
 
     private CheckBox verticality;
     private CheckBox rocks;
     private CheckBox slope;
 
+    private POD pod;
+
     private SeekBar seekBar1;
+    private int p;
     private SeekBar seekBar2;
+    private int progress2;
     private SeekBar seekBar3;
+    private int progress3;
 
     private TextView textMin1;
     private TextView textMax1;
@@ -31,15 +41,47 @@ public class PodDetails extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pod_details);
+
+        Intent i = getIntent();
+        pod = (POD)i.getSerializableExtra("pod");
+
+        seekBar1 = (SeekBar) findViewById(R.id.seekBar1);
+
+        seekBar2 = (SeekBar) findViewById(R.id.seekBar2);
+        seekBar3 = (SeekBar) findViewById(R.id.seekBar3);
+
         addListenerToCheckBox();
 
 
     }
 
+    public void sendSavePOD(View view)throws ExecutionException, InterruptedException{
+        if(verticality.isChecked()){
+            pod.setDetailVerticality(String.valueOf(seekBar2.getProgress()));
+        }
+        if(rocks.isChecked()){
+            pod.setDetailRocks(String.valueOf(seekBar2.getProgress()));
+        }
+        if(slope.isChecked()){
+            pod.setDetailSlope(String.valueOf(seekBar3.getProgress()));
+        }
+
+        System.out.println(pod.getNamePOD());
+        System.out.println(pod.getDescriptionPOD());
+        System.out.println(pod.getDetailVerticality());
+        System.out.println(pod.getDetailRocks());
+        System.out.println(pod.getDetailSlope());
+        System.out.println("TEEEEEEEEEEEEEEEEEEEEEESSSSSSSSSSSSSSTTTTTTTTTTTTTTT");
+
+        Intent intent = new Intent(this, CreateTrack.class);
+        startActivity(intent);
+        finish();
+
+
+    }
+
     public void addListenerToCheckBox(){
-        seekBar1 = (SeekBar) findViewById(R.id.seekBar1);
-        seekBar2 = (SeekBar) findViewById(R.id.seekBar2);
-        seekBar3 = (SeekBar) findViewById(R.id.seekBar3);
+
 
         textMin1 = (TextView) findViewById(R.id.textMin1);
         textMin2 = (TextView) findViewById(R.id.textMin2);
@@ -103,4 +145,5 @@ public class PodDetails extends AppCompatActivity {
                 }
         );
     }
+
 }

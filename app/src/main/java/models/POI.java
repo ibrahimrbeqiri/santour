@@ -1,10 +1,12 @@
 package models;
 
+import java.io.Serializable;
+
 /**
  * Created by Vincent_2 on 25.11.2017.
  */
 
-public class POI {
+public class POI implements Serializable{
 
     private String idPOI;
     private String namePOI;
