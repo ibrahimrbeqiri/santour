@@ -100,11 +100,7 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         enableMyLocation();
         mMap.setOnMyLocationButtonClickListener(this);
         mMap.setOnMyLocationClickListener(this);
-
-
-
     }
-
     public void startTrack(View v) {
         Button start = findViewById(R.id.start);
         start.setEnabled(false);
