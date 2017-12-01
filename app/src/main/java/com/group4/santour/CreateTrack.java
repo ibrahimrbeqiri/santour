@@ -186,13 +186,13 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
 
         gpsTrack = mMap.addPolyline(options);
 
-        /*if(locations.size() > 1) {
+        if(locations.size() > 1) {
 
             Location beginning = locations.get(0);
             Location end = locations.get(locations.size() - 1);
             float distanceMade = beginning.distanceTo(end) / 1000;
             distance.setText("Distance: " + String.format("%.2f", distanceMade) + " km");
-        }*/
+        }
 
 
         Toast.makeText(this, "GPS Data is not being recorded!", Toast.LENGTH_SHORT).show();
