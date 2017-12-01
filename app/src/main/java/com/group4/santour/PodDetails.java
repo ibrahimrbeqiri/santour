@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -21,11 +22,8 @@ public class PodDetails extends AppCompatActivity {
     private POD pod;
 
     private SeekBar seekBar1;
-    private int p;
     private SeekBar seekBar2;
-    private int progress2;
     private SeekBar seekBar3;
-    private int progress3;
 
     private TextView textMin1;
     private TextView textMax1;
@@ -51,6 +49,60 @@ public class PodDetails extends AppCompatActivity {
         seekBar3 = (SeekBar) findViewById(R.id.seekBar3);
 
         addListenerToCheckBox();
+
+
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState){
+        super.onSaveInstanceState(savedInstanceState);
+
+        Boolean isShown1 = false;
+        Boolean isShown2 = false;
+        Boolean isShown3 = false;
+
+        if(verticality.isChecked()){
+            isShown1 = true;
+        }
+        if(rocks.isChecked()){
+            isShown2 = true;
+        }
+        if(slope.isChecked()){
+            isShown3 = true;
+        }
+
+        savedInstanceState.putBoolean("vert",isShown1);
+        savedInstanceState.putBoolean("rock", isShown2);
+        savedInstanceState.putBoolean("slope", isShown3);
+
+
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState){
+        super.onRestoreInstanceState(savedInstanceState);
+
+        Boolean vert = savedInstanceState.getBoolean("vert");
+        if(vert){
+            seekBar1.setVisibility(View.VISIBLE);
+            textMin1.setVisibility(View.VISIBLE);
+            textMax1.setVisibility(View.VISIBLE);
+        }
+
+        Boolean rock = savedInstanceState.getBoolean("rock");
+        if(rock){
+            seekBar2.setVisibility(View.VISIBLE);
+            textMin2.setVisibility(View.VISIBLE);
+            textMax2.setVisibility(View.VISIBLE);
+        }
+
+        Boolean slope = savedInstanceState.getBoolean("slope");
+        if(slope){
+            seekBar3.setVisibility(View.VISIBLE);
+            textMin3.setVisibility(View.VISIBLE);
+            textMax3.setVisibility(View.VISIBLE);
+        }
+
 
 
     }
