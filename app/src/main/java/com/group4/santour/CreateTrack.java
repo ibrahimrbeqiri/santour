@@ -18,7 +18,6 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.EditText;
@@ -60,7 +59,6 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
     private ArrayList<Location> locations;
     private TextView distance;
     private Boolean isPOI = false;
-    private float distanceMade;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +81,8 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
                 isPOI = false;
                 Intent intent = new Intent(CreateTrack.this, CreatePoiPodActivity.class);
                 intent.putExtra("POI", isPOI);
+                intent.putExtra("latitude", currentLocation.getLatitude());
+                intent.putExtra("longitude", currentLocation.getLongitude());
                 startActivity(intent);
             }
         });
@@ -93,6 +93,8 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
                 isPOI = true;
                 Intent intent = new Intent(CreateTrack.this, CreatePoiPodActivity.class);
                 intent.putExtra("POI", isPOI);
+                intent.putExtra("latitude", currentLocation.getLatitude());
+                intent.putExtra("longitude", currentLocation.getLongitude());
                 startActivity(intent);
             }
         });
@@ -118,17 +120,12 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
     @Override
     public void onSaveInstanceState(Bundle  savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
-        // Save UI state changes to the savedInstanceState.
-        // This bundle will be passed to onCreate if the process is
-        // killed and restarted.
-        savedInstanceState.putFloat("distance", distanceMade);
 
     }
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
 
-        float distanceMade = savedInstanceState.getFloat("distance");
 
     }
     @Override
@@ -239,7 +236,6 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
             points.add(coordinates);
             currentCoordinates = coordinates;
         }
-
         locations.add(location);
         currentLocation = location;
     }
