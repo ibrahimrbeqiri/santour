@@ -34,6 +34,10 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
+
+import firebase.FirebaseQueries;
+import models.Track;
 
 public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         LocationListener,
@@ -179,6 +183,11 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
 
         time.stop();
 
+        int elapsed = (int) (SystemClock.elapsedRealtime() - time.getBase());
+        long elapsedSeconds = TimeUnit.MILLISECONDS.toSeconds(elapsed);
+        long elapsedMinutes = TimeUnit.MILLISECONDS.toMinutes(elapsed);
+        long elapsedHours = TimeUnit.MILLISECONDS.toHours(elapsed);
+
         for(int i = 0; i < points.size(); i++)
         {
             LatLng point = points.get(i);
@@ -201,7 +210,7 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         //make the Object and fill it into Database
         //private String idTrack;
         //private String nameTrack;
-        //String trackname = ((EditText) findViewById(R.id.editText)).getText().toString();
+        String nameTrack = ((EditText) findViewById(R.id.editText)).getText().toString();
 
         //private String descriptionTrack;
         //there is no description for the track is in the PO
@@ -229,6 +238,12 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         //comes from POD
         //private List<POD> podTrack;
 
+
+        Track track = new Track();
+        track.setNameTrack(nameTrack);
+        FirebaseQueries fbq = new FirebaseQueries();
+        fbq.insertTrack(track);
+
     }
 
     @Override
@@ -246,8 +261,11 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
             points.add(coordinates);
             currentCoordinates = coordinates;
         }
-        locations.add(location);
-        currentLocation = location;
+        if(location != currentLocation) {
+            locations.add(location);
+            currentLocation = location;
+        }
+
     }
     @Override
     public void onStatusChanged(String s, int i, Bundle bundle) {
@@ -280,7 +298,7 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
             criteria.setAccuracy(Criteria.ACCURACY_FINE);
             criteria.setPowerRequirement(Criteria.POWER_HIGH);
             String provider = locationManager.getBestProvider(criteria, true);
-            locationManager.requestLocationUpdates(provider, 0, 1, this);
+            locationManager.requestLocationUpdates(provider, 0, 3, this);
 
             currentLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
             if(currentLocation != null) {
