@@ -150,7 +150,6 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
 
         EditText trackname = findViewById(R.id.editText);
         trackname.setEnabled(false);
-        trackname.setText("");
 
         distance.setText("Distance: 0.00 km");
 
@@ -180,6 +179,7 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
 
         EditText trackname = findViewById(R.id.editText);
         trackname.setEnabled(true);
+        trackname.setText("");
 
         time.stop();
 
@@ -188,13 +188,14 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         long elapsedMinutes = TimeUnit.MILLISECONDS.toMinutes(elapsed);
         long elapsedHours = TimeUnit.MILLISECONDS.toHours(elapsed);
 
-        for(int i = 0; i < points.size(); i++)
-        {
-            LatLng point = points.get(i);
-            options.add(point);
+        if(points.size() > 0) {
+            for (int i = 0; i < points.size(); i++) {
+                LatLng point = points.get(i);
+                options.add(point);
+            }
         }
 
-        gpsTrack = mMap.addPolyline(options);
+        //gpsTrack = mMap.addPolyline(options);
 
         if(locations.size() > 1) {
 
