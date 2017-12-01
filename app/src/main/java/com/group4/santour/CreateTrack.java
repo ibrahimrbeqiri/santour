@@ -209,7 +209,7 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         //make the Object and fill it into Database
         //private String idTrack;
         //private String nameTrack;
-        //String trackname = ((EditText) findViewById(R.id.editText)).getText().toString();
+        String nameTrack = ((EditText) findViewById(R.id.editText)).getText().toString();
 
         //private String descriptionTrack;
         //there is no description for the track is in the PO
@@ -237,14 +237,12 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         //comes from POD
         //private List<POD> podTrack;
 
-<<<<<<< HEAD
+
         Track track = new Track();
-        track.setNameTrack(trackname);
+        track.setNameTrack(nameTrack);
         FirebaseQueries fbq = new FirebaseQueries();
         fbq.insertTrack(track);
-        
-=======
->>>>>>> 58cca6c5f2617a834b279111799f00b55efecfc2
+
     }
 
     @Override

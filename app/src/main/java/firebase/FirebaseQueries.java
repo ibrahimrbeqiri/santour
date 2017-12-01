@@ -39,7 +39,7 @@ public class FirebaseQueries {
         //reset data
         //sanTourDatabase.setValue("sanTour");
 
-        trackCloudEndPoint = sanTourDatabase.child("track");
+        trackCloudEndPoint = sanTourDatabase.child("tracks");
         tracksList.add(track);
         String key = trackCloudEndPoint.push().getKey();
         track.setIdTrack(key);
