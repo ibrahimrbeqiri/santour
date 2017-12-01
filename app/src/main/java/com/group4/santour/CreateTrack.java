@@ -178,7 +178,6 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
 
         EditText trackname = findViewById(R.id.editText);
         trackname.setEnabled(true);
-        trackname.setText("");
 
         time.stop();
 
