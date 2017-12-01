@@ -14,6 +14,7 @@ import android.widget.ImageView;
 
 import java.util.concurrent.ExecutionException;
 
+import firebase.FirebaseQueries;
 import models.GPSData;
 import models.POD;
 import models.POI;
@@ -65,6 +66,50 @@ public class CreatePoiPodActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState){
+        super.onSaveInstanceState(savedInstanceState);
+
+        EditText editText1 = (EditText) findViewById(R.id.createPoi);
+        String name = editText1.getText().toString();
+
+        EditText editText2 = (EditText) findViewById(R.id.gpsdataX);
+        String dataX = editText2.getText().toString();
+        EditText editText3 = (EditText) findViewById(R.id.gpsdataY);
+        String dataY = editText3.getText().toString();
+
+        EditText editText4 = (EditText) findViewById(R.id.description);
+        String description = editText4.getText().toString();
+
+        savedInstanceState.putString("myName",name);
+        savedInstanceState.putString("dataX", dataX);
+        savedInstanceState.putString("dataY", dataY);
+        savedInstanceState.putString("description", description);
+
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState){
+        super.onRestoreInstanceState(savedInstanceState);
+
+        String name = savedInstanceState.getString("myName");
+        String dataX = savedInstanceState.getString("dataX");
+        String dataY = savedInstanceState.getString("dataY");
+        String description = savedInstanceState.getString("description");
+
+        EditText editText1 = (EditText) findViewById(R.id.createPoi);
+        editText1.setText(name);
+
+        EditText editText2 = (EditText) findViewById(R.id.gpsdataX);
+        editText2.setText(dataX);
+        EditText editText3 = (EditText) findViewById(R.id.gpsdataY);
+        editText3.setText(dataY);
+
+        EditText editText4 = (EditText) findViewById(R.id.description);
+        editText4.setText(description);
+
+    }
+
     public void sendCreatePOI(View view)throws ExecutionException, InterruptedException{
 
         EditText editText1 = (EditText) findViewById(R.id.createPoi);
@@ -84,7 +129,7 @@ public class CreatePoiPodActivity extends AppCompatActivity {
         gpsData.setyGPS(editText3.getText().toString());
 
         EditText editText4 = (EditText) findViewById(R.id.description);
-        String description = editText3.getText().toString();
+        String description = editText4.getText().toString();
 
         //Create the POI
         POI poi = new POI();
@@ -95,6 +140,8 @@ public class CreatePoiPodActivity extends AppCompatActivity {
         //Cloud Connection
 
         //Save in Cloud!
+        FirebaseQueries fbq = new FirebaseQueries();
+        fbq.insertPOI(poi, "tracks");
 
         //Redirect back to Track
         Intent intent = new Intent(this, CreateTrack.class);
@@ -120,7 +167,7 @@ public class CreatePoiPodActivity extends AppCompatActivity {
         gpsData.setyGPS(editText3.getText().toString());
 
         EditText editText4 = (EditText) findViewById(R.id.description);
-        String description = editText3.getText().toString();
+        String description = editText4.getText().toString();
 
         //Create the POI
         POD pod = new POD();
