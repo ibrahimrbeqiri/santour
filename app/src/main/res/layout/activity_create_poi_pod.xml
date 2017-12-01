@@ -58,18 +58,19 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="@string/gps"
                 android:layout_marginTop="16dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:enabled="false"/>
 
             <EditText
                 android:id="@+id/gpsdataY"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="@string/gps"
                 android:layout_marginTop="16dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:enabled="false"/>
+
             </LinearLayout>
 
             <EditText

@@ -93,8 +93,10 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
                 isPOI = true;
                 Intent intent = new Intent(CreateTrack.this, CreatePoiPodActivity.class);
                 intent.putExtra("POI", isPOI);
-                intent.putExtra("latitude", currentLocation.getLatitude());
-                intent.putExtra("longitude", currentLocation.getLongitude());
+                if(currentLocation != null) {
+                    intent.putExtra("latitude", currentLocation.getLatitude());
+                    intent.putExtra("longitude", currentLocation.getLongitude());
+                }
                 startActivity(intent);
             }
         });

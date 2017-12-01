@@ -48,8 +48,28 @@ public class CreatePoiPodActivity extends AppCompatActivity {
             }
         });
 
-        //Intent i = getIntent();
-        //isPOI = (Boolean)i.getSerializableExtra("isPOI");
+        Intent i = getIntent();
+        isPOI = (Boolean)i.getSerializableExtra("POI");
+
+        String latitude;
+        String longitude;
+
+        latitude = (String)i.getSerializableExtra("latitude");
+        longitude = (String)i.getSerializableExtra("longitude");
+
+        EditText editText1 = (EditText) findViewById(R.id.gpsdataX);
+        editText1.setText(latitude);
+
+        EditText editText2 = (EditText) findViewById(R.id.gpsdataY);
+        editText2.setText(longitude);
+
+        if(!isPOI){
+            Button button = (Button) findViewById(R.id.savePOI);
+            button.setEnabled(true);
+        }else{
+            Button button = (Button) findViewById(R.id.nextPOD);
+            button.setEnabled(false);
+        }
 
     }
 
