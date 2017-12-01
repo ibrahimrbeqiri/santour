@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -60,6 +61,7 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
     private LatLng currentCoordinates;
     private ArrayList<Location> locations;
     private TextView distance;
+    private Boolean isPOI = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,20 +74,33 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         if (!isLocationEnabled())
             showAlert(1);
 
+
         points = new ArrayList<>();
         locations = new ArrayList<>();
 
         Button POD = findViewById(R.id.POD);
         POD.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                startActivity(new Intent(CreateTrack.this, CreatePoiPodActivity.class));
+                isPOI = false;
+                Intent intent = new Intent(CreateTrack.this, CreatePoiPodActivity.class);
+                intent.putExtra("POI", isPOI);
+                intent.putExtra("latitude", currentLocation.getLatitude());
+                intent.putExtra("longitude", currentLocation.getLongitude());
+                startActivity(intent);
             }
         });
 
         Button POI = findViewById(R.id.POI);
         POI.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                startActivity(new Intent(CreateTrack.this, CreatePoiPodActivity.class));
+                isPOI = true;
+                Intent intent = new Intent(CreateTrack.this, CreatePoiPodActivity.class);
+                intent.putExtra("POI", isPOI);
+                if(currentLocation != null) {
+                    intent.putExtra("latitude", currentLocation.getLatitude());
+                    intent.putExtra("longitude", currentLocation.getLongitude());
+                }
+                startActivity(intent);
             }
         });
 
@@ -94,6 +109,29 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
 
         distance = findViewById(R.id.distance);
         distance.setText("Distance: 0.00 km");
+    }
+    @Override
+    public void onPause()
+    {
+        super.onPause();
+
+    }
+    @Override
+    public void onResume()
+    {
+
+        super.onResume();
+    }
+    @Override
+    public void onSaveInstanceState(Bundle  savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+
+    }
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+
     }
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -108,11 +146,16 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         Button stop = findViewById(R.id.stop);
         stop.setEnabled(true);
 
+        EditText trackname = findViewById(R.id.editText);
+        trackname.setEnabled(false);
+        trackname.setText("");
+
         distance.setText("Distance: 0.00 km");
 
         options = new PolylineOptions().width(10).color(Color.RED).geodesic(true);
         points = new ArrayList<>();
         locations = new ArrayList<>();
+
         if(gpsTrack != null) {
             gpsTrack.remove();
         }
@@ -133,7 +176,16 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         Button stop = findViewById(R.id.stop);
         stop.setEnabled(false);
 
+        EditText trackname = findViewById(R.id.editText);
+        trackname.setEnabled(true);
+
         time.stop();
+
+        for(int i = 0; i < points.size(); i++)
+        {
+            LatLng point = points.get(i);
+            options.add(point);
+        }
 
         gpsTrack = mMap.addPolyline(options);
 
@@ -151,7 +203,7 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         //make the Object and fill it into Database
         //private String idTrack;
         //private String nameTrack;
-        String trackname = ((EditText) findViewById(R.id.editText)).getText().toString();
+        //String trackname = ((EditText) findViewById(R.id.editText)).getText().toString();
 
         //private String descriptionTrack;
         //there is no description for the track is in the PO
@@ -179,11 +231,14 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         //comes from POD
         //private List<POD> podTrack;
 
+<<<<<<< HEAD
         Track track = new Track();
         track.setNameTrack(trackname);
         FirebaseQueries fbq = new FirebaseQueries();
         fbq.insertTrack(track);
         
+=======
+>>>>>>> 58cca6c5f2617a834b279111799f00b55efecfc2
     }
 
     @Override
@@ -201,9 +256,11 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
             points.add(coordinates);
             currentCoordinates = coordinates;
         }
+        if(location != currentLocation) {
+            locations.add(location);
+            currentLocation = location;
+        }
 
-        locations.add(location);
-        currentLocation = location;
     }
     @Override
     public void onStatusChanged(String s, int i, Bundle bundle) {
@@ -232,7 +289,11 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         } else if (mMap != null) {
             // Access to the location has been granted to the app.
             mMap.setMyLocationEnabled(true);
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 1, this);
+            Criteria criteria = new Criteria();
+            criteria.setAccuracy(Criteria.ACCURACY_FINE);
+            criteria.setPowerRequirement(Criteria.POWER_HIGH);
+            String provider = locationManager.getBestProvider(criteria, true);
+            locationManager.requestLocationUpdates(provider, 0, 3, this);
 
             currentLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
             if(currentLocation != null) {

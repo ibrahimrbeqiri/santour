@@ -24,6 +24,7 @@ public class CreatePoiPodActivity extends AppCompatActivity {
     private Button btnCamera;
     private ImageView imageView;
     private Uri uri;
+    private boolean isPOI = false;
 
     private static final int CAMERA_REQUEST_CODE = 1;
 
@@ -47,6 +48,32 @@ public class CreatePoiPodActivity extends AppCompatActivity {
             }
         });
 
+        Intent i = getIntent();
+        isPOI = (Boolean)i.getSerializableExtra("POI");
+
+        String latitude;
+        String longitude;
+
+        double lat = (Double)i.getSerializableExtra("latitude");
+        double lon = (Double)i.getSerializableExtra("longitude");
+
+        latitude = String.format("%.7f", lat);
+        longitude = String.format("%.7f", lon);
+
+        EditText editText1 = findViewById(R.id.gpsdataX);
+        editText1.setText(latitude);
+
+        EditText editText2 = findViewById(R.id.gpsdataY);
+        editText2.setText(longitude);
+
+        if(!isPOI){
+            Button button = findViewById(R.id.savePOI);
+            button.setEnabled(false);
+        }else{
+            Button button = findViewById(R.id.nextPOD);
+            button.setEnabled(false);
+        }
+
     }
 
     @Override
@@ -64,6 +91,50 @@ public class CreatePoiPodActivity extends AppCompatActivity {
             imageView.setImageBitmap(bitmap);
 
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState){
+        super.onSaveInstanceState(savedInstanceState);
+
+        EditText editText1 = (EditText) findViewById(R.id.createPoi);
+        String name = editText1.getText().toString();
+
+        EditText editText2 = (EditText) findViewById(R.id.gpsdataX);
+        String dataX = editText2.getText().toString();
+        EditText editText3 = (EditText) findViewById(R.id.gpsdataY);
+        String dataY = editText3.getText().toString();
+
+        EditText editText4 = (EditText) findViewById(R.id.description);
+        String description = editText4.getText().toString();
+
+        savedInstanceState.putString("myName",name);
+        savedInstanceState.putString("dataX", dataX);
+        savedInstanceState.putString("dataY", dataY);
+        savedInstanceState.putString("description", description);
+
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState){
+        super.onRestoreInstanceState(savedInstanceState);
+
+        String name = savedInstanceState.getString("myName");
+        String dataX = savedInstanceState.getString("dataX");
+        String dataY = savedInstanceState.getString("dataY");
+        String description = savedInstanceState.getString("description");
+
+        EditText editText1 = (EditText) findViewById(R.id.createPoi);
+        editText1.setText(name);
+
+        EditText editText2 = (EditText) findViewById(R.id.gpsdataX);
+        editText2.setText(dataX);
+        EditText editText3 = (EditText) findViewById(R.id.gpsdataY);
+        editText3.setText(dataY);
+
+        EditText editText4 = (EditText) findViewById(R.id.description);
+        editText4.setText(description);
+
     }
 
     public void sendCreatePOI(View view)throws ExecutionException, InterruptedException{
@@ -85,7 +156,7 @@ public class CreatePoiPodActivity extends AppCompatActivity {
         gpsData.setyGPS(editText3.getText().toString());
 
         EditText editText4 = (EditText) findViewById(R.id.description);
-        String description = editText3.getText().toString();
+        String description = editText4.getText().toString();
 
         //Create the POI
         POI poi = new POI();
@@ -123,7 +194,7 @@ public class CreatePoiPodActivity extends AppCompatActivity {
         gpsData.setyGPS(editText3.getText().toString());
 
         EditText editText4 = (EditText) findViewById(R.id.description);
-        String description = editText3.getText().toString();
+        String description = editText4.getText().toString();
 
         //Create the POI
         POD pod = new POD();
