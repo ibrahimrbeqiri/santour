@@ -54,20 +54,23 @@ public class CreatePoiPodActivity extends AppCompatActivity {
         String latitude;
         String longitude;
 
-        latitude = (String)i.getSerializableExtra("latitude");
-        longitude = (String)i.getSerializableExtra("longitude");
+        double lat = (Double)i.getSerializableExtra("latitude");
+        double lon = (Double)i.getSerializableExtra("longitude");
 
-        EditText editText1 = (EditText) findViewById(R.id.gpsdataX);
+        latitude = String.format("%.7f", lat);
+        longitude = String.format("%.7f", lon);
+
+        EditText editText1 = findViewById(R.id.gpsdataX);
         editText1.setText(latitude);
 
-        EditText editText2 = (EditText) findViewById(R.id.gpsdataY);
+        EditText editText2 = findViewById(R.id.gpsdataY);
         editText2.setText(longitude);
 
         if(!isPOI){
-            Button button = (Button) findViewById(R.id.savePOI);
-            button.setEnabled(true);
+            Button button = findViewById(R.id.savePOI);
+            button.setEnabled(false);
         }else{
-            Button button = (Button) findViewById(R.id.nextPOD);
+            Button button = findViewById(R.id.nextPOD);
             button.setEnabled(false);
         }
 
