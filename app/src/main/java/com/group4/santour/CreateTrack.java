@@ -33,6 +33,9 @@ import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.ArrayList;
 
+import firebase.FirebaseQueries;
+import models.Track;
+
 public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         LocationListener,
         GoogleMap.OnMyLocationButtonClickListener,
@@ -175,6 +178,11 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         //private List<POI> poiTrack;
         //comes from POD
         //private List<POD> podTrack;
+
+        Track track = new Track();
+        track.setNameTrack(trackname);
+        FirebaseQueries fbq = new FirebaseQueries();
+        fbq.insertTrack(track);
         
     }
 
