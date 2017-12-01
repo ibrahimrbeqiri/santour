@@ -282,7 +282,7 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
             criteria.setAccuracy(Criteria.ACCURACY_FINE);
             criteria.setPowerRequirement(Criteria.POWER_HIGH);
             String provider = locationManager.getBestProvider(criteria, true);
-            locationManager.requestLocationUpdates(provider, 0, 1, this);
+            locationManager.requestLocationUpdates(provider, 0, 3, this);
 
             currentLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
             if(currentLocation != null) {
