@@ -1,169 +1,171 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:app="http://schemas.android.com/apk/res-auto"
 xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-tools:context="com.group4.santour.CreateTrack">
+android:layout_width="fill_parent"
+android:layout_height="fill_parent"
+android:weightSum="10">
 
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/start"
-        android:layout_width="103dp"
-        android:layout_height="50dp"
-        android:layout_above="@+id/stop"
-        android:layout_alignStart="@+id/stop"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:onClick="startTrack"
-        android:text="Start"
-        app:layout_constraintBottom_toTopOf="@+id/stop"
-
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/distance"
-        app:layout_constraintTop_toBottomOf="@+id/map"
-        app:layout_constraintVertical_bias="0.95"
-        tools:text="Start" />
-
-    <Button
-        android:id="@+id/stop"
-        android:layout_width="102dp"
-        android:layout_height="47dp"
-        android:layout_above="@+id/POD"
-        android:layout_alignParentEnd="true"
-        android:layout_marginBottom="24dp"
-        android:layout_marginEnd="8dp"
-        android:onClick="stopTrack"
-        android:text="Stop"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:text="Stop" />
-
-    <Button
-        android:id="@+id/POI"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="8dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:text="POI"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chronometer2"
-        app:layout_constraintVertical_bias="0.716"
-        tools:text="+ POI" />
-
-    <Button
-        android:id="@+id/POD"
-        android:layout_width="wrap_content"
-        android:layout_height="49dp"
-        android:layout_alignBaseline="@+id/POI"
-        android:layout_alignBottom="@+id/POI"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_toStartOf="@+id/stop"
-        android:text="POD"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/stop"
-        app:layout_constraintHorizontal_bias="0.318"
-        app:layout_constraintStart_toEndOf="@+id/POI"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.968"
-        tools:text="+ POD" />
-
-    <EditText
-        android:id="@+id/editText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:ems="10"
-        android:hint="Enter track name"
-        android:inputType="text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.568"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/map"
-        tools:text="Trackname" />
-
-    <fragment
-        android:id="@+id/map"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="338dp"
-        android:layout_height="239dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.481"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Chronometer
-        android:id="@+id/chronometer2"
-        android:layout_width="78dp"
-        android:layout_height="39dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/POD"
-        app:layout_constraintEnd_toStartOf="@+id/distance"
-        app:layout_constraintHorizontal_bias="0.643"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText"
-        app:layout_constraintVertical_bias="0.605" />
-
-    <TextView
-        android:id="@+id/latitude"
-        android:layout_width="wrap_content"
-        android:layout_height="23dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="latitude"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.068"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.54" />
-
-    <TextView
-        android:id="@+id/longitude"
-        android:layout_width="wrap_content"
-        android:layout_height="38dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="longitude"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.093"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.623" />
-
-    <TextView
-        android:id="@+id/distance"
-        android:layout_width="wrap_content"
-        android:layout_height="38dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
-        android:text="distance"
-        app:layout_constraintBottom_toTopOf="@+id/POD"
-        app:layout_constraintTop_toBottomOf="@+id/editText"
-        app:layout_constraintVertical_bias="0.597"
-        tools:layout_editor_absoluteX="166dp" />
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
 
 
-</android.support.constraint.ConstraintLayout>
+        <fragment
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="fill_parent"
+            android:layout_height="200dp" />
+
+        <LinearLayout
+            android:id="@+id/latlong"
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/map"
+            android:layout_marginTop="16dp"
+            android:weightSum="1" >>
+
+            <TextView
+                android:id="@+id/latitude"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="latitude"
+                android:layout_weight="0.5"
+                />
+
+            <TextView
+                android:id="@+id/longitude"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/frame"
+                android:text="longitude"
+                android:layout_weight="0.5"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/trackname"
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/latlong"
+            android:layout_marginTop="16dp">
+
+            <EditText
+                android:id="@+id/editText"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:ems="10"
+                android:hint="Enter track name"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/startbuttonlayout"
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/trackname"
+            android:layout_marginTop="16dp"
+            android:weightSum="1" >
+            >
+
+            <Chronometer
+                android:id="@+id/chronometer2"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                />
+
+            <Button
+                android:id="@+id/start"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:onClick="startTrack"
+                android:layout_weight="0.5"
+                android:text="Start"
+                android:layout_below="@+id/imageView" />
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/stopbuttonlayout"
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/startbuttonlayout"
+            android:layout_marginTop="16dp">
+
+            <TextView
+                android:id="@+id/distance"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="distance"
+                android:layout_weight="1"
+                app:layout_constraintBottom_toTopOf="@+id/POD"
+                app:layout_constraintTop_toBottomOf="@+id/editText"
+                app:layout_constraintVertical_bias="0.56"
+                tools:layout_editor_absoluteX="166dp" />
+
+            <Button
+                android:id="@+id/stop"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:onClick="stopTrack"
+                android:text="Stop"
+                android:layout_below="@+id/imageView"
+                android:layout_weight="1"
+                android:visibility="visible"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/buttonPOIPODlayout"
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/stopbuttonlayout"
+            android:layout_marginTop="16dp">
+
+            <Button
+                android:id="@+id/POI"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="sendCreatePOI"
+                android:text="POI"
+                android:layout_weight="1"
+                android:visibility="visible"/>
+
+            <Button
+                android:id="@+id/POD"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="POD"
+                android:onClick="sendNextPOD"
+                android:layout_weight="1"
+                android:visibility="visible"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</ScrollView>
+
+</RelativeLayout>
+
