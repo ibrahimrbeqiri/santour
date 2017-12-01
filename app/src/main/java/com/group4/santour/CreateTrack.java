@@ -83,6 +83,7 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
                 Intent intent = new Intent(CreateTrack.this, CreatePoiPodActivity.class);
                 intent.putExtra("POI", isPOI);
                 startActivity(intent);
+                isPOI = false;
             }
         });
 
@@ -93,6 +94,7 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
                 Intent intent = new Intent(CreateTrack.this, CreatePoiPodActivity.class);
                 intent.putExtra("POI", isPOI);
                 startActivity(intent);
+                isPOI = false;
             }
         });
 
