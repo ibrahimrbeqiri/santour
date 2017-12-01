@@ -143,6 +143,10 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         Button stop = findViewById(R.id.stop);
         stop.setEnabled(true);
 
+        EditText trackname = findViewById(R.id.editText);
+        trackname.setEnabled(false);
+        trackname.setText("");
+
         distance.setText("Distance: 0.00 km");
 
         options = new PolylineOptions().width(10).color(Color.RED).geodesic(true);
@@ -169,6 +173,9 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         Button stop = findViewById(R.id.stop);
         stop.setEnabled(false);
 
+        EditText trackname = findViewById(R.id.editText);
+        trackname.setEnabled(true);
+
         time.stop();
 
         for(int i = 0; i < points.size(); i++)
@@ -193,7 +200,7 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         //make the Object and fill it into Database
         //private String idTrack;
         //private String nameTrack;
-        String trackname = ((EditText) findViewById(R.id.editText)).getText().toString();
+        //String trackname = ((EditText) findViewById(R.id.editText)).getText().toString();
 
         //private String descriptionTrack;
         //there is no description for the track is in the PO
