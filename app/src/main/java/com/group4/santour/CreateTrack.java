@@ -33,6 +33,7 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         LocationListener,
@@ -177,6 +178,11 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         trackname.setEnabled(true);
 
         time.stop();
+
+        int elapsed = (int) (SystemClock.elapsedRealtime() - time.getBase());
+        long elapsedSeconds = TimeUnit.MILLISECONDS.toSeconds(elapsed);
+        long elapsedMinutes = TimeUnit.MILLISECONDS.toMinutes(elapsed);
+        long elapsedHours = TimeUnit.MILLISECONDS.toHours(elapsed);
 
         for(int i = 0; i < points.size(); i++)
         {
