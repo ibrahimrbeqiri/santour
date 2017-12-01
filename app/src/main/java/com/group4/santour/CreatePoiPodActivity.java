@@ -24,6 +24,7 @@ public class CreatePoiPodActivity extends AppCompatActivity {
     private Button btnCamera;
     private ImageView imageView;
     private Uri uri;
+    private boolean isPOI = false;
 
     private static final int CAMERA_REQUEST_CODE = 1;
 
@@ -46,6 +47,9 @@ public class CreatePoiPodActivity extends AppCompatActivity {
                 startActivityForResult(intent, CAMERA_REQUEST_CODE);
             }
         });
+
+        //Intent i = getIntent();
+        //isPOI = (Boolean)i.getSerializableExtra("isPOI");
 
     }
 
