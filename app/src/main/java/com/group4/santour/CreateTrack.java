@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.EditText;
@@ -57,6 +58,8 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
     private LatLng currentCoordinates;
     private ArrayList<Location> locations;
     private TextView distance;
+    private Boolean isPOI = false;
+    private float distanceMade;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,20 +72,27 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         if (!isLocationEnabled())
             showAlert(1);
 
+
         points = new ArrayList<>();
         locations = new ArrayList<>();
 
         Button POD = findViewById(R.id.POD);
         POD.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                startActivity(new Intent(CreateTrack.this, CreatePoiPodActivity.class));
+                isPOI = false;
+                Intent intent = new Intent(CreateTrack.this, CreatePoiPodActivity.class);
+                intent.putExtra("POI", isPOI);
+                startActivity(intent);
             }
         });
 
         Button POI = findViewById(R.id.POI);
         POI.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                startActivity(new Intent(CreateTrack.this, CreatePoiPodActivity.class));
+                isPOI = true;
+                Intent intent = new Intent(CreateTrack.this, CreatePoiPodActivity.class);
+                intent.putExtra("POI", isPOI);
+                startActivity(intent);
             }
         });
 
@@ -91,6 +101,34 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
 
         distance = findViewById(R.id.distance);
         distance.setText("Distance: 0.00 km");
+    }
+    @Override
+    public void onPause()
+    {
+        super.onPause();
+
+    }
+    @Override
+    public void onResume()
+    {
+
+        super.onResume();
+    }
+    @Override
+    public void onSaveInstanceState(Bundle  savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        // Save UI state changes to the savedInstanceState.
+        // This bundle will be passed to onCreate if the process is
+        // killed and restarted.
+        savedInstanceState.putFloat("distance", distanceMade);
+
+    }
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        float distanceMade = savedInstanceState.getFloat("distance");
+
     }
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -110,6 +148,7 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         options = new PolylineOptions().width(10).color(Color.RED).geodesic(true);
         points = new ArrayList<>();
         locations = new ArrayList<>();
+
         if(gpsTrack != null) {
             gpsTrack.remove();
         }
@@ -131,6 +170,12 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         stop.setEnabled(false);
 
         time.stop();
+
+        for(int i = 0; i < points.size(); i++)
+        {
+            LatLng point = points.get(i);
+            options.add(point);
+        }
 
         gpsTrack = mMap.addPolyline(options);
 
@@ -175,7 +220,7 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         //private List<POI> poiTrack;
         //comes from POD
         //private List<POD> podTrack;
-        
+
     }
 
     @Override
