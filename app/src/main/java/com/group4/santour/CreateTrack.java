@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -133,18 +132,16 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
 
         time.stop();
 
-        for (int i = 0; i < points.size(); i++) {
-            LatLng point = points.get(i);
-            options.add(point);
-            System.out.println(point);
-        }
         gpsTrack = mMap.addPolyline(options);
 
-        Location beginning = locations.get(0);
-        Location end = locations.get(locations.size() - 1);
+        if(locations.size() > 1) {
 
-        float distanceMade = beginning.distanceTo(end) / 1000;
-        distance.setText("Distance: " + String.format("%.2f", distanceMade) + " km");
+            Location beginning = locations.get(0);
+            Location end = locations.get(locations.size() - 1);
+            float distanceMade = beginning.distanceTo(end) / 1000;
+            distance.setText("Distance: " + String.format("%.2f", distanceMade) + " km");
+        }
+
 
         Toast.makeText(this, "GPS Data is not being recorded!", Toast.LENGTH_SHORT).show();
 
@@ -227,21 +224,19 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         } else if (mMap != null) {
             // Access to the location has been granted to the app.
             mMap.setMyLocationEnabled(true);
-            Criteria criteria = new Criteria();
-            criteria.setAccuracy(Criteria.ACCURACY_FINE);
-            criteria.setPowerRequirement(Criteria.POWER_HIGH);
-            String provider = locationManager.getBestProvider(criteria, true);
-            locationManager.requestLocationUpdates(provider, 0, 1, this);
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 1, this);
 
-            currentLocation = locationManager.getLastKnownLocation(provider);
-            TextView latitude = findViewById(R.id.latitude);
-            TextView longitude = findViewById(R.id.longitude);
-            latitude.setText("Latitude: " + String.format("%.7f", currentLocation.getLatitude()));
-            longitude.setText("Longitude: " + String.format("%.7f", currentLocation.getLongitude()));
+            currentLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            if(currentLocation != null) {
+                TextView latitude = findViewById(R.id.latitude);
+                TextView longitude = findViewById(R.id.longitude);
+                latitude.setText("Latitude: " + String.format("%.7f", currentLocation.getLatitude()));
+                longitude.setText("Longitude: " + String.format("%.7f", currentLocation.getLongitude()));
 
-            currentCoordinates = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(currentCoordinates));
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentCoordinates, 7));
+                currentCoordinates = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(currentCoordinates));
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentCoordinates, 7));
+            }
 
         }
     }
