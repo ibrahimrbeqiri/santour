@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -269,7 +270,11 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         } else if (mMap != null) {
             // Access to the location has been granted to the app.
             mMap.setMyLocationEnabled(true);
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 1, this);
+            Criteria criteria = new Criteria();
+            criteria.setAccuracy(Criteria.ACCURACY_FINE);
+            criteria.setPowerRequirement(Criteria.POWER_HIGH);
+            String provider = locationManager.getBestProvider(criteria, true);
+            locationManager.requestLocationUpdates(provider, 0, 1, this);
 
             currentLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
             if(currentLocation != null) {
