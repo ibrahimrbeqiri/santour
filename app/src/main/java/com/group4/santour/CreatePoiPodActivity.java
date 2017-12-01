@@ -14,6 +14,7 @@ import android.widget.ImageView;
 
 import java.util.concurrent.ExecutionException;
 
+import firebase.FirebaseQueries;
 import models.GPSData;
 import models.POD;
 import models.POI;
@@ -95,6 +96,8 @@ public class CreatePoiPodActivity extends AppCompatActivity {
         //Cloud Connection
 
         //Save in Cloud!
+        FirebaseQueries fbq = new FirebaseQueries();
+        fbq.insertPOI(poi, "tracks");
 
         //Redirect back to Track
         Intent intent = new Intent(this, CreateTrack.class);

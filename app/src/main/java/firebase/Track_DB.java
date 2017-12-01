@@ -1,6 +1,5 @@
-package DAL;
+package firebase;
 
-import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.ListView;
@@ -10,7 +9,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.group4.santour.FireBaseTestActivity;
 import com.group4.santour.R;
 
 import java.util.ArrayList;
@@ -69,6 +67,7 @@ public class Track_DB {
         });
 
     }
+
 
 
     //send data to Firebase
