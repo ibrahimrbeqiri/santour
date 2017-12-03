@@ -1,5 +1,7 @@
 package models;
 
+import android.location.Location;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +17,7 @@ public class Track implements Serializable{
     private String descriptionTrack;
     private String pictureTrack;
     private String timer;
-    private String km;
+    private long km;
     private String startLocation;
     private String endLocation;
     private List<GPSData> gpsTrack;
@@ -24,13 +26,12 @@ public class Track implements Serializable{
 
 
     public Track() {
-
         poiTrack=new ArrayList<>();
         podTrack=new ArrayList<>();
 
     }
 
-    public Track(String nameTrack, String descriptionTrack, String pictureTrack, String timer, String km, String startLocation, String endLocation, List<GPSData> gpsTrack, List<POI> poiTrack, List<POD> podTrack) {
+    public Track(String nameTrack, String descriptionTrack, String pictureTrack, String timer, long km, String startLocation, String endLocation, List<GPSData> gpsTrack, List<POI> poiTrack, List<POD> podTrack) {
         this.nameTrack = nameTrack;
         this.descriptionTrack = descriptionTrack;
         this.pictureTrack = pictureTrack;
@@ -83,11 +84,11 @@ public class Track implements Serializable{
         this.timer = timer;
     }
 
-    public String getKm() {
+    public long getKm() {
         return km;
     }
 
-    public void setKm(String km) {
+    public void setKm(long km) {
         this.km = km;
     }
 
@@ -111,8 +112,8 @@ public class Track implements Serializable{
         return gpsTrack;
     }
 
-    public void setGpsTrack(List<GPSData> gpsTrack) {
-        this.gpsTrack = gpsTrack;
+    public void setGpsTrack(GPSData gpsTrack) {
+        this.gpsTrack.add(gpsTrack);
     }
 
     public List<POI> getPoiTrack() {

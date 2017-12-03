@@ -13,12 +13,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import java.io.Serializable;
 import java.util.concurrent.ExecutionException;
 
 import firebase.FirebaseQueries;
 import models.GPSData;
 import models.POD;
 import models.POI;
+import models.Track;
+
+import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
+import static android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP;
 
 public class CreatePoiPodActivity extends AppCompatActivity {
 
@@ -26,6 +31,7 @@ public class CreatePoiPodActivity extends AppCompatActivity {
     private ImageView imageView;
     private Uri uri;
     private boolean isPOI = false;
+    private Track track;
 
     private static final int CAMERA_REQUEST_CODE = 1;
 
@@ -52,12 +58,18 @@ public class CreatePoiPodActivity extends AppCompatActivity {
 
         Intent i = getIntent();
         isPOI = (Boolean)i.getSerializableExtra("POI");
+        track = (Track)i.getSerializableExtra("track");
+
 
         String latitude;
         String longitude;
 
         double lat = (Double)i.getSerializableExtra("latitude");
         double lon = (Double)i.getSerializableExtra("longitude");
+
+        //double lat = 163.123;
+        //double lon = 325.234;
+
 
         latitude = String.format("%.7f", lat);
         longitude = String.format("%.7f", lon);
@@ -169,13 +181,17 @@ public class CreatePoiPodActivity extends AppCompatActivity {
         //Cloud Connection
 
         //Save in Cloud!
-        FirebaseQueries fbq = new FirebaseQueries();
-        fbq.insertPOI(poi, "tracks");
 
         //Redirect back to Track
+
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("poi",poi);
         Intent intent = new Intent(this, CreateTrack.class);
+        intent.putExtras(bundle);
+
         startActivity(intent);
         finish();
+
     }
 
     public void sendNextPOD(View view) throws ExecutionException, InterruptedException{
@@ -198,7 +214,7 @@ public class CreatePoiPodActivity extends AppCompatActivity {
         EditText editText4 = (EditText) findViewById(R.id.description);
         String description = editText4.getText().toString();
 
-        //Create the POI
+        //Create the POD
         POD pod = new POD();
         pod.setNamePOD(name);
         pod.setDescriptionPOD(description);
@@ -206,7 +222,9 @@ public class CreatePoiPodActivity extends AppCompatActivity {
 
         Intent intent = new Intent(this, PodDetails.class);
         intent.putExtra("pod", pod);
+
         startActivity(intent);
         finish();
+
     }
 }

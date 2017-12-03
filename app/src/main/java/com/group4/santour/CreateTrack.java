@@ -17,6 +17,7 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -37,14 +38,19 @@ import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import firebase.FirebaseQueries;
+import models.GPSData;
+import models.POD;
+import models.POI;
 import models.Track;
+
+import static android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP;
+
 
 public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         LocationListener,
         GoogleMap.OnMyLocationButtonClickListener,
         GoogleMap.OnMyLocationClickListener,
         ActivityCompat.OnRequestPermissionsResultCallback{
-
 
 
     final static int PERMISSION_ALL = 1;
@@ -64,10 +70,15 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
     private ArrayList<Location> locations;
     private TextView distance;
     private Boolean isPOI = false;
+    private Track track;
+    private POI poi;
+    private POD pod;
+    private float distanceMade;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_createtrack);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -86,8 +97,11 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
                 isPOI = false;
                 Intent intent = new Intent(CreateTrack.this, CreatePoiPodActivity.class);
                 intent.putExtra("POI", isPOI);
+                intent.putExtra("track",track);
                 intent.putExtra("latitude", currentLocation.getLatitude());
                 intent.putExtra("longitude", currentLocation.getLongitude());
+                //intent.putExtra("latitude", 234.345);
+                //intent.putExtra("longitude", 526.564);
                 startActivity(intent);
             }
         });
@@ -98,6 +112,7 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
                 isPOI = true;
                 Intent intent = new Intent(CreateTrack.this, CreatePoiPodActivity.class);
                 intent.putExtra("POI", isPOI);
+                intent.putExtra("track",track);
                 if(currentLocation != null) {
                     intent.putExtra("latitude", currentLocation.getLatitude());
                     intent.putExtra("longitude", currentLocation.getLongitude());
@@ -118,10 +133,10 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         super.onPause();
 
     }
+
     @Override
     public void onResume()
     {
-
         super.onResume();
     }
     @Override
@@ -143,6 +158,9 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         mMap.setOnMyLocationClickListener(this);
     }
     public void startTrack(View v) {
+
+        track = new Track();
+
         Button start = findViewById(R.id.start);
         start.setEnabled(false);
         Button stop = findViewById(R.id.stop);
@@ -163,6 +181,14 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
 
         points.add(currentCoordinates);
         locations.add(currentLocation);
+
+        //set gpsTrack - maybe later we can change it to Location object format
+        if(currentLocation!=null) {
+            GPSData gpsData = new GPSData();
+            gpsData.setxGPS("" + currentLocation.getLatitude());
+            gpsData.setyGPS("" + currentLocation.getLongitude());
+            track.setGpsTrack(gpsData);
+        }
 
         time = findViewById(R.id.chronometer2);
         time.setBase(SystemClock.elapsedRealtime());
@@ -200,8 +226,9 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
 
             Location beginning = locations.get(0);
             Location end = locations.get(locations.size() - 1);
-            float distanceMade = beginning.distanceTo(end) / 1000;
+            distanceMade = beginning.distanceTo(end) / 1000;
             distance.setText("Distance: " + String.format("%.2f", distanceMade) + " km");
+
         }
 
 
@@ -212,8 +239,6 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         //private String nameTrack;
         String nameTrack = ((EditText) findViewById(R.id.editText)).getText().toString();
 
-        //private String descriptionTrack;
-        //there is no description for the track is in the PO
 
         // private String pictureTrack;
         //Its also in the PO
@@ -224,12 +249,6 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         //private String km;
         //we havent defined them yet
 
-        //its the first element from the GPSData
-        //private String startLocation;
-
-        //its the last element from the  GPSData
-        //private String endLocation;
-
         //private List<GPSData> gpsTrack;
         //points;
 
@@ -238,9 +257,11 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         //comes from POD
         //private List<POD> podTrack;
 
+        String timerString = elapsedHours + " : " + elapsedMinutes + " : " + elapsedSeconds;
 
-        Track track = new Track();
         track.setNameTrack(nameTrack);
+        track.setKm((long)distanceMade);
+        track.setTimer(timerString);
         FirebaseQueries fbq = new FirebaseQueries();
         fbq.insertTrack(track);
 
@@ -264,7 +285,17 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         if(location != currentLocation) {
             locations.add(location);
             currentLocation = location;
+
+            //set gpsTrack - maybe later we can change it to Location object format
+            GPSData gpsData = new GPSData();
+            gpsData.setxGPS(""+currentLocation.getLatitude());
+            gpsData.setyGPS(""+currentLocation.getLongitude());
+            track.setGpsTrack(gpsData);
+
         }
+
+
+
 
     }
     @Override
@@ -333,6 +364,24 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
     }
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        // getIntent() should always return the most recent
+        setIntent(intent);
+
+        if(getIntent().getExtras().getSerializable("poi")!=null){
+            poi=(POI)this.getIntent().getExtras().getSerializable("poi");
+            track.setPoiTrack(poi);
+        }
+
+        if(getIntent().getExtras().getSerializable("pod")!=null){
+            pod=(POD)this.getIntent().getExtras().getSerializable("pod");
+            track.setPodTrack(pod);
+        }
+
+    }
+
+    @Override
     protected void onResumeFragments() {
         super.onResumeFragments();
         if (mPermissionDenied) {
@@ -340,6 +389,7 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
             showMissingPermissionError();
             mPermissionDenied = false;
         }
+
     }
 
     private void showMissingPermissionError() {

@@ -127,10 +127,13 @@ public class PodDetails extends AppCompatActivity {
         System.out.println(pod.getDetailSlope());
         System.out.println("TEEEEEEEEEEEEEEEEEEEEEESSSSSSSSSSSSSSTTTTTTTTTTTTTTT");
 
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("pod",pod);
         Intent intent = new Intent(this, CreateTrack.class);
+        intent.putExtras(bundle);
+
         startActivity(intent);
         finish();
-
 
     }
 
