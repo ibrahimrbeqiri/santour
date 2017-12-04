@@ -239,7 +239,7 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
             for(int i = 1; i < locations.size(); i++) {
                 Location beginning = locations.get(i-1);
                 Location end = locations.get(i);
-                distanceMade = distanceMade + beginning.distanceTo(end) / 1000;
+                distanceMade = distanceMade + (beginning.distanceTo(end) / 1000);
 
             }
 
