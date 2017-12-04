@@ -1,5 +1,6 @@
 package com.group4.santour;
 
+import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.widget.EditText;
 
@@ -17,12 +18,15 @@ import static junit.framework.Assert.assertNotNull;
 
 @RunWith(AndroidJUnit4.class)
 public class TrackTest {
+
+    public ActivityTestRule<CreateTrack> activityRule = new ActivityTestRule<>(CreateTrack.class);
+    CreateTrack createTrack;
+
     @Test
     public void testCurrentLocationIsNotNull() throws Exception
     {
-        CreateTrack ct = new CreateTrack();
 
-        LatLng test = ct.getCoordinates();
+        LatLng test = createTrack.getCoordinates();
 
         assertNotNull(test);
     }
