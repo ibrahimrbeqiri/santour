@@ -19,7 +19,7 @@ public class Track implements Serializable{
     private String descriptionTrack;
     private String pictureTrack;
     private String timer;
-    private long km;
+    private String km;
     private String startLocation;
     private String endLocation;
     private List<LatLng> gpsTrack;
@@ -33,7 +33,7 @@ public class Track implements Serializable{
 
     }
 
-    public Track(String nameTrack, String descriptionTrack, String pictureTrack, String timer, long km, String startLocation, String endLocation, List<LatLng> gpsTrack, List<POI> poiTrack, List<POD> podTrack) {
+    public Track(String nameTrack, String descriptionTrack, String pictureTrack, String timer, String km, String startLocation, String endLocation, List<LatLng> gpsTrack, List<POI> poiTrack, List<POD> podTrack) {
         this.nameTrack = nameTrack;
         this.descriptionTrack = descriptionTrack;
         this.pictureTrack = pictureTrack;
@@ -86,11 +86,11 @@ public class Track implements Serializable{
         this.timer = timer;
     }
 
-    public long getKm() {
+    public String getKm() {
         return km;
     }
 
-    public void setKm(long km) {
+    public void setKm(String km) {
         this.km = km;
     }
 

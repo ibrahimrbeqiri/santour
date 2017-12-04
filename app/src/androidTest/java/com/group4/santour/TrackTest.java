@@ -34,9 +34,8 @@ public class TrackTest {
     @Test
     public void testReceivesPictureTaken() throws Exception{
 
-        CreateTrack ct = new CreateTrack();
 
-        EditText trackname = ct.findViewById(R.id.editText);
+        EditText trackname = createTrack.findViewById(R.id.editText);
 
         assertNotNull(trackname);
 
