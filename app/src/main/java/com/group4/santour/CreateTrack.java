@@ -102,8 +102,6 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
                     intent.putExtra("latitude", currentLocation.getLatitude());
                     intent.putExtra("longitude", currentLocation.getLongitude());
                 }
-                //intent.putExtra("latitude", 234.345);
-                //intent.putExtra("longitude", 526.564);
                 startActivity(intent);
             }
         });
@@ -227,29 +225,7 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
 
         Toast.makeText(this, "GPS Data is not being recorded!", Toast.LENGTH_SHORT).show();
 
-        //make the Object and fill it into Database
-        //private String idTrack;
-        //private String nameTrack;
         String nameTrack = ((EditText) findViewById(R.id.editText)).getText().toString();
-
-
-        // private String pictureTrack;
-        //Its also in the PO
-
-        //private String timer;
-        //
-
-        //private String km;
-        //we havent defined them yet
-
-        //private List<GPSData> gpsTrack;
-        //points;
-
-        //comes from POI
-        //private List<POI> poiTrack;
-        //comes from POD
-        //private List<POD> podTrack;
-
         String timerString = elapsedHours + " : " + elapsedMinutes + " : " + elapsedSeconds;
 
         track.setGpsTrack(points);
@@ -280,9 +256,6 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         if(location != currentLocation) {
             locations.add(location);
             currentLocation = location;
-
-            track.setGpsTrack(points);
-
         }
 
 
