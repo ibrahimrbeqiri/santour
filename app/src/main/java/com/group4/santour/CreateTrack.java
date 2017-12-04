@@ -131,6 +131,10 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         distance = findViewById(R.id.distance);
         distance.setText("Distance: 0.00 km");
     }
+    public LatLng getCoordinates()
+    {
+        return currentCoordinates;
+    }
     @Override
     public void onPause()
     {
