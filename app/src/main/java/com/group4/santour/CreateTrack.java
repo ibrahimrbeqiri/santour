@@ -34,7 +34,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import firebase.FirebaseQueries;
@@ -63,7 +65,7 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
     private Polyline gpsTrack;
     private PolylineOptions options;
     private ArrayList<LatLng> points;
-    private Button start;
+
     private Chronometer time;
     private Location currentLocation;
     private LatLng currentCoordinates;
@@ -92,6 +94,7 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         locations = new ArrayList<>();
 
         Button POD = findViewById(R.id.POD);
+        POD.setEnabled(false);
         POD.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 isPOI = false;
@@ -107,6 +110,7 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         });
 
         Button POI = findViewById(R.id.POI);
+        POI.setEnabled(false);
         POI.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 isPOI = true;
@@ -166,6 +170,11 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         Button stop = findViewById(R.id.stop);
         stop.setEnabled(true);
 
+        Button POD = findViewById(R.id.POD);
+        POD.setEnabled(true);
+        Button POI = findViewById(R.id.POI);
+        POI.setEnabled(true);
+
         EditText trackname = findViewById(R.id.editText);
         trackname.setEnabled(false);
 
@@ -195,15 +204,20 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         Button stop = findViewById(R.id.stop);
         stop.setEnabled(false);
 
+        Button POD = findViewById(R.id.POD);
+        POD.setEnabled(false);
+        Button POI = findViewById(R.id.POI);
+        POI.setEnabled(false);
+
         EditText trackname = findViewById(R.id.editText);
         trackname.setEnabled(true);
 
         time.stop();
 
         int elapsed = (int) (SystemClock.elapsedRealtime() - time.getBase());
-        long elapsedSeconds = TimeUnit.MILLISECONDS.toSeconds(elapsed);
-        long elapsedMinutes = TimeUnit.MILLISECONDS.toMinutes(elapsed);
-        long elapsedHours = TimeUnit.MILLISECONDS.toHours(elapsed);
+        int hours = (elapsed / 3600000);
+        int minutes = (elapsed - hours * 3600000) / 60000;
+        int seconds = (elapsed - hours * 3600000 - minutes * 60000) / 1000;
 
         if(points.size() > 0) {
             for (int i = 0; i < points.size(); i++) {
@@ -226,7 +240,7 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         Toast.makeText(this, "GPS Data is not being recorded!", Toast.LENGTH_SHORT).show();
 
         String nameTrack = ((EditText) findViewById(R.id.editText)).getText().toString();
-        String timerString = elapsedHours + " : " + elapsedMinutes + " : " + elapsedSeconds;
+        String timerString = hours + ":" + minutes + ":" + seconds;
 
         track.setGpsTrack(points);
         track.setNameTrack(nameTrack);
