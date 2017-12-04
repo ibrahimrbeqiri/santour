@@ -43,7 +43,7 @@ public class FirebaseQueries {
         tracksList.add(track);
         String key = trackCloudEndPoint.push().getKey();
         track.setIdTrack(key);
-        trackCloudEndPoint.child(key).setValue(track);
+        trackCloudEndPoint.child("track").setValue(track);
 
     }
 
