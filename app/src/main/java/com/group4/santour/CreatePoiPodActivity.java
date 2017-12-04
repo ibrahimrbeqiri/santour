@@ -64,8 +64,16 @@ public class CreatePoiPodActivity extends AppCompatActivity {
         String latitude;
         String longitude;
 
-        double lat = (Double)i.getSerializableExtra("latitude");
-        double lon = (Double)i.getSerializableExtra("longitude");
+        double lat;
+        double lon;
+
+        if((Double)i.getSerializableExtra("latitude") != null) {
+            lat = (Double) i.getSerializableExtra("latitude");
+            lon = (Double) i.getSerializableExtra("longitude");
+        }else{
+            lat = 0;
+            lon = 0;
+        }
 
         //double lat = 163.123;
         //double lon = 325.234;
