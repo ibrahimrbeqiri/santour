@@ -182,14 +182,6 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         points.add(currentCoordinates);
         locations.add(currentLocation);
 
-        //set gpsTrack - maybe later we can change it to Location object format
-        if(currentLocation!=null) {
-            GPSData gpsData = new GPSData();
-            gpsData.setxGPS("" + currentLocation.getLatitude());
-            gpsData.setyGPS("" + currentLocation.getLongitude());
-            track.setGpsTrack(gpsData);
-        }
-
         time = findViewById(R.id.chronometer2);
         time.setBase(SystemClock.elapsedRealtime());
         time.start();
@@ -220,7 +212,7 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
             }
         }
 
-        //gpsTrack = mMap.addPolyline(options);
+        gpsTrack = mMap.addPolyline(options);
 
         if(locations.size() > 1) {
 
@@ -230,7 +222,6 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
             distance.setText("Distance: " + String.format("%.2f", distanceMade) + " km");
 
         }
-
 
         Toast.makeText(this, "GPS Data is not being recorded!", Toast.LENGTH_SHORT).show();
 
@@ -259,9 +250,11 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
 
         String timerString = elapsedHours + " : " + elapsedMinutes + " : " + elapsedSeconds;
 
+        track.setGpsTrack(points);
         track.setNameTrack(nameTrack);
         track.setKm((long)distanceMade);
         track.setTimer(timerString);
+
         FirebaseQueries fbq = new FirebaseQueries();
         fbq.insertTrack(track);
 
@@ -286,15 +279,9 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
             locations.add(location);
             currentLocation = location;
 
-            //set gpsTrack - maybe later we can change it to Location object format
-            GPSData gpsData = new GPSData();
-            gpsData.setxGPS(""+currentLocation.getLatitude());
-            gpsData.setyGPS(""+currentLocation.getLongitude());
-            track.setGpsTrack(gpsData);
+            track.setGpsTrack(points);
 
         }
-
-
 
 
     }

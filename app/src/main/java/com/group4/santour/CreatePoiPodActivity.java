@@ -60,7 +60,6 @@ public class CreatePoiPodActivity extends AppCompatActivity {
         isPOI = (Boolean)i.getSerializableExtra("POI");
         track = (Track)i.getSerializableExtra("track");
 
-
         String latitude;
         String longitude;
 
