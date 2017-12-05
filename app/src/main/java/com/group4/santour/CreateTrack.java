@@ -131,6 +131,10 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         distance = findViewById(R.id.distance);
         distance.setText("Distance: 0.00 km");
     }
+    public LatLng getCoordinates()
+    {
+        return currentCoordinates;
+    }
     @Override
     public void onPause()
     {
@@ -228,14 +232,19 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
 
         gpsTrack = mMap.addPolyline(options);
 
+        distanceMade = 0;
+
         if(locations.size() > 1) {
 
-            Location beginning = locations.get(0);
-            Location end = locations.get(locations.size() - 1);
-            distanceMade = beginning.distanceTo(end) / 1000;
-            distance.setText("Distance: " + String.format("%.2f", distanceMade) + " km");
+            for(int i = 1; i < locations.size(); i++) {
+                Location beginning = locations.get(i-1);
+                Location end = locations.get(i);
+                distanceMade = distanceMade + (beginning.distanceTo(end) / 1000);
+
+            }
 
         }
+        distance.setText("Distance: " + String.format("%.2f", distanceMade) + " km");
 
         Toast.makeText(this, "GPS Data is not being recorded!", Toast.LENGTH_SHORT).show();
 
@@ -244,7 +253,7 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
 
         track.setGpsTrack(points);
         track.setNameTrack(nameTrack);
-        track.setKm((long)distanceMade);
+        track.setKm(String.format("%.2f", distanceMade));
         track.setTimer(timerString);
 
         FirebaseQueries fbq = new FirebaseQueries();

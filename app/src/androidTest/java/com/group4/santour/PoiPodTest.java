@@ -1,22 +1,22 @@
 package com.group4.santour;
 
-import android.content.Intent;
+import android.support.test.runner.AndroidJUnit4;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 
-import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import models.GPSData;
 
 /**
- * Created by Lavdrim on 04.12.2017.
+ * Created by ibraa on 04-Dec-17.
  */
-
+@RunWith(AndroidJUnit4.class)
 public class PoiPodTest {
 
     @Test
