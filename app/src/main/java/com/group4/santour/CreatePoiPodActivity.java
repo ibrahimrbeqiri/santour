@@ -123,7 +123,7 @@ public class CreatePoiPodActivity extends AppCompatActivity {
     /*
      * When you rotate your screen, your values get missing.
      * OnSaveInstanceState saves the values before rotating.
-      */
+     */
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState){
         super.onSaveInstanceState(savedInstanceState);
