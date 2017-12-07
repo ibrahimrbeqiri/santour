@@ -8,8 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.gms.plus.PlusOneButton;
-
 /**
  * A fragment with a Google +1 button.
  * Activities that contain this fragment must implement the
@@ -31,7 +29,6 @@ public class Homepage extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private PlusOneButton mPlusOneButton;
 
     private OnFragmentInteractionListener mListener;
 
@@ -81,7 +78,6 @@ public class Homepage extends Fragment {
     public void onResume() {
         super.onResume();
         // Refresh the state of the +1 button each time the activity receives focus.
-        mPlusOneButton.initialize(PLUS_ONE_URL, PLUS_ONE_REQUEST_CODE);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

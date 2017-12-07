@@ -42,9 +42,9 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
-
         <activity android:name=".CreateTrack"/>
-        <activity android:name=".CreatePoiPodActivity" />
+        <activity android:name=".CreatePoiPodActivity"
+            android:configChanges="orientation|keyboardHidden"/>
         <activity android:name=".FireBaseTestActivity" />
         <activity android:name=".PodDetails" />
     </application>
