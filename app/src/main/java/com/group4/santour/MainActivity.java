@@ -11,7 +11,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.fragment_homepage);
 
         Button button = findViewById(R.id.button2);
         button.setOnClickListener(new View.OnClickListener() {
@@ -21,5 +21,17 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        /*@Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.fragment_homepage);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.frameLayout, new Homepage(), "fragmentTag")
+                    .disallowAddToBackStack()
+                    .commit();
+        }*/
     }
 }
