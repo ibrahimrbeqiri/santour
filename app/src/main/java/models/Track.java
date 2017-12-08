@@ -6,6 +6,7 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -25,6 +26,7 @@ public class Track implements Serializable{
     private List<LatLng> gpsTrack;
     private List<POI> poiTrack;
     private List<POD> podTrack;
+    private String trackDate;
 
 
     public Track() {
@@ -33,7 +35,7 @@ public class Track implements Serializable{
 
     }
 
-    public Track(String nameTrack, String descriptionTrack, String pictureTrack, String timer, String km, String startLocation, String endLocation, List<LatLng> gpsTrack, List<POI> poiTrack, List<POD> podTrack) {
+    public Track(String nameTrack, String descriptionTrack, String pictureTrack, String timer, String km, String startLocation, String endLocation, List<LatLng> gpsTrack, List<POI> poiTrack, List<POD> podTrack, String trackDate) {
         this.nameTrack = nameTrack;
         this.descriptionTrack = descriptionTrack;
         this.pictureTrack = pictureTrack;
@@ -44,6 +46,7 @@ public class Track implements Serializable{
         this.gpsTrack = gpsTrack;
         this.poiTrack = poiTrack;
         this.podTrack = podTrack;
+        this.trackDate = trackDate;
     }
 
     public String getIdTrack() {
@@ -133,5 +136,9 @@ public class Track implements Serializable{
     public void setPodTrack(POD podTrack) {
         this.podTrack.add(podTrack);
     }
+
+    public String getTrackDate() { return trackDate;}
+
+    public void setTrackDate(String trackDate) {this.trackDate = trackDate;}
 
 }
