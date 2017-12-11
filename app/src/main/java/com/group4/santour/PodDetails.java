@@ -42,19 +42,31 @@ public class PodDetails extends AppCompatActivity {
         setContentView(R.layout.activity_pod_details);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
+        /*
+         * Get the intent to take the pod object which was set in CreatePoiPodActivity
+         */
         Intent i = getIntent();
         pod = (POD)i.getSerializableExtra("pod");
 
-        seekBar1 = (SeekBar) findViewById(R.id.seekBar1);
+        /*
+         * Get all the require seekbars
+         */
+        seekBar1 = findViewById(R.id.seekBar1);
+        seekBar2 = findViewById(R.id.seekBar2);
+        seekBar3 = findViewById(R.id.seekBar3);
 
-        seekBar2 = (SeekBar) findViewById(R.id.seekBar2);
-        seekBar3 = (SeekBar) findViewById(R.id.seekBar3);
-
+        /*
+         * add all the listeners for the checkboxes
+         */
         addListenerToCheckBox();
 
 
     }
 
+    /*
+     * When you rotate your screen, your values get missing.
+     * OnSaveInstanceState saves the values before rotating.
+     */
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState){
         super.onSaveInstanceState(savedInstanceState);
@@ -63,6 +75,10 @@ public class PodDetails extends AppCompatActivity {
         Boolean isShown2 = false;
         Boolean isShown3 = false;
 
+        /*
+         * Look which checkbox is selected.
+         * Add a new boolean value, which you can put through the serializable
+         */
         if(verticality.isChecked()){
             isShown1 = true;
         }
@@ -73,6 +89,9 @@ public class PodDetails extends AppCompatActivity {
             isShown3 = true;
         }
 
+        /*
+         * Put the boolean values in your bundle
+         */
         savedInstanceState.putBoolean("vert",isShown1);
         savedInstanceState.putBoolean("rock", isShown2);
         savedInstanceState.putBoolean("slope", isShown3);
@@ -80,10 +99,18 @@ public class PodDetails extends AppCompatActivity {
 
     }
 
+    /*
+     * onRestoreInstanceState gets after the rotation all the saved values back.
+     * Puts them back into the View Classes
+     */
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState){
         super.onRestoreInstanceState(savedInstanceState);
 
+        /*
+         * Get the boolean values from the bundle.
+         * If it is checked, then make the sliders visible again.
+         */
         Boolean vert = savedInstanceState.getBoolean("vert");
         if(vert){
             seekBar1.setVisibility(View.VISIBLE);
@@ -109,7 +136,14 @@ public class PodDetails extends AppCompatActivity {
 
     }
 
+    /*
+     * Button to save the POD into the firebase
+     */
     public void sendSavePOD(View view)throws ExecutionException, InterruptedException{
+
+        /*
+         * If the Checkbar is checked, add the progress into the pod object
+         */
         if(verticality.isChecked()){
             pod.setDetailVerticality(String.valueOf(seekBar1.getProgress()));
         }
@@ -120,35 +154,47 @@ public class PodDetails extends AppCompatActivity {
             pod.setDetailSlope(String.valueOf(seekBar3.getProgress()));
         }
 
-        System.out.println(pod.getNamePOD());
-        System.out.println(pod.getDescriptionPOD());
-        System.out.println(pod.getDetailVerticality());
-        System.out.println(pod.getDetailRocks());
-        System.out.println(pod.getDetailSlope());
-        System.out.println("TEEEEEEEEEEEEEEEEEEEEEESSSSSSSSSSSSSSTTTTTTTTTTTTTTT");
-
+        /*
+         * Put the POD into the bundle so you can save it into the firebase
+         */
         Bundle bundle = new Bundle();
         bundle.putSerializable("pod",pod);
+
+        /*
+         * Make the intent to navigate back to the track
+         */
         Intent intent = new Intent(this, CreateTrack.class);
         intent.putExtras(bundle);
 
+        /*
+         * start the activity and finish it to not be able to go back to the pod
+         */
         startActivity(intent);
         finish();
 
     }
 
+    /*
+     * Method to add all Listeners to the checkboxes
+     */
     public void addListenerToCheckBox(){
 
+        /*
+         * Take all values from the views and add the listeners to the checkboxes
+         */
+        textMin1 = findViewById(R.id.textMin1);
+        textMin2 = findViewById(R.id.textMin2);
+        textMin3 = findViewById(R.id.textMin3);
 
-        textMin1 = (TextView) findViewById(R.id.textMin1);
-        textMin2 = (TextView) findViewById(R.id.textMin2);
-        textMin3 = (TextView) findViewById(R.id.textMin3);
+        textMax1 = findViewById(R.id.textMax1);
+        textMax2 = findViewById(R.id.textMax2);
+        textMax3 = findViewById(R.id.textMax3);
 
-        textMax1 = (TextView) findViewById(R.id.textMax1);
-        textMax2 = (TextView) findViewById(R.id.textMax2);
-        textMax3 = (TextView) findViewById(R.id.textMax3);
-
-        verticality = (CheckBox) findViewById(R.id.verticality);
+        /*
+         * Set the onClickListeners and check
+         * if the Checkbox is checked, then make the seekbars visible, otherwise hide them
+         */
+        verticality = findViewById(R.id.verticality);
         verticality.setOnClickListener(
                 new View.OnClickListener(){
                     @Override
@@ -166,7 +212,7 @@ public class PodDetails extends AppCompatActivity {
                 }
         );
 
-        rocks = (CheckBox) findViewById(R.id.rocks);
+        rocks = findViewById(R.id.rocks);
         rocks.setOnClickListener(
                 new View.OnClickListener(){
                     @Override
@@ -184,7 +230,7 @@ public class PodDetails extends AppCompatActivity {
                 }
         );
 
-        slope = (CheckBox) findViewById(R.id.slope);
+        slope = findViewById(R.id.slope);
         slope.setOnClickListener(
                 new View.OnClickListener(){
                     @Override
