@@ -1,5 +1,6 @@
 package com.group4.santour;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -7,12 +8,15 @@ import android.provider.MediaStore;
 import android.provider.SyncStateContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.Serializable;
 import java.util.concurrent.ExecutionException;
 
@@ -32,18 +36,15 @@ public class CreatePoiPodActivity extends AppCompatActivity {
     private Uri uri;
     private boolean isPOI = false;
     private Track track;
+    private String imageString;
 
     private static final int CAMERA_REQUEST_CODE = 1;
-
-  //  private StorageReference nStorage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_poi_pod);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-
-      //  nStorage = FirebaseStorage.getInstance().getReference();
 
         btnCamera = (Button) findViewById(R.id.takePicture);
         imageView = (ImageView)findViewById(R.id.imageView);
@@ -102,14 +103,16 @@ public class CreatePoiPodActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if(requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK) {
-            uri = data.getData();
 
-         //   StorageReference filepath = nStorage.child("Photos").child(uri.getLastPathSegment());
-
-         //   filepath.putFile(uri).addOnSuccessListener..
+            //uri = data.getData();
 
             Bitmap bitmap = (Bitmap) data.getExtras().get("data");
             imageView.setImageBitmap(bitmap);
+
+            //Encode into base 64
+            FirebaseQueries fbq = new FirebaseQueries();
+            imageString = fbq.encodeToBase64(bitmap);
+
 
         }
     }
@@ -185,16 +188,19 @@ public class CreatePoiPodActivity extends AppCompatActivity {
         poi.setDescriptionPOI(description);
         poi.setGpsLocationPOI(gpsData);
 
-        //Cloud Connection
-
-        //Save in Cloud!
+        poi.setPicturePOI(imageString);
 
         //Redirect back to Track
 
         Bundle bundle = new Bundle();
         bundle.putSerializable("poi",poi);
+
         Intent intent = new Intent(this, CreateTrack.class);
         intent.putExtras(bundle);
+
+        //insert into Firebase storage as bitmap
+        FirebaseQueries fbq = new FirebaseQueries();
+        fbq.insertPicture(imageString);
 
         startActivity(intent);
         finish();
@@ -204,10 +210,6 @@ public class CreatePoiPodActivity extends AppCompatActivity {
     public void sendNextPOD(View view) throws ExecutionException, InterruptedException{
         EditText editText1 = (EditText) findViewById(R.id.createPoi);
         String name = editText1.getText().toString();
-
-        // Picture
-        // has to be done with a storage reference
-        // Example: https://www.youtube.com/watch?v=Zy2DKo0v-OY
 
         EditText editText2 = (EditText) findViewById(R.id.gpsdataX);
         EditText editText3 = (EditText) findViewById(R.id.gpsdataY);
@@ -227,11 +229,18 @@ public class CreatePoiPodActivity extends AppCompatActivity {
         pod.setDescriptionPOD(description);
         pod.setGpsLocationPOD(gpsData);
 
+        pod.setPicturePOD(imageString);
+
         Intent intent = new Intent(this, PodDetails.class);
         intent.putExtra("pod", pod);
+
+        //insert into Firebase storage as bitmap
+        FirebaseQueries fbq = new FirebaseQueries();
+        fbq.insertPicture(imageString);
 
         startActivity(intent);
         finish();
 
     }
+
 }
