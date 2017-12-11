@@ -34,6 +34,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -250,11 +251,13 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
 
         String nameTrack = ((EditText) findViewById(R.id.editText)).getText().toString();
         String timerString = hours + ":" + minutes + ":" + seconds;
+        String currentDate = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
 
         track.setGpsTrack(points);
         track.setNameTrack(nameTrack);
         track.setKm(String.format("%.2f", distanceMade));
         track.setTimer(timerString);
+        track.setTrackDate(currentDate);
 
         FirebaseQueries fbq = new FirebaseQueries();
         fbq.insertTrack(track);

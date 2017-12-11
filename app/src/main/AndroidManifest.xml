@@ -22,9 +22,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
-            android:configChanges="orientation|screenSize"
-            android:launchMode="singleTask">
+            android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -42,7 +40,9 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
-        <activity android:name=".CreateTrack"/>
+        <activity android:name=".CreateTrack"
+            android:configChanges="orientation|screenSize"
+            android:launchMode="singleTask"/>
         <activity android:name=".CreatePoiPodActivity"
             android:configChanges="orientation|keyboardHidden"/>
         <activity android:name=".FireBaseTestActivity" />
