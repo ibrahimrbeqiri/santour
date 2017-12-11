@@ -65,4 +65,5 @@ public class POI implements Serializable{
     public void setGpsLocationPOI(GPSData gpsLocationPOI) {
         this.gpsLocationPOI = gpsLocationPOI;
     }
+
 }

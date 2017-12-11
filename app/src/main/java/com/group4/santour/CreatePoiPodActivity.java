@@ -1,17 +1,25 @@
 package com.group4.santour;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+<<<<<<< HEAD
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.Serializable;
+=======
+>>>>>>> 0daae1b9b46b2e218e195f47d856d4519dab77b1
 import java.util.concurrent.ExecutionException;
 
 import models.GPSData;
@@ -24,7 +32,12 @@ public class CreatePoiPodActivity extends AppCompatActivity {
     private ImageView imageView;
     private Uri uri;
     private boolean isPOI = false;
+<<<<<<< HEAD
+    private Track track;
+    private String imageString;
+=======
     private Bitmap bitmap;
+>>>>>>> 0daae1b9b46b2e218e195f47d856d4519dab77b1
 
     private static final int CAMERA_REQUEST_CODE = 1;
 
@@ -34,8 +47,13 @@ public class CreatePoiPodActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_poi_pod);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
+<<<<<<< HEAD
+        btnCamera = (Button) findViewById(R.id.takePicture);
+        imageView = (ImageView)findViewById(R.id.imageView);
+=======
         btnCamera = findViewById(R.id.takePicture);
         imageView = findViewById(R.id.imageView);
+>>>>>>> 0daae1b9b46b2e218e195f47d856d4519dab77b1
 
         btnCamera.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,10 +130,20 @@ public class CreatePoiPodActivity extends AppCompatActivity {
          * it will save the Picture in an Bitmap and display it on the imageView
          */
         if(requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK) {
-            uri = data.getData();
 
+<<<<<<< HEAD
+            //uri = data.getData();
+
+            Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+=======
             bitmap = (Bitmap) data.getExtras().get("data");
+>>>>>>> 0daae1b9b46b2e218e195f47d856d4519dab77b1
             imageView.setImageBitmap(bitmap);
+
+            //Encode into base 64
+            FirebaseQueries fbq = new FirebaseQueries();
+            imageString = fbq.encodeToBase64(bitmap);
+
 
         }
     }
@@ -227,6 +255,22 @@ public class CreatePoiPodActivity extends AppCompatActivity {
         poi.setDescriptionPOI(description);
         poi.setGpsLocationPOI(gpsData);
 
+<<<<<<< HEAD
+        poi.setPicturePOI(imageString);
+
+        //Redirect back to Track
+
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("poi",poi);
+
+        Intent intent = new Intent(this, CreateTrack.class);
+        intent.putExtras(bundle);
+
+        //insert into Firebase storage as bitmap
+        FirebaseQueries fbq = new FirebaseQueries();
+        fbq.insertPicture(imageString);
+
+=======
         /*
          * Make a new bundle and put the poi in it.
          * With the intent, we will transfer the bundle to the FireBaseTestActivity and save it in Firebase!
@@ -245,6 +289,7 @@ public class CreatePoiPodActivity extends AppCompatActivity {
          * Start the activity with the next intent and finish the view
          * so you won't be able to click back after saving
          */
+>>>>>>> 0daae1b9b46b2e218e195f47d856d4519dab77b1
         startActivity(intent);
         finish();
 
@@ -261,12 +306,17 @@ public class CreatePoiPodActivity extends AppCompatActivity {
         EditText editText1 = findViewById(R.id.createPoi);
         String name = editText1.getText().toString();
 
+<<<<<<< HEAD
+        EditText editText2 = (EditText) findViewById(R.id.gpsdataX);
+        EditText editText3 = (EditText) findViewById(R.id.gpsdataY);
+=======
         // Picture
         // has to be done with a storage reference
         // Example: https://www.youtube.com/watch?v=Zy2DKo0v-OY
 
         EditText editText2 = findViewById(R.id.gpsdataX);
         EditText editText3 = findViewById(R.id.gpsdataY);
+>>>>>>> 0daae1b9b46b2e218e195f47d856d4519dab77b1
 
         /*
          * Latitude and Longitude have to be saves into the GPSData
@@ -289,6 +339,17 @@ public class CreatePoiPodActivity extends AppCompatActivity {
         pod.setDescriptionPOD(description);
         pod.setGpsLocationPOD(gpsData);
 
+<<<<<<< HEAD
+        pod.setPicturePOD(imageString);
+
+        Intent intent = new Intent(this, PodDetails.class);
+        intent.putExtra("pod", pod);
+
+        //insert into Firebase storage as bitmap
+        FirebaseQueries fbq = new FirebaseQueries();
+        fbq.insertPicture(imageString);
+
+=======
          /*
          * Make the intent to navigate to the other view
          * Put the object in the intent so you can use the POD for later use
@@ -300,8 +361,10 @@ public class CreatePoiPodActivity extends AppCompatActivity {
          * Start the activity with the next intent and finish the view
          * so you won't be able to click back after saving
          */
+>>>>>>> 0daae1b9b46b2e218e195f47d856d4519dab77b1
         startActivity(intent);
         finish();
 
     }
+
 }

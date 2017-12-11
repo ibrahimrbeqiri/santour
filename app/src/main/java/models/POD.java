@@ -106,4 +106,5 @@ public class POD implements Serializable{
     public void setDetailSlope(String detailSlope) {
         this.detailSlope = detailSlope;
     }
+
 }
