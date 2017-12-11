@@ -39,8 +39,6 @@ public class CreatePoiPodActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_poi_pod);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
-        btnCamera = (Button) findViewById(R.id.takePicture);
-        imageView = (ImageView)findViewById(R.id.imageView);
         btnCamera = findViewById(R.id.takePicture);
         imageView = findViewById(R.id.imageView);
 
@@ -122,7 +120,6 @@ public class CreatePoiPodActivity extends AppCompatActivity {
 
             //uri = data.getData();
 
-            Bitmap bitmap = (Bitmap) data.getExtras().get("data");
             bitmap = (Bitmap) data.getExtras().get("data");
             imageView.setImageBitmap(bitmap);
 
