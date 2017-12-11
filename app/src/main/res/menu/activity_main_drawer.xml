@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- res/menu/activity_main_drawer.xml -->
+
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_create_track"
+            android:icon="@drawable/ic_launcher_foreground"
+            android:checked="true"
+            android:title="Create a track"/>
+        <item
+            android:id="@+id/nav_display_track"
+            android:icon="@drawable/ic_launcher_foreground"
+            android:title="Display tracks"/>
+        <item
+            android:id="@+id/nav_about"
+            android:icon="@drawable/ic_launcher_foreground"
+            android:title="About Santour"/>
+    </group>
+
+    <item
+        android:title="Communicate">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_launcher_background"
+                android:title="Share"/>
+            <item
+                android:id="@+id/nav_send"
+                android:icon="@drawable/ic_launcher_background"
+                android:title="Send"/>
+        </menu>
+    </item>
+
+</menu>
