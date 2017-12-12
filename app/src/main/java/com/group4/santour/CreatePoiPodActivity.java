@@ -211,10 +211,6 @@ public class CreatePoiPodActivity extends AppCompatActivity {
         EditText editText1 = findViewById(R.id.createPoi);
         String name = editText1.getText().toString();
 
-        // Picture
-        // has to be done with a storage reference
-        // Example: https://www.youtube.com/watch?v=Zy2DKo0v-OY
-
         EditText editText2 = findViewById(R.id.gpsdataX);
         EditText editText3 = findViewById(R.id.gpsdataY);
 
@@ -223,7 +219,6 @@ public class CreatePoiPodActivity extends AppCompatActivity {
          * Can then be compared with all the GPSData of the track to display where the POI is located
          */
         GPSData gpsData = new GPSData();
-
         gpsData.setxGPS(editText2.getText().toString());
         gpsData.setyGPS(editText3.getText().toString());
 
@@ -277,10 +272,6 @@ public class CreatePoiPodActivity extends AppCompatActivity {
          */
         EditText editText1 = findViewById(R.id.createPoi);
         String name = editText1.getText().toString();
-        
-        // Picture
-        // has to be done with a storage reference
-        // Example: https://www.youtube.com/watch?v=Zy2DKo0v-OY
 
         EditText editText2 = findViewById(R.id.gpsdataX);
         EditText editText3 = findViewById(R.id.gpsdataY);
