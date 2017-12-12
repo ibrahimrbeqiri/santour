@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+
 import java.util.concurrent.ExecutionException;
 
 import firebase.FirebaseQueries;
@@ -27,7 +28,7 @@ public class CreatePoiPodActivity extends AppCompatActivity {
     private ImageView imageView;
     private Uri uri;
     private boolean isPOI = false;
-    private Track track;
+
     private String imageString;
     private Bitmap bitmap;
 
@@ -120,6 +121,7 @@ public class CreatePoiPodActivity extends AppCompatActivity {
 
             //uri = data.getData();
 
+            Bitmap bitmap = (Bitmap) data.getExtras().get("data");
             bitmap = (Bitmap) data.getExtras().get("data");
             imageView.setImageBitmap(bitmap);
 
@@ -235,9 +237,6 @@ public class CreatePoiPodActivity extends AppCompatActivity {
 
         poi.setPicturePOI(imageString);
 
-        //insert into Firebase storage as bitmap
-        FirebaseQueries fbq = new FirebaseQueries();
-        fbq.insertPicture(imageString);
 
         /*
          * Make a new bundle and put the poi in it.
@@ -257,6 +256,11 @@ public class CreatePoiPodActivity extends AppCompatActivity {
          * Start the activity with the next intent and finish the view
          * so you won't be able to click back after saving
          */
+
+        //insert into Firebase storage as bitmap
+        FirebaseQueries fbq = new FirebaseQueries();
+        fbq.insertPicture(imageString);
+
         startActivity(intent);
         finish();
 
