@@ -1,5 +1,6 @@
 package com.group4.santour;
 
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -9,6 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * A fragment with a Google +1 button.
@@ -59,8 +63,6 @@ public class Homepage extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -75,16 +77,16 @@ public class Homepage extends Fragment {
         View view = inflater.inflate(R.layout.fragment_homepage, container, false);
 
         // button listener to go to createTrack
-        Button button=(Button)view.findViewById(R.id.button2);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            public void run() {
+
                 Intent intent = new Intent(getContext(), CreateTrack.class);
                 startActivity(intent);
-            }
-        });
 
-        //Find the +1 button
+            }
+
+        }, 2000);
         return view;
     }
 
