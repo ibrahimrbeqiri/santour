@@ -120,8 +120,6 @@ public class CreatePoiPodActivity extends AppCompatActivity {
         if(requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK) {
 
             //uri = data.getData();
-
-            Bitmap bitmap = (Bitmap) data.getExtras().get("data");
             bitmap = (Bitmap) data.getExtras().get("data");
             imageView.setImageBitmap(bitmap);
 
