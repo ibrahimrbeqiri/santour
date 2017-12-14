@@ -195,6 +195,7 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         options = new PolylineOptions().width(10).color(Color.RED).geodesic(true);
         points = new ArrayList<>();
         locations = new ArrayList<>();
+        gpsDataList = new ArrayList<>();
 
         if(gpsTrack != null) {
             gpsTrack.remove();
@@ -202,6 +203,7 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
 
         points.add(currentCoordinates);
         locations.add(currentLocation);
+        gpsDataList.add(currentGpsData);
 
         time = findViewById(R.id.chronometer2);
         time.setBase(SystemClock.elapsedRealtime());
@@ -260,7 +262,7 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         String timerString = hours + ":" + minutes + ":" + seconds;
         String currentDate = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
 
-        track.setGpsTrack(points);
+        track.setGpsTrack(gpsDataList);
         track.setNameTrack(nameTrack);
         track.setKm(String.format("%.2f", distanceMade));
         track.setTimer(timerString);
@@ -293,7 +295,7 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
             currentCoordinates = coordinates;
 
         }
-        if(gpsData != currentGpsData)
+        if(gpsData != null && gpsData != currentGpsData)
         {
             gpsDataList.add(gpsData);
             currentGpsData = gpsData;
