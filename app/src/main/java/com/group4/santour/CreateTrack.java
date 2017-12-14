@@ -292,6 +292,9 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         if(coordinates != currentCoordinates) {
             points.add(coordinates);
             currentCoordinates = coordinates;
+        }
+        if(gpsData != currentGpsData)
+        {
             gpsDataList.add(gpsData);
             currentGpsData = gpsData;
         }
