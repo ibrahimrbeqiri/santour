@@ -12,7 +12,7 @@ public class POIPODList extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_poipodlist);
-        mListView = (ListView) findViewById(R.id.);
+        //mListView = (ListView) findViewById(R.id.);
         // Get a reference to the database service
     }
 }
