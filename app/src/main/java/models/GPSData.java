@@ -9,15 +9,15 @@ import java.io.Serializable;
 public class GPSData implements Serializable{
 
     private String idGPSData;
-    private String xGPS;
-    private String yGPS;
+    private double xGPS;
+    private double yGPS;
 
 
     public GPSData(){
 
     }
 
-    public GPSData(String xGPS, String yGPS) {
+    public GPSData(double xGPS, double yGPS) {
         this.xGPS = xGPS;
         this.yGPS = yGPS;
     }
@@ -30,19 +30,19 @@ public class GPSData implements Serializable{
         this.idGPSData = idGPSData;
     }
 
-    public String getxGPS() {
+    public double getxGPS() {
         return xGPS;
     }
 
-    public void setxGPS(String xGPS) {
+    public void setxGPS(double xGPS) {
         this.xGPS = xGPS;
     }
 
-    public String getyGPS() {
+    public double getyGPS() {
         return yGPS;
     }
 
-    public void setyGPS(String yGPS) {
+    public void setyGPS(double yGPS) {
         this.yGPS = yGPS;
     }
 }

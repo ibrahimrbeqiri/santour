@@ -66,6 +66,8 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
     private Polyline gpsTrack;
     private PolylineOptions options;
     private ArrayList<LatLng> points;
+    private ArrayList<GPSData> gpsDataList;
+    private GPSData currentGpsData;
 
     private Chronometer time;
     private Location currentLocation;
@@ -188,6 +190,7 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         options = new PolylineOptions().width(10).color(Color.RED).geodesic(true);
         points = new ArrayList<>();
         locations = new ArrayList<>();
+        gpsDataList = new ArrayList<>();
 
         if(gpsTrack != null) {
             gpsTrack.remove();
@@ -195,6 +198,8 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
 
         points.add(currentCoordinates);
         locations.add(currentLocation);
+
+        gpsDataList.add(currentGpsData);
 
         time = findViewById(R.id.chronometer2);
         time.setBase(SystemClock.elapsedRealtime());
@@ -253,7 +258,8 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         String timerString = hours + ":" + minutes + ":" + seconds;
         String currentDate = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
 
-        track.setGpsTrack(points);
+
+        track.setGpsTrack(gpsDataList);
         track.setNameTrack(nameTrack);
         track.setKm(String.format("%.2f", distanceMade));
         track.setTimer(timerString);
@@ -269,6 +275,8 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         LatLng coordinates = new LatLng(location.getLatitude(), location.getLongitude());
         mMap.moveCamera(CameraUpdateFactory.newLatLng(coordinates));
 
+        GPSData gpsData = new GPSData(location.getLatitude(), location.getLongitude());
+
         TextView latitude = findViewById(R.id.latitude);
         TextView longitude = findViewById(R.id.longitude);
         latitude.setText("Latitude: " + String.format("%.7f", location.getLatitude()));
@@ -278,6 +286,8 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         if(coordinates != currentCoordinates) {
             points.add(coordinates);
             currentCoordinates = coordinates;
+            gpsDataList.add(gpsData);
+            currentGpsData = gpsData;
         }
         if(location != currentLocation) {
             locations.add(location);
@@ -325,6 +335,9 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
                 TextView longitude = findViewById(R.id.longitude);
                 latitude.setText("Latitude: " + String.format("%.7f", currentLocation.getLatitude()));
                 longitude.setText("Longitude: " + String.format("%.7f", currentLocation.getLongitude()));
+
+
+                currentGpsData = new GPSData(currentLocation.getLatitude(), currentLocation.getLongitude());
 
                 currentCoordinates = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(currentCoordinates));
