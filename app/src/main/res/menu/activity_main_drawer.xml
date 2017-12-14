@@ -21,6 +21,8 @@
             android:title="About Santour"/>
     </group>
 
+    <!-- if we want a second section in the menu-->
+    <!--
     <item
         android:title="Communicate">
         <menu>
@@ -34,5 +36,6 @@
                 android:title="Send"/>
         </menu>
     </item>
+    -->
 
 </menu>
