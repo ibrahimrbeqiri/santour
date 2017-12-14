@@ -84,6 +84,8 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
     private POI poi;
     private POD pod;
     private float distanceMade;
+    private Track currenttrack;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -176,6 +178,7 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
     public void startTrack(View v) {
 
         track = new Track();
+        currenttrack = track;
 
         Button start = findViewById(R.id.start);
         start.setEnabled(false);

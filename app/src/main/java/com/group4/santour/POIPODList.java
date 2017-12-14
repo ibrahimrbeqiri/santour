@@ -4,15 +4,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ListView;
 
+import com.google.firebase.database.FirebaseDatabase;
+
+
+
+
 
 public class POIPODList extends AppCompatActivity {
 
-    ListView mListView;
+    ListView mListViewpoi;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_poipodlist);
-        //mListView = (ListView) findViewById(R.id.);
+        mListViewpoi = (ListView) findViewById(R.id.listpoi);
         // Get a reference to the database service
+       
     }
 }
