@@ -87,13 +87,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         switch (id) {
             case R.id.nav_create_track:
-                //showFragment(new FeedFragment());
+                //showFragment(new HomeFragment());
+                Intent intent = new Intent(this, CreateTrack.class);
+                startActivity(intent);
                 break;
             case R.id.nav_display_track:
-                //showFragment(new GalleryFragment());
+                //showFragment(new HomeFragment());
+                Intent intent_listTrack = new Intent(this, ListTrackActivity.class);
+                startActivity(intent_listTrack);
                 break;
             case R.id.nav_about:
-                //showFragment(new GalleryFragment());
+                //showFragment(new HomeFragment());
+                Intent intent_about = new Intent(this, AboutActivity.class);
+                startActivity(intent_about);
                 break;
             default:
                 return false;
@@ -111,6 +117,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .commit();
     }
+
 
 
 }
