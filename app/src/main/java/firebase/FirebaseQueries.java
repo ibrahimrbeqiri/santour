@@ -19,7 +19,9 @@ import com.google.firebase.storage.UploadTask;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import models.Track;
 
@@ -54,7 +56,7 @@ public class FirebaseQueries {
         tracksList.add(track);
         String key = trackCloudEndPoint.push().getKey();
         track.setIdTrack(key);
-        trackCloudEndPoint.child("track").setValue(track);
+        trackCloudEndPoint.child(key).setValue(track);
 
     }
 
@@ -69,8 +71,18 @@ public class FirebaseQueries {
             e.printStackTrace();
         }
 
+        System.out.print("image string test"+image);
+
+        Calendar calendar = Calendar.getInstance(Locale.getDefault());
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+        int second = calendar.get(Calendar.SECOND);
+        int date = calendar.get(Calendar.DAY_OF_MONTH);
+        int month = calendar.get(Calendar.MONTH);
+        int year = calendar.get(Calendar.YEAR);
+
         // Create a reference to the image file using the encoded string value
-        StorageReference mountainsRef = sanTourStorage.child(image);
+        StorageReference mountainsRef = sanTourStorage.child(date+":"+month+":"+year+": "+hour+":"+minute+":"+second);
 
         // Get the data from bitmap as bytes
         ByteArrayOutputStream baos = new ByteArrayOutputStream();

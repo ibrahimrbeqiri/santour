@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+
 import java.util.concurrent.ExecutionException;
 
 import firebase.FirebaseQueries;
@@ -27,7 +28,7 @@ public class CreatePoiPodActivity extends AppCompatActivity {
     private ImageView imageView;
     private Uri uri;
     private boolean isPOI = false;
-    private Track track;
+
     private String imageString;
     private Bitmap bitmap;
 
@@ -39,8 +40,6 @@ public class CreatePoiPodActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_poi_pod);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
-        btnCamera = (Button) findViewById(R.id.takePicture);
-        imageView = (ImageView)findViewById(R.id.imageView);
         btnCamera = findViewById(R.id.takePicture);
         imageView = findViewById(R.id.imageView);
 
@@ -121,8 +120,6 @@ public class CreatePoiPodActivity extends AppCompatActivity {
         if(requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK) {
 
             //uri = data.getData();
-
-            Bitmap bitmap = (Bitmap) data.getExtras().get("data");
             bitmap = (Bitmap) data.getExtras().get("data");
             imageView.setImageBitmap(bitmap);
 
@@ -214,10 +211,6 @@ public class CreatePoiPodActivity extends AppCompatActivity {
         EditText editText1 = findViewById(R.id.createPoi);
         String name = editText1.getText().toString();
 
-        // Picture
-        // has to be done with a storage reference
-        // Example: https://www.youtube.com/watch?v=Zy2DKo0v-OY
-
         EditText editText2 = findViewById(R.id.gpsdataX);
         EditText editText3 = findViewById(R.id.gpsdataY);
 
@@ -226,7 +219,6 @@ public class CreatePoiPodActivity extends AppCompatActivity {
          * Can then be compared with all the GPSData of the track to display where the POI is located
          */
         GPSData gpsData = new GPSData();
-
         gpsData.setxGPS(editText2.getText().toString());
         gpsData.setyGPS(editText3.getText().toString());
 
@@ -243,9 +235,6 @@ public class CreatePoiPodActivity extends AppCompatActivity {
 
         poi.setPicturePOI(imageString);
 
-        //insert into Firebase storage as bitmap
-        FirebaseQueries fbq = new FirebaseQueries();
-        fbq.insertPicture(imageString);
 
         /*
          * Make a new bundle and put the poi in it.
@@ -265,6 +254,11 @@ public class CreatePoiPodActivity extends AppCompatActivity {
          * Start the activity with the next intent and finish the view
          * so you won't be able to click back after saving
          */
+
+        //insert into Firebase storage as bitmap
+        FirebaseQueries fbq = new FirebaseQueries();
+        fbq.insertPicture(imageString);
+
         startActivity(intent);
         finish();
 
@@ -280,10 +274,6 @@ public class CreatePoiPodActivity extends AppCompatActivity {
          */
         EditText editText1 = findViewById(R.id.createPoi);
         String name = editText1.getText().toString();
-        
-        // Picture
-        // has to be done with a storage reference
-        // Example: https://www.youtube.com/watch?v=Zy2DKo0v-OY
 
         EditText editText2 = findViewById(R.id.gpsdataX);
         EditText editText3 = findViewById(R.id.gpsdataY);
