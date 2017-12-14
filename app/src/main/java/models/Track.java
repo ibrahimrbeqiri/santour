@@ -23,7 +23,7 @@ public class Track implements Serializable{
     private String km;
     private String startLocation;
     private String endLocation;
-    private List<GPSData> gpsTrack;
+    private List<LatLng> gpsTrack;
     private List<POI> poiTrack;
     private List<POD> podTrack;
     private String trackDate;
@@ -35,7 +35,7 @@ public class Track implements Serializable{
 
     }
 
-    public Track(String nameTrack, String descriptionTrack, String pictureTrack, String timer, String km, String startLocation, String endLocation, List<GPSData> gpsTrack, List<POI> poiTrack, List<POD> podTrack, String trackDate) {
+    public Track(String nameTrack, String descriptionTrack, String pictureTrack, String timer, String km, String startLocation, String endLocation, List<LatLng> gpsTrack, List<POI> poiTrack, List<POD> podTrack, String trackDate) {
         this.nameTrack = nameTrack;
         this.descriptionTrack = descriptionTrack;
         this.pictureTrack = pictureTrack;
@@ -113,11 +113,11 @@ public class Track implements Serializable{
         this.endLocation = endLocation;
     }
 
-    public List<GPSData> getGpsTrack() {
+    public List<LatLng> getGpsTrack() {
         return gpsTrack;
     }
 
-    public void setGpsTrack(List<GPSData> gpsTrack) {
+    public void setGpsTrack(List<LatLng> gpsTrack) {
         this.gpsTrack = gpsTrack;
     }
 
