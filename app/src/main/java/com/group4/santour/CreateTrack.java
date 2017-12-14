@@ -66,14 +66,13 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
     private Polyline gpsTrack;
     private PolylineOptions options;
     private ArrayList<LatLng> points;
-<<<<<<< HEAD
+
 
     private ArrayList<GPSData> gpsDataList;
     private GPSData currentGpsData;
     private String currentXGPSData;
     private String currentYGPSData;
-=======
->>>>>>> parent of d8a46ec... fixes
+
 
     private Chronometer time;
     private Location currentLocation;
@@ -277,14 +276,12 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         LatLng coordinates = new LatLng(location.getLatitude(), location.getLongitude());
         mMap.moveCamera(CameraUpdateFactory.newLatLng(coordinates));
 
-<<<<<<< HEAD
+
         String xGPSData = String.format("%.7f", location.getLatitude());
         String yGPSData = String.format("%.7f", location.getLongitude());
 
         GPSData gpsData = new GPSData(xGPSData, yGPSData);
 
-=======
->>>>>>> parent of d8a46ec... fixes
         TextView latitude = findViewById(R.id.latitude);
         TextView longitude = findViewById(R.id.longitude);
         latitude.setText("Latitude: " + String.format("%.7f", location.getLatitude()));
@@ -294,14 +291,13 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
         if(coordinates != currentCoordinates) {
             points.add(coordinates);
             currentCoordinates = coordinates;
-<<<<<<< HEAD
+
         }
         if(gpsData != currentGpsData)
         {
             gpsDataList.add(gpsData);
             currentGpsData = gpsData;
-=======
->>>>>>> parent of d8a46ec... fixes
+
         }
         if(location != currentLocation) {
             locations.add(location);
@@ -350,15 +346,14 @@ public class CreateTrack extends FragmentActivity implements OnMapReadyCallback,
                 latitude.setText("Latitude: " + String.format("%.7f", currentLocation.getLatitude()));
                 longitude.setText("Longitude: " + String.format("%.7f", currentLocation.getLongitude()));
 
-<<<<<<< HEAD
+
 
                 currentXGPSData = String.format("%.7f", currentLocation.getLatitude());
                 currentYGPSData = String.format("%.7f", currentLocation.getLongitude());
 
                 currentGpsData = new GPSData(currentXGPSData, currentYGPSData);
 
-=======
->>>>>>> parent of d8a46ec... fixes
+
                 currentCoordinates = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(currentCoordinates));
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentCoordinates, 7));
