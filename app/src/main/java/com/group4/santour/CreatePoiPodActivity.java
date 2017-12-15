@@ -21,6 +21,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 
+import java.io.ByteArrayOutputStream;
 import java.util.concurrent.ExecutionException;
 
 import firebase.FirebaseQueries;
@@ -38,7 +39,6 @@ public class CreatePoiPodActivity extends AppCompatActivity implements Navigatio
 
     private String imageString;
     private Bitmap bitmap;
-    private FirebaseQueries fbq = new FirebaseQueries();
 
     private static final int CAMERA_REQUEST_CODE = 1;
 
@@ -128,7 +128,18 @@ public class CreatePoiPodActivity extends AppCompatActivity implements Navigatio
 
 
     }
+    //method to encode the image to base64 string
+    public String encodeToBase64(Bitmap bitmap) {
 
+        String imageString;
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        imageString = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
+
+        return imageString;
+
+    }
     /*
      * Method is needed to capture the Camera activities
      */
@@ -147,7 +158,7 @@ public class CreatePoiPodActivity extends AppCompatActivity implements Navigatio
             imageView.setImageBitmap(bitmap);
 
             //Encode into base 64
-            imageString = fbq.encodeToBase64(bitmap);
+            imageString = encodeToBase64(bitmap);
 
 
         }
@@ -277,10 +288,6 @@ public class CreatePoiPodActivity extends AppCompatActivity implements Navigatio
          * so you won't be able to click back after saving
          */
 
-        //insert into Firebase storage as bitmap
-        if(imageString!=null) {
-            fbq.insertPicture(imageString);
-        }
 
         startActivity(intent);
         finish();
@@ -335,11 +342,6 @@ public class CreatePoiPodActivity extends AppCompatActivity implements Navigatio
          * Start the activity with the next intent and finish the view
          * so you won't be able to click back after saving
          */
-
-        //insert into Firebase storage as bitmap
-        if(imageString!=null) {
-            fbq.insertPicture(imageString);
-        }
 
         startActivity(intent);
         finish();

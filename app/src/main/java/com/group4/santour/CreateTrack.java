@@ -462,12 +462,19 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
             if (getIntent().getExtras().getSerializable("poi") != null) {
                 poi = (POI) this.getIntent().getExtras().getSerializable("poi");
                 track.setPoiTrack(poi);
+                //insert into Firebase storage as bitmap
+                fbq.insertPicture(poi.getPicturePOI());
+
                 poilist.add(poi);
             }
 
             if (getIntent().getExtras().getSerializable("pod") != null) {
                 pod = (POD) this.getIntent().getExtras().getSerializable("pod");
                 track.setPodTrack(pod);
+                
+                //insert into Firebase storage as bitmap
+                fbq.insertPicture(pod.getPicturePOD());
+
                 podlist.add(pod);
             }
 

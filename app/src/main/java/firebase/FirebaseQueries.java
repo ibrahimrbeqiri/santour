@@ -113,16 +113,4 @@ public class FirebaseQueries {
         return BitmapFactory.decodeByteArray(decodedByteArray, 0, decodedByteArray.length);
     }
 
-    //method to encode bitmap to string
-    public String encodeToBase64(Bitmap bitmap) {
-
-        String imageString;
-
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-        imageString = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
-
-        return imageString;
-
-    }
 }
