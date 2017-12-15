@@ -30,7 +30,7 @@ import models.POD;
 import models.POI;
 import models.Track;
 
-public class CreatePoiPodActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class CreatePoiPodActivity extends AppCompatActivity{
 
     private Button btnCamera;
     private ImageView imageView;
@@ -113,20 +113,18 @@ public class CreatePoiPodActivity extends AppCompatActivity implements Navigatio
 
         //action bar and menu initialization
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
-                R.string.navigation_drawer_open,
-                R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
-
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),CreateTrack.class));
+            }
+        });
     }
     //method to encode the image to base64 string
     public String encodeToBase64(Bitmap bitmap) {
@@ -346,36 +344,6 @@ public class CreatePoiPodActivity extends AppCompatActivity implements Navigatio
         startActivity(intent);
         finish();
 
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-        int id = item.getItemId();
-
-        switch (id) {
-            case R.id.nav_create_track:
-                //showFragment(new HomeFragment());
-                Intent intent_create = new Intent(this, CreateTrack.class);
-                startActivity(intent_create);
-                break;
-            case R.id.nav_display_track:
-                //showFragment(new HomeFragment());
-                Intent intent_listTrack = new Intent(this, ListTrackActivity.class);
-                startActivity(intent_listTrack);
-                break;
-            case R.id.nav_about:
-                //showFragment(new HomeFragment());
-                Intent intent_about = new Intent(this, AboutActivity.class);
-                startActivity(intent_about);
-                break;
-            default:
-                return false;
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
     }
 
 }

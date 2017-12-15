@@ -54,34 +54,6 @@ public class ListTrackActivity extends AppCompatActivity implements NavigationVi
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        sanTourDatabase =  FirebaseDatabase.getInstance().getReference();
-        trackCloudEndPoint = sanTourDatabase.child("track");
-        tracks = new ArrayList<>();
-        //listViewTrack = activity.findViewById(R.id.listViewTest);
-
-        adapter = new ListAdapter(this, tracks);
-    }
-
-    public void getTracksFromFirebase()
-    {
-        trackCloudEndPoint.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot noteSnapshot: dataSnapshot.getChildren()){
-                    Track track = noteSnapshot.getValue(Track.class);
-                    tracks.add(track);
-                    Log.d("*** test track", track.getNameTrack()+" "+track.getDescriptionTrack());
-                }
-
-                listViewTrack.setAdapter(adapter);
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.d("Error", databaseError.getMessage());
-            }
-        });
     }
 
     @Override

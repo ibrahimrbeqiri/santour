@@ -17,58 +17,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.fragment_homepage);
 
-        /*
-        Button button = findViewById(R.id.button2);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, CreateTrack.class);
-                startActivity(intent);
-            }
-        });
-        */
-
-        /*@Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.fragment_homepage);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .add(R.id.frameLayout, new Homepage(), "fragmentTag")
-                    .disallowAddToBackStack()
-                    .commit();
-        }*/
-
-
         setContentView(R.layout.activity_main);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
-                R.string.navigation_drawer_open,
-                R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
 
         if (savedInstanceState == null) {
             showFragment(new Homepage());
         }
 
     }
-
 
     @Override
     public void onBackPressed() {
@@ -80,35 +42,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-        int id = item.getItemId();
-
-        switch (id) {
-            case R.id.nav_create_track:
-                //showFragment(new HomeFragment());
-                Intent intent_create = new Intent(this, CreateTrack.class);
-                startActivity(intent_create);
-                break;
-            case R.id.nav_display_track:
-                //showFragment(new HomeFragment());
-                Intent intent_listTrack = new Intent(this, ListTrackActivity.class);
-                startActivity(intent_listTrack);
-                break;
-            case R.id.nav_about:
-                //showFragment(new HomeFragment());
-                Intent intent_about = new Intent(this, AboutActivity.class);
-                startActivity(intent_about);
-                break;
-            default:
-                return false;
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
 
     private void showFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();

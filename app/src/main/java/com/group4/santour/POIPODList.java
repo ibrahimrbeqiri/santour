@@ -2,8 +2,13 @@ package com.group4.santour;
 
 import android.app.ActionBar;
 import android.content.Intent;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -30,6 +35,8 @@ public class POIPODList extends AppCompatActivity {
         setContentView(R.layout.activity_poipodlist);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
+
+
         Intent intent = getIntent();
         poiArrayList = (ArrayList<POI>) intent.getSerializableExtra("poilist");
         podArrayList = (ArrayList<POD>) intent.getSerializableExtra("podlist");
@@ -52,6 +59,19 @@ public class POIPODList extends AppCompatActivity {
         ArrayAdapter adapter2 = new ArrayAdapter(this, android.R.layout.simple_list_item_1,pods);
         poilistview.setAdapter(adapter);
         podlistview.setAdapter(adapter2);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),CreateTrack.class));
+            }
+        });
 
     }
 }
