@@ -32,11 +32,16 @@ public class FirebaseQueries {
     private DatabaseReference trackCloudEndPoint;
     private List<Track> tracksList;
     private StorageReference sanTourStorage;
+    private FirebaseDatabase firebaseDatabase;
 
     public FirebaseQueries(){
 
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        firebaseDatabase.setPersistenceEnabled(true);
+
+
         //get database instance and reference
-        sanTourDatabase =  FirebaseDatabase.getInstance().getReference();
+        sanTourDatabase = firebaseDatabase.getReference();
 
         //get storage instance and reference
         sanTourStorage = FirebaseStorage.getInstance().getReference();
@@ -70,8 +75,6 @@ public class FirebaseQueries {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        System.out.print("image string test"+image);
 
         Calendar calendar = Calendar.getInstance(Locale.getDefault());
         int hour = calendar.get(Calendar.HOUR_OF_DAY);

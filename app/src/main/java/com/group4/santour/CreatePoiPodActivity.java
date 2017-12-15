@@ -256,8 +256,10 @@ public class CreatePoiPodActivity extends AppCompatActivity {
          */
 
         //insert into Firebase storage as bitmap
-        FirebaseQueries fbq = new FirebaseQueries();
-        fbq.insertPicture(imageString);
+        if(imageString!=null) {
+            FirebaseQueries fbq = new FirebaseQueries();
+            fbq.insertPicture(imageString);
+        }
 
         startActivity(intent);
         finish();
@@ -314,8 +316,10 @@ public class CreatePoiPodActivity extends AppCompatActivity {
          */
 
         //insert into Firebase storage as bitmap
-        FirebaseQueries fbq = new FirebaseQueries();
-        fbq.insertPicture(imageString);
+        if(imageString!=null) {
+            FirebaseQueries fbq = new FirebaseQueries();
+            fbq.insertPicture(imageString);
+        }
 
         startActivity(intent);
         finish();

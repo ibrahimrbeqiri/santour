@@ -29,6 +29,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,6 +45,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import firebase.FirebaseQueries;
@@ -91,6 +93,9 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
     private POI poi;
     private POD pod;
     private float distanceMade;
+    private Button POIPODList;
+    private Track latestTrack;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,8 +112,11 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
 
         points = new ArrayList<>();
         locations = new ArrayList<>();
+        POIPODList = findViewById(R.id.POIPODList);
+        POIPODList.setEnabled(true);
 
         Button POD = findViewById(R.id.POD);
+
         POD.setEnabled(false);
         POD.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
@@ -128,7 +136,9 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
         POI.setEnabled(false);
         POI.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
+
                 isPOI = true;
+
                 Intent intent = new Intent(CreateTrack.this, CreatePoiPodActivity.class);
                 intent.putExtra("POI", isPOI);
                 intent.putExtra("track",track);
@@ -191,7 +201,6 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
 
-
     }
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -251,10 +260,9 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
         POI.setEnabled(false);
 
         EditText trackname = findViewById(R.id.editText);
-        trackname.setEnabled(true);
+        trackname.setEnabled(false);
 
         time.stop();
-
         int elapsed = (int) (SystemClock.elapsedRealtime() - time.getBase());
         int hours = (elapsed / 3600000);
         int minutes = (elapsed - hours * 3600000) / 60000;
@@ -281,10 +289,9 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
             }
 
         }
+
         distance.setText("Distance: " + String.format("%.2f", distanceMade) + " km");
-
         Toast.makeText(this, "GPS Data is not being recorded!", Toast.LENGTH_SHORT).show();
-
         String nameTrack = ((EditText) findViewById(R.id.editText)).getText().toString();
         String timerString = hours + ":" + minutes + ":" + seconds;
         String currentDate = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
@@ -294,10 +301,17 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
         track.setKm(String.format("%.2f", distanceMade));
         track.setTimer(timerString);
         track.setTrackDate(currentDate);
-
         FirebaseQueries fbq = new FirebaseQueries();
         fbq.insertTrack(track);
 
+    }
+
+    public void showPoiPodList(View v){
+
+
+            Intent intent = new Intent(CreateTrack.this, POIPODList.class);
+            startActivity(intent);
+            
     }
 
     @Override
@@ -414,6 +428,7 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
         // getIntent() should always return the most recent
         setIntent(intent);
 
+
         if(getIntent().getExtras()!=null) {
 
             if (getIntent().getExtras().getSerializable("poi") != null) {
@@ -425,6 +440,13 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
                 pod = (POD) this.getIntent().getExtras().getSerializable("pod");
                 track.setPodTrack(pod);
             }
+
+        if(getIntent().getExtras().getSerializable("poi")!=null){
+            poi=(POI)this.getIntent().getExtras().getSerializable("poi");
+
+            track.setPoiTrack(poi);
+        }
+
 
         }
 
