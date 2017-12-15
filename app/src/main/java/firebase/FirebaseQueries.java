@@ -32,16 +32,16 @@ public class FirebaseQueries {
     private DatabaseReference trackCloudEndPoint;
     private List<Track> tracksList;
     private StorageReference sanTourStorage;
-    private FirebaseDatabase firebaseDatabase;
+    private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
 
     public FirebaseQueries(){
 
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        firebaseDatabase.setPersistenceEnabled(true);
 
+        firebaseDatabase.setPersistenceEnabled(true);
 
         //get database instance and reference
         sanTourDatabase = firebaseDatabase.getReference();
+        sanTourDatabase.keepSynced(true);
 
         //get storage instance and reference
         sanTourStorage = FirebaseStorage.getInstance().getReference();
