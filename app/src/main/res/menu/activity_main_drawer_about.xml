@@ -9,7 +9,6 @@
         <item
             android:id="@+id/nav_create_track"
             android:icon="@drawable/ic_add_location_black_24dp"
-            android:checked="true"
             android:title="Create a track"/>
         <item
             android:id="@+id/nav_display_track"
@@ -18,6 +17,7 @@
         <item
             android:id="@+id/nav_about"
             android:icon="@drawable/ic_info_outline_black_24dp"
+            android:checked="true"
             android:title="About Santour"/>
     </group>
 

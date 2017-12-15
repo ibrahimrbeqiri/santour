@@ -23,20 +23,5 @@
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:src="@drawable/santourlogo" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Santour"
-        android:textSize="24sp"
-        tools:textColor="@android:color/darker_gray" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="info@santour-valais.ch"
-        tools:textColor="@android:color/darker_gray" />
-
-
 
 </LinearLayout>
