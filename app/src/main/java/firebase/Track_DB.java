@@ -103,9 +103,9 @@ public class Track_DB {
         Track track1 = new Track();
         track1.setNameTrack("Track 1");
         track1.setDescriptionTrack("Yo, this is the first track");
-        track1.setPoiTrack(poi1);
-        track1.setPoiTrack(poi2);
-        track1.setPodTrack(pod1);
+        //track1.setPoiTrack(poi1);
+        //track1.setPoiTrack(poi2);
+        //track1.setPodTrack(pod1);
         tracks.add(track1);
 
         Track track2 = new Track();

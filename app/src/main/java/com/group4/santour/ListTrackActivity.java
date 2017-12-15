@@ -1,5 +1,6 @@
 package com.group4.santour;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -11,6 +12,9 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -22,27 +26,75 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import adapters.ListAdapter;
+import models.GPSData;
 import models.Track;
 
 public class ListTrackActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
-    private AppCompatActivity activity;
     private DatabaseReference sanTourDatabase;
-    private DatabaseReference trackCloudEndPoint;
     private ListView listViewTrack;
-    private List<Track> tracks;
-    private ListAdapter adapter;
+    private ArrayList<Track> tracks = new ArrayList<>();
+    private ArrayList<String> trackList = new ArrayList<>();
+    private ArrayAdapter<String> adapter;
+    private ArrayList<List<GPSData>> gpsDataList = new ArrayList<List<GPSData>>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_track);
 
-        //action bar and menu initialization
+        /*for (int i = 0; i < tracks.size(); i++) {
+            Track track = tracks.get(i);
+            trackList.add("Track Name: " + track.getNameTrack() + " Date: " + track.getTrackDate() + "\n" + "Distance: " + track.getKm() + " Time: " + track.getTimer());
+            System.out.println(track.getIdTrack());
+        }*/
+
+        sanTourDatabase = FirebaseDatabase.getInstance().getReference().child("tracks");
+        sanTourDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    Track track = postSnapshot.getValue(Track.class);
+                    tracks.add(track);
+                    trackList.add("Track Name: " + track.getNameTrack() + "\nDate: " + track.getTrackDate() + "\nDistance: " + track.getKm() + " km" + "   Time: " + track.getTimer() + "\nDescription: " + track.getDescriptionTrack());
+                    adapter.notifyDataSetChanged();
+                    gpsDataList.add(track.getGpsTrack());
+
+                    System.out.println(gpsDataList.size());
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
+            }
+        });
+
+
+
+        adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, trackList);
+        listViewTrack = findViewById(R.id.listtrack);
+        listViewTrack.setAdapter(adapter);
+
+        listViewTrack.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Intent intent = new Intent(ListTrackActivity.this, TrackListMap.class);
+                intent.putExtra("track", tracks.get(position));
+                startActivity(intent);
+            }
+
+        });
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
@@ -53,9 +105,7 @@ public class ListTrackActivity extends AppCompatActivity implements NavigationVi
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
     }
-
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
@@ -85,4 +135,5 @@ public class ListTrackActivity extends AppCompatActivity implements NavigationVi
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 }

@@ -39,6 +39,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
@@ -121,12 +122,12 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
 
         points = new ArrayList<>();
         locations = new ArrayList<>();
-        POIPODList = findViewById(R.id.POIPODList);
-        POIPODList.setEnabled(true);
+        gpsDataList = new ArrayList<>();
+
+
+
 
         Button POD = findViewById(R.id.POD);
-        POIPODList.setEnabled(false);
-
         POD.setEnabled(false);
         POD.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
@@ -161,7 +162,8 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
                 startActivity(intent);
             }
         });
-        Button POIPODList = findViewById(R.id.POIPODList);
+        POIPODList = findViewById(R.id.POIPODList);
+        POIPODList.setEnabled(false);
         POIPODList.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
 
@@ -199,12 +201,6 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-    }
-
-
-    public LatLng getCoordinates()
-    {
-        return currentCoordinates;
     }
     @Override
     public void onPause()
@@ -270,6 +266,7 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
         locations.add(currentLocation);
         gpsDataList.add(currentGpsData);
 
+
         time = findViewById(R.id.chronometer2);
         time.setBase(SystemClock.elapsedRealtime());
         time.start();
@@ -289,7 +286,7 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
         POI.setEnabled(false);
 
         EditText trackname = findViewById(R.id.editText);
-        trackname.setEnabled(false);
+        trackname.setEnabled(true);
 
         time.stop();
         int elapsed = (int) (SystemClock.elapsedRealtime() - time.getBase());
@@ -304,7 +301,7 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
             }
         }
 
-        //gpsTrack = mMap.addPolyline(options);
+        gpsTrack = mMap.addPolyline(options);
 
         distanceMade = 0;
 
@@ -323,6 +320,7 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
         String timerString = hours + ":" + minutes + ":" + seconds;
         String currentDate = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
 
+        mMap.clear();
         track.setGpsTrack(gpsDataList);
         track.setNameTrack(nameTrack);
         track.setKm(String.format("%.2f", distanceMade));
@@ -356,7 +354,7 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
             currentCoordinates = coordinates;
 
         }
-        if(gpsData != null && gpsData != currentGpsData)
+        if(gpsData != currentGpsData)
         {
             gpsDataList.add(gpsData);
             currentGpsData = gpsData;
@@ -450,26 +448,42 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
 
             if (getIntent().getExtras().getSerializable("poi") != null) {
                 poi = (POI) this.getIntent().getExtras().getSerializable("poi");
-                track.setPoiTrack(poi);
+                poilist.add(poi);
+                track.setPoiTrack(poilist);
+
+                double xGps = Double.parseDouble(poi.getGpsLocationPOI().getxGPS());
+                double yGps = Double.parseDouble(poi.getGpsLocationPOI().getyGPS());
+
+                LatLng poiLocation = new LatLng(xGps, yGps);
+
+                mMap.addMarker(new MarkerOptions().position(poiLocation)
+                        .title(poi.getNamePOI())).showInfoWindow();
 
                 if(poi.getPicturePOI() != null) {
                     //insert into Firebase storage as bitmap
                     fbq.insertPicture(poi.getPicturePOI());
                 }
 
-                poilist.add(poi);
             }
 
             if (getIntent().getExtras().getSerializable("pod") != null) {
                 pod = (POD) this.getIntent().getExtras().getSerializable("pod");
-                track.setPodTrack(pod);
+                podlist.add(pod);
+                track.setPodTrack(podlist);
+
+                double xGps = Double.parseDouble(pod.getGpsLocationPOD().getxGPS());
+                double yGps = Double.parseDouble(pod.getGpsLocationPOD().getyGPS());
+
+                LatLng poiLocation = new LatLng(xGps, yGps);
+
+                mMap.addMarker(new MarkerOptions().position(poiLocation)
+                        .title(pod.getNamePOD())).showInfoWindow();
 
                 if(pod.getPicturePOD() != null) {
                     //insert into Firebase storage as bitmap
                     fbq.insertPicture(pod.getPicturePOD());
                 }
 
-                podlist.add(pod);
             }
 
 

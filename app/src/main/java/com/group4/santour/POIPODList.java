@@ -1,27 +1,16 @@
 package com.group4.santour;
 
-import android.app.ActionBar;
 import android.content.Intent;
-import android.support.design.widget.NavigationView;
-import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.google.firebase.database.FirebaseDatabase;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 import models.POD;
 import models.POI;
@@ -85,23 +74,5 @@ public class POIPODList extends AppCompatActivity{
             }
         });
 
-
-
     }
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        // getIntent() should always return the most recent
-        setIntent(intent);
-        if (getIntent().getExtras().getSerializable("poilist") != null){
-            poiArrayList = (ArrayList<POI>) intent.getSerializableExtra("poilist");
-
-        }
-        if (getIntent().getExtras().getSerializable("podlist") != null){
-            poiArrayList = (ArrayList<POI>) intent.getSerializableExtra("podlist");
-
-        }
-
-    }
-
 }
