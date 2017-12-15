@@ -113,9 +113,10 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
         points = new ArrayList<>();
         locations = new ArrayList<>();
         POIPODList = findViewById(R.id.POIPODList);
-        POIPODList.setEnabled(false);
+        POIPODList.setEnabled(true);
 
         Button POD = findViewById(R.id.POD);
+
         POD.setEnabled(false);
         POD.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
@@ -211,7 +212,6 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
     public void startTrack(View v) {
 
         track = new Track();
-        POIPODList.setEnabled(false);
 
         Button start = findViewById(R.id.start);
         start.setEnabled(false);
@@ -261,10 +261,8 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
 
         EditText trackname = findViewById(R.id.editText);
         trackname.setEnabled(false);
-        POIPODList.setEnabled(true);
 
         time.stop();
-
         int elapsed = (int) (SystemClock.elapsedRealtime() - time.getBase());
         int hours = (elapsed / 3600000);
         int minutes = (elapsed - hours * 3600000) / 60000;
@@ -291,6 +289,7 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
             }
 
         }
+
         distance.setText("Distance: " + String.format("%.2f", distanceMade) + " km");
         Toast.makeText(this, "GPS Data is not being recorded!", Toast.LENGTH_SHORT).show();
         String nameTrack = ((EditText) findViewById(R.id.editText)).getText().toString();
@@ -305,21 +304,14 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
         FirebaseQueries fbq = new FirebaseQueries();
         fbq.insertTrack(track);
 
-
-
-
     }
 
     public void showPoiPodList(View v){
 
 
-        POIPODList.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-
-            }
-        });
-
-
+            Intent intent = new Intent(CreateTrack.this, POIPODList.class);
+            startActivity(intent);
+            
     }
 
     @Override
@@ -438,6 +430,7 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
 
         if(getIntent().getExtras().getSerializable("poi")!=null){
             poi=(POI)this.getIntent().getExtras().getSerializable("poi");
+
             track.setPoiTrack(poi);
         }
 
