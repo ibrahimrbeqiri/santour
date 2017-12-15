@@ -71,8 +71,6 @@ public class FirebaseQueries {
             e.printStackTrace();
         }
 
-        System.out.print("image string test"+image);
-
         Calendar calendar = Calendar.getInstance(Locale.getDefault());
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         int minute = calendar.get(Calendar.MINUTE);
