@@ -26,6 +26,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.EditText;
@@ -41,6 +42,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -57,7 +59,7 @@ import models.Track;
 import static android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP;
 
 
-public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback,
+public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback,Serializable,
         LocationListener,
         GoogleMap.OnMyLocationButtonClickListener,
         GoogleMap.OnMyLocationClickListener,
@@ -94,8 +96,10 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
     private POD pod;
     private float distanceMade;
     private Button POIPODList;
-    private Track latestTrack;
-
+    private List<POI> poilist;
+    private List<POD> podlist;
+    private ListView poilistview;
+    private ListView podlistview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,11 +120,13 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
         POIPODList.setEnabled(true);
 
         Button POD = findViewById(R.id.POD);
+        POIPODList.setEnabled(false);
 
         POD.setEnabled(false);
         POD.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 isPOI = false;
+                POIPODList.setEnabled(true);
                 Intent intent = new Intent(CreateTrack.this, CreatePoiPodActivity.class);
                 intent.putExtra("POI", isPOI);
                 intent.putExtra("track",track);
@@ -138,6 +144,7 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
             public void onClick(View v){
 
                 isPOI = true;
+                POIPODList.setEnabled(true);
 
                 Intent intent = new Intent(CreateTrack.this, CreatePoiPodActivity.class);
                 intent.putExtra("POI", isPOI);
@@ -149,6 +156,23 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
                 startActivity(intent);
             }
         });
+        Button POIPODList = findViewById(R.id.POIPODList);
+        POIPODList.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+
+                Intent intent = new Intent(CreateTrack.this, POIPODList.class);
+
+                Bundle bundle = new Bundle();
+
+                //bundle.putParcelable("podlist",podlist);
+
+                //intent.putExtra("PoiList", podlist);
+                //intent.putExtra("PoDList", podlist);
+                startActivity(intent);
+            }
+        });
+
+
 
         Button stop = findViewById(R.id.stop);
         stop.setEnabled(false);
@@ -172,6 +196,7 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
         navigationView.setNavigationItemSelectedListener(this);
 
     }
+
 
     public LatLng getCoordinates()
     {
@@ -209,16 +234,29 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
     public void startTrack(View v) {
 
         track = new Track();
-
         Button start = findViewById(R.id.start);
         start.setEnabled(false);
         Button stop = findViewById(R.id.stop);
         stop.setEnabled(true);
 
-        Button POD = findViewById(R.id.POD);
-        POD.setEnabled(true);
-        Button POI = findViewById(R.id.POI);
-        POI.setEnabled(true);
+        Button PODbutton = findViewById(R.id.POD);
+        PODbutton.setEnabled(true);
+        Button POIbutton = findViewById(R.id.POI);
+        POIbutton.setEnabled(true);
+
+        poilist = new ArrayList<>();
+        podlist = new ArrayList<>();
+
+
+        //ArrayList listado2 = new ArrayList();
+        //listado2.add("uno");
+        //listado2.add("dos");
+        //listado2.add("tres");
+
+        //ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1,listado2);
+        //poilistview.setAdapter(adapter);
+
+
 
         EditText trackname = findViewById(R.id.editText);
         trackname.setEnabled(false);
@@ -298,13 +336,6 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
         track.setTrackDate(currentDate);
         FirebaseQueries fbq = new FirebaseQueries();
         fbq.insertTrack(track);
-
-    }
-
-
-    public void showPoiPodList(View v){
-            Intent intent = new Intent(CreateTrack.this, POIPODList.class);
-            startActivity(intent);
 
     }
 
@@ -420,17 +451,18 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
         // getIntent() should always return the most recent
         setIntent(intent);
 
-
         if(getIntent().getExtras()!=null) {
 
             if (getIntent().getExtras().getSerializable("poi") != null) {
                 poi = (POI) this.getIntent().getExtras().getSerializable("poi");
                 track.setPoiTrack(poi);
+                poilist.add(poi);
             }
 
             if (getIntent().getExtras().getSerializable("pod") != null) {
                 pod = (POD) this.getIntent().getExtras().getSerializable("pod");
                 track.setPodTrack(pod);
+                podlist.add(pod);
             }
 
         if(getIntent().getExtras().getSerializable("poi")!=null){
