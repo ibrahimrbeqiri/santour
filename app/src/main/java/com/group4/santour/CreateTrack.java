@@ -96,16 +96,15 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
     private POD pod;
     private float distanceMade;
     private Button POIPODList;
-<<<<<<< HEAD
+
     private List<POI> poilist;
     private List<POD> podlist;
     private ListView poilistview;
     private ListView podlistview;
-=======
+
     private Track latestTrack;
     private FirebaseQueries fbq = new FirebaseQueries();
 
->>>>>>> ce467756c3f125232a81e51e29929ac8e089bd7a
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
