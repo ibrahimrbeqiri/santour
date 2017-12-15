@@ -22,10 +22,7 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-<<<<<<< HEAD
         //setContentView(R.layout.fragment_homepage);
-=======
->>>>>>> 21cb487aad9d5c13440930e4b8cb1d9e5f849ad1
 
         setContentView(R.layout.activity_main);
 
@@ -34,8 +31,6 @@ public class MainActivity extends AppCompatActivity{
         }
 
     }
-
-<<<<<<< HEAD
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -46,9 +41,6 @@ public class MainActivity extends AppCompatActivity{
         }
     }
 
-
-=======
->>>>>>> 21cb487aad9d5c13440930e4b8cb1d9e5f849ad1
     private void showFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
