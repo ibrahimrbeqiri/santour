@@ -38,6 +38,7 @@ public class CreatePoiPodActivity extends AppCompatActivity implements Navigatio
 
     private String imageString;
     private Bitmap bitmap;
+    private FirebaseQueries fbq = new FirebaseQueries();
 
     private static final int CAMERA_REQUEST_CODE = 1;
 
@@ -146,7 +147,6 @@ public class CreatePoiPodActivity extends AppCompatActivity implements Navigatio
             imageView.setImageBitmap(bitmap);
 
             //Encode into base 64
-            FirebaseQueries fbq = new FirebaseQueries();
             imageString = fbq.encodeToBase64(bitmap);
 
 
@@ -279,7 +279,6 @@ public class CreatePoiPodActivity extends AppCompatActivity implements Navigatio
 
         //insert into Firebase storage as bitmap
         if(imageString!=null) {
-            FirebaseQueries fbq = new FirebaseQueries();
             fbq.insertPicture(imageString);
         }
 
@@ -339,7 +338,6 @@ public class CreatePoiPodActivity extends AppCompatActivity implements Navigatio
 
         //insert into Firebase storage as bitmap
         if(imageString!=null) {
-            FirebaseQueries fbq = new FirebaseQueries();
             fbq.insertPicture(imageString);
         }
 

@@ -95,6 +95,7 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
     private float distanceMade;
     private Button POIPODList;
     private Track latestTrack;
+    private FirebaseQueries fbq = new FirebaseQueries();
 
 
     @Override
@@ -265,14 +266,14 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
         int minutes = (elapsed - hours * 3600000) / 60000;
         int seconds = (elapsed - hours * 3600000 - minutes * 60000) / 1000;
 
-        if(points.size() > 0) {
+        if(points.size() > 1) {
             for (int i = 0; i < points.size(); i++) {
                 LatLng point = points.get(i);
                 options.add(point);
             }
         }
 
-        gpsTrack = mMap.addPolyline(options);
+        //gpsTrack = mMap.addPolyline(options);
 
         distanceMade = 0;
 
@@ -296,7 +297,8 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
         track.setKm(String.format("%.2f", distanceMade));
         track.setTimer(timerString);
         track.setTrackDate(currentDate);
-        FirebaseQueries fbq = new FirebaseQueries();
+
+
         fbq.insertTrack(track);
 
     }

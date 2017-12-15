@@ -37,7 +37,7 @@ public class Track_DB {
         sanTourDatabase =  FirebaseDatabase.getInstance().getReference();
         trackCloudEndPoint = sanTourDatabase.child("track");
         tracks = new ArrayList<>();
-        listViewTrack = activity.findViewById(R.id.listViewTest);
+        //listViewTrack = activity.findViewById(R.id.listViewTest);
         this.activity=activity;
     }
 
