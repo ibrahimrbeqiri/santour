@@ -156,8 +156,6 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
         distance = findViewById(R.id.distance);
         distance.setText("Distance: 0.00 km");
 
-
-
         //action bar and menu initialization
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -172,7 +170,6 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
 
     }
 
@@ -287,9 +284,7 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
                 distanceMade = distanceMade + (beginning.distanceTo(end) / 1000);
 
             }
-
         }
-
         distance.setText("Distance: " + String.format("%.2f", distanceMade) + " km");
         Toast.makeText(this, "GPS Data is not being recorded!", Toast.LENGTH_SHORT).show();
         String nameTrack = ((EditText) findViewById(R.id.editText)).getText().toString();
@@ -306,12 +301,11 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
 
     }
 
+
     public void showPoiPodList(View v){
-
-
             Intent intent = new Intent(CreateTrack.this, POIPODList.class);
             startActivity(intent);
-            
+
     }
 
     @Override
@@ -388,8 +382,6 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
                 TextView longitude = findViewById(R.id.longitude);
                 latitude.setText("Latitude: " + String.format("%.7f", currentLocation.getLatitude()));
                 longitude.setText("Longitude: " + String.format("%.7f", currentLocation.getLongitude()));
-
-
 
                 currentXGPSData = String.format("%.7f", currentLocation.getLatitude());
                 currentYGPSData = String.format("%.7f", currentLocation.getLongitude());
