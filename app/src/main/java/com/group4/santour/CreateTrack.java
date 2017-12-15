@@ -420,15 +420,26 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
         // getIntent() should always return the most recent
         setIntent(intent);
 
+
+        if(getIntent().getExtras()!=null) {
+
+            if (getIntent().getExtras().getSerializable("poi") != null) {
+                poi = (POI) this.getIntent().getExtras().getSerializable("poi");
+                track.setPoiTrack(poi);
+            }
+
+            if (getIntent().getExtras().getSerializable("pod") != null) {
+                pod = (POD) this.getIntent().getExtras().getSerializable("pod");
+                track.setPodTrack(pod);
+            }
+
         if(getIntent().getExtras().getSerializable("poi")!=null){
             poi=(POI)this.getIntent().getExtras().getSerializable("poi");
 
             track.setPoiTrack(poi);
         }
 
-        if(getIntent().getExtras().getSerializable("pod")!=null){
-            pod=(POD)this.getIntent().getExtras().getSerializable("pod");
-            track.setPodTrack(pod);
+
         }
 
     }
@@ -503,8 +514,8 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
         switch (id) {
             case R.id.nav_create_track:
                 //showFragment(new HomeFragment());
-                Intent intent = new Intent(this, CreateTrack.class);
-                startActivity(intent);
+                Intent intent_create = new Intent(this, CreateTrack.class);
+                startActivity(intent_create);
                 break;
             case R.id.nav_display_track:
                 //showFragment(new HomeFragment());

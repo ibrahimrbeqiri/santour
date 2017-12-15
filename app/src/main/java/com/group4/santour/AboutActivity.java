@@ -45,8 +45,8 @@ public class AboutActivity extends AppCompatActivity implements NavigationView.O
         switch (id) {
             case R.id.nav_create_track:
                 //showFragment(new HomeFragment());
-                Intent intent = new Intent(this, CreateTrack.class);
-                startActivity(intent);
+                Intent intent_create = new Intent(this, CreateTrack.class);
+                startActivity(intent_create);
                 break;
             case R.id.nav_display_track:
                 //showFragment(new HomeFragment());
