@@ -34,13 +34,22 @@ public class POIPODList extends AppCompatActivity {
         poiArrayList = (ArrayList<POI>) intent.getSerializableExtra("poilist");
         podArrayList = (ArrayList<POD>) intent.getSerializableExtra("podlist");
 
+        ArrayList<String> pois = new ArrayList<>();
+        ArrayList<String> pods = new ArrayList<>();
 
-        poilistview = (ListView) findViewById(R.id.listpoi);
-        podlistview = (ListView) findViewById(R.id.listpod);
-        ArrayList listado2 = new ArrayList();
+        poilistview = findViewById(R.id.listpoi);
+        podlistview = findViewById(R.id.listpod);
 
-        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1,poiArrayList);
-        ArrayAdapter adapter2 = new ArrayAdapter(this, android.R.layout.simple_list_item_1,podArrayList);
+        for(int i = 0; i < poiArrayList.size(); i++) {
+            POI poi = poiArrayList.get(i);
+            pois.add("Name: "+poi.getNamePOI() + "\n" + "Latitude: " + poi.getGpsLocationPOI().getxGPS() + " Longitude: " + poi.getGpsLocationPOI().getyGPS());
+        }
+        for(int i = 0; i < podArrayList.size(); i++) {
+            POD pod = podArrayList.get(i);
+            pods.add("Name: "+pod.getNamePOD() + "\n" + "Latitude: " + pod.getGpsLocationPOD().getxGPS() + " Longitude: " + pod.getGpsLocationPOD().getyGPS());
+        }
+        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1,pois);
+        ArrayAdapter adapter2 = new ArrayAdapter(this, android.R.layout.simple_list_item_1,pods);
         poilistview.setAdapter(adapter);
         podlistview.setAdapter(adapter2);
 
