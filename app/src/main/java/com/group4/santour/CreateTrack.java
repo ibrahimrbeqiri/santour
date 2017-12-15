@@ -253,16 +253,6 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
         podlist = new ArrayList<>();
 
 
-        //ArrayList listado2 = new ArrayList();
-        //listado2.add("uno");
-        //listado2.add("dos");
-        //listado2.add("tres");
-
-        //ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1,listado2);
-        //poilistview.setAdapter(adapter);
-
-
-
         EditText trackname = findViewById(R.id.editText);
         trackname.setEnabled(false);
 
@@ -462,8 +452,11 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
             if (getIntent().getExtras().getSerializable("poi") != null) {
                 poi = (POI) this.getIntent().getExtras().getSerializable("poi");
                 track.setPoiTrack(poi);
-                //insert into Firebase storage as bitmap
-                fbq.insertPicture(poi.getPicturePOI());
+
+                if(poi.getPicturePOI() != null) {
+                    //insert into Firebase storage as bitmap
+                    fbq.insertPicture(poi.getPicturePOI());
+                }
 
                 poilist.add(poi);
             }
@@ -471,9 +464,11 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
             if (getIntent().getExtras().getSerializable("pod") != null) {
                 pod = (POD) this.getIntent().getExtras().getSerializable("pod");
                 track.setPodTrack(pod);
-                
-                //insert into Firebase storage as bitmap
-                fbq.insertPicture(pod.getPicturePOD());
+
+                if(pod.getPicturePOD() != null) {
+                    //insert into Firebase storage as bitmap
+                    fbq.insertPicture(pod.getPicturePOD());
+                }
 
                 podlist.add(pod);
             }

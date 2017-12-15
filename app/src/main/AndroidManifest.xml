@@ -43,7 +43,6 @@
         <activity
             android:name=".CreatePoiPodActivity"
             android:configChanges="orientation|keyboardHidden" />
-        <activity android:name=".FireBaseTestActivity" />
         <activity android:name=".PodDetails" />
         <activity android:name=".AboutActivity" />
         <activity android:name=".ListTrackActivity"></activity>
