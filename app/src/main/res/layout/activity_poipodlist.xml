@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_height="fill_parent"
+    android:weightSum="1.0">
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -12,13 +13,49 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            >
+            <LinearLayout
+                android:id="@+id/listpoilayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/listpodlayout"
+                android:layout_marginTop="36dp"
+                android:orientation="vertical"
+                android:layout_weight="0.5">
 
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/scrollView2"
+                    android:text="POI List"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <ListView
+                    android:id="@+id/listpoi"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/listpoilayoutbuttons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_below="@+id/listpoilayout"
+                >
+
+            </LinearLayout>
         <LinearLayout
         android:id="@+id/listpodlayout"
         android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+            android:layout_weight="0.5">
 
             <TextView
                 android:id="@+id/textView3"
@@ -28,43 +65,13 @@
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
-        <ListView
-            android:id="@+id/listpod"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <ListView
+                android:id="@+id/listpod"
+                android:layout_width="match_parent"
+                android:layout_height="200dp" />
     </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/listpoilayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_below="@+id/listpodlayout"
-            >
 
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_above="@+id/scrollView2"
-                android:layout_alignParentStart="true"
-                android:text="POI List"
-                android:textSize="24sp"
-                android:textStyle="bold" />
-    <ListView
-                android:id="@+id/listpoi"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/listpoilayoutbuttons"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_below="@+id/listpoilayout"
-            >
-
-        </LinearLayout>
         </RelativeLayout>
     </ScrollView>
 

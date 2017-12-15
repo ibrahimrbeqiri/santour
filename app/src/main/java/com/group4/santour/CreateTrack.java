@@ -166,13 +166,10 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
             public void onClick(View v){
 
                 Intent intent = new Intent(CreateTrack.this, POIPODList.class);
-
                 Bundle bundle = new Bundle();
 
-                //bundle.putParcelable("podlist",podlist);
-
-                //intent.putExtra("PoiList", podlist);
-                //intent.putExtra("PoDList", podlist);
+                intent.putExtra("poilist", (Serializable) poilist);
+                intent.putExtra("podlist", (Serializable) podlist);
                 startActivity(intent);
             }
         });
