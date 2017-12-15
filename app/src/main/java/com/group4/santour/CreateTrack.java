@@ -441,12 +441,6 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
                 track.setPodTrack(pod);
             }
 
-        if(getIntent().getExtras().getSerializable("poi")!=null){
-            poi=(POI)this.getIntent().getExtras().getSerializable("poi");
-
-            track.setPoiTrack(poi);
-        }
-
 
         }
 

@@ -4,9 +4,16 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Base64;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -22,7 +29,7 @@ import models.POD;
 import models.POI;
 import models.Track;
 
-public class CreatePoiPodActivity extends AppCompatActivity {
+public class CreatePoiPodActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     private Button btnCamera;
     private ImageView imageView;
@@ -102,6 +109,21 @@ public class CreatePoiPodActivity extends AppCompatActivity {
             Button button = findViewById(R.id.nextPOD);
             button.setEnabled(false);
         }
+
+        //action bar and menu initialization
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
+                R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
 
 
     }
@@ -324,6 +346,36 @@ public class CreatePoiPodActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
 
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.nav_create_track:
+                //showFragment(new HomeFragment());
+                Intent intent_create = new Intent(this, CreateTrack.class);
+                startActivity(intent_create);
+                break;
+            case R.id.nav_display_track:
+                //showFragment(new HomeFragment());
+                Intent intent_listTrack = new Intent(this, ListTrackActivity.class);
+                startActivity(intent_listTrack);
+                break;
+            case R.id.nav_about:
+                //showFragment(new HomeFragment());
+                Intent intent_about = new Intent(this, AboutActivity.class);
+                startActivity(intent_about);
+                break;
+            default:
+                return false;
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 
 }
