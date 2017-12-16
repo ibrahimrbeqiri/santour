@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -40,6 +41,7 @@ public class TrackListMap extends AppCompatActivity implements OnMapReadyCallbac
     private List<POD> podList = new ArrayList<>();
     private List<POI> poiList = new ArrayList<>();
     private Track track;
+    private TextView trackName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +55,8 @@ public class TrackListMap extends AppCompatActivity implements OnMapReadyCallbac
         track = (Track) intent.getSerializableExtra("track");
 
         options = new PolylineOptions().width(10).color(Color.RED).geodesic(true);
+        trackName = findViewById(R.id.trackname);
+        trackName.setText(track.getNameTrack());
 
 
         gpsDatas = track.getGpsTrack();
