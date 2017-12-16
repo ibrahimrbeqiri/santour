@@ -23,7 +23,6 @@ android:layout_height="fill_parent"
 android:weightSum="10">
 
 <com.group4.santour.CustomScrollView
-    android:fillViewport="true"
     android:descendantFocusability="beforeDescendants"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
