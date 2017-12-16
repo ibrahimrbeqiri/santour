@@ -86,7 +86,7 @@ public class Homepage extends Fragment {
 
             }
 
-        }, 2000);
+        }, 1500);
         return view;
     }
 
