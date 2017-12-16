@@ -1,6 +1,5 @@
 package com.group4.santour;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -10,7 +9,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -24,9 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import models.GPSData;
 import models.Track;
 
 public class ListTrackActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
@@ -36,7 +32,6 @@ public class ListTrackActivity extends AppCompatActivity implements NavigationVi
     private ArrayList<Track> tracks = new ArrayList<>();
     private ArrayList<String> trackList = new ArrayList<>();
     private ArrayAdapter<String> adapter;
-    private ArrayList<List<GPSData>> gpsDataList = new ArrayList<List<GPSData>>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,19 +45,15 @@ public class ListTrackActivity extends AppCompatActivity implements NavigationVi
         }*/
 
         sanTourDatabase = FirebaseDatabase.getInstance().getReference().child("tracks");
-        sanTourDatabase.addValueEventListener(new ValueEventListener() {
+        sanTourDatabase.orderByChild("trackDate").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     Track track = postSnapshot.getValue(Track.class);
                     tracks.add(track);
-                    trackList.add("Track Name: " + track.getNameTrack() + "\nDate: " + track.getTrackDate() + "\nDistance: " + track.getKm() + " km" + "   Time: " + track.getTimer() + "\nDescription: " + track.getDescriptionTrack());
+                    trackList.add("Track Name: " + track.getNameTrack() + "\nDate: " + track.getTrackDate() + "\nDistance: " + track.getKm() + " km" + "   Time: " + track.getTimer());
                     adapter.notifyDataSetChanged();
-                    gpsDataList.add(track.getGpsTrack());
-
-                    System.out.println(gpsDataList.size());
-
                 }
             }
 
@@ -71,8 +62,6 @@ public class ListTrackActivity extends AppCompatActivity implements NavigationVi
                 System.out.println("The read failed: " + databaseError.getCode());
             }
         });
-
-
 
         adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, trackList);
         listViewTrack = findViewById(R.id.listtrack);

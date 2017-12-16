@@ -233,6 +233,8 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
     }
     public void startTrack(View v) {
 
+        mMap.clear();
+
         track = new Track();
         Button start = findViewById(R.id.start);
         start.setEnabled(false);
@@ -320,12 +322,13 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
         String timerString = hours + ":" + minutes + ":" + seconds;
         String currentDate = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
 
-        mMap.clear();
+
         track.setGpsTrack(gpsDataList);
         track.setNameTrack(nameTrack);
         track.setKm(String.format("%.2f", distanceMade));
         track.setTimer(timerString);
         track.setTrackDate(currentDate);
+        track.setNameAndDate(currentDate + "_" + nameTrack);
 
 
         fbq.insertTrack(track);
