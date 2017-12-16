@@ -54,9 +54,6 @@ public class AboutActivity extends AppCompatActivity implements NavigationView.O
                 startActivity(intent_listTrack);
                 break;
             case R.id.nav_about:
-                //showFragment(new HomeFragment());
-                Intent intent_about = new Intent(this, AboutActivity.class);
-                startActivity(intent_about);
                 break;
             default:
                 return false;

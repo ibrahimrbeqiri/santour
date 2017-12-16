@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -103,13 +104,10 @@ public class ListTrackActivity extends AppCompatActivity implements NavigationVi
         switch (id) {
             case R.id.nav_create_track:
                 //showFragment(new HomeFragment());
-                Intent intent_create = new Intent(this, CreateTrack.class);
+                Intent intent_create = new Intent(ListTrackActivity.this, CreateTrack.class);
                 startActivity(intent_create);
                 break;
             case R.id.nav_display_track:
-                //showFragment(new HomeFragment());
-                Intent intent_listTrack = new Intent(this, ListTrackActivity.class);
-                startActivity(intent_listTrack);
                 break;
             case R.id.nav_about:
                 //showFragment(new HomeFragment());

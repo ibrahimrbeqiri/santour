@@ -24,6 +24,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
@@ -231,6 +232,7 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
         mMap.setOnMyLocationButtonClickListener(this);
         mMap.setOnMyLocationClickListener(this);
     }
+
     public void startTrack(View v) {
 
         mMap.clear();
@@ -563,9 +565,6 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
 
         switch (id) {
             case R.id.nav_create_track:
-                //showFragment(new HomeFragment());
-                Intent intent_create = new Intent(this, CreateTrack.class);
-                startActivity(intent_create);
                 break;
             case R.id.nav_display_track:
                 //showFragment(new HomeFragment());

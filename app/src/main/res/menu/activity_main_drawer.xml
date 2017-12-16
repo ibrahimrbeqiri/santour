@@ -9,8 +9,8 @@
         <item
             android:id="@+id/nav_create_track"
             android:icon="@drawable/ic_add_location_black_24dp"
-            android:checked="true"
-            android:title="Create a track"/>
+            android:title="Create a track"
+            android:checked="true"/>
         <item
             android:id="@+id/nav_display_track"
             android:icon="@drawable/ic_view_list_black_24dp"

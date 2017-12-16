@@ -27,41 +27,26 @@
             android:id="@+id/scrollView2">
 
             <RelativeLayout
-                android:layout_width="match_parent"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
                 >
-                <LinearLayout
-                    android:id="@+id/listtracklayout"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginTop="36dp"
-                    android:orientation="vertical"
-                    android:layout_weight="0.5">
-
-                    <TextView
-                        android:id="@+id/textView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_above="@+id/scrollView2"
-                        android:text="Track List:"
-                        android:layout_marginBottom="20dp"
-                        android:textSize="24sp"
-                        android:textStyle="bold" />
-                    <ListView
-                        android:id="@+id/listtrack"
-                        android:layout_width="match_parent"
-                        android:layout_height="435dp" />
-                </LinearLayout>
-                <LinearLayout
-                    android:id="@+id/listtrackbuttons"
+                    android:text="Track List:"
+                    android:layout_marginTop="50dp"
+                    android:layout_marginBottom="20dp"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+                <ListView
+                    android:id="@+id/listtrack"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_below="@+id/listtracklayout"
-                    >
-                </LinearLayout>
+                    android:layout_height="500dp"
+                    android:layout_marginTop="80dp"
+                    android:nestedScrollingEnabled="true"/>
             </RelativeLayout>
         </ScrollView>
 
@@ -74,7 +59,7 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_main"
-        app:menu="@menu/activity_main_drawer" />
+        app:menu="@menu/activity_main_drawer_list_track" />
 
 </android.support.v4.widget.DrawerLayout>
 

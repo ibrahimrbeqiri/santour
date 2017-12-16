@@ -52,7 +52,8 @@
                 <ListView
                     android:id="@+id/listpoi"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp" />
+                    android:layout_height="200dp"
+                    android:nestedScrollingEnabled="true"/>
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/listpoilayoutbuttons"
@@ -81,7 +82,8 @@
             <ListView
                 android:id="@+id/listpod"
                 android:layout_width="match_parent"
-                android:layout_height="200dp" />
+                android:layout_height="200dp"
+                android:nestedScrollingEnabled="true"/>
     </LinearLayout>
 
 
