@@ -330,8 +330,6 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
         track.setKm(String.format("%.2f", distanceMade));
         track.setTimer(timerString);
         track.setTrackDate(currentDate);
-        track.setNameAndDate(currentDate + "_" + nameTrack);
-
 
         fbq.insertTrack(track);
 

@@ -14,15 +14,15 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+
 
 import models.Track;
 
@@ -39,29 +39,29 @@ public class ListTrackActivity extends AppCompatActivity implements NavigationVi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_track);
 
-        /*for (int i = 0; i < tracks.size(); i++) {
-            Track track = tracks.get(i);
-            trackList.add("Track Name: " + track.getNameTrack() + " Date: " + track.getTrackDate() + "\n" + "Distance: " + track.getKm() + " Time: " + track.getTimer());
-            System.out.println(track.getIdTrack());
-        }*/
-
         sanTourDatabase = FirebaseDatabase.getInstance().getReference().child("tracks");
-        sanTourDatabase.orderByChild("trackDate").addValueEventListener(new ValueEventListener() {
+        sanTourDatabase.orderByChild("nameTrack").addChildEventListener(new ChildEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
 
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    Track track = postSnapshot.getValue(Track.class);
+                    Track track = dataSnapshot.getValue(Track.class);
                     tracks.add(track);
                     trackList.add("Track Name: " + track.getNameTrack() + "\nDate: " + track.getTrackDate() + "\nDistance: " + track.getKm() + " km" + "   Time: " + track.getTimer());
                     adapter.notifyDataSetChanged();
-                }
+            }
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String prevChildKey) {
+            }
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
-                System.out.println("The read failed: " + databaseError.getCode());
-            }
+            public void onChildMoved(DataSnapshot dataSnapshot, String prevChildKey) {}
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
         });
 
         adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, trackList);
