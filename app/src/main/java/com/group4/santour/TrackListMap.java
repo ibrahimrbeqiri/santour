@@ -50,7 +50,7 @@ public class TrackListMap extends AppCompatActivity implements OnMapReadyCallbac
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
+        
         Intent intent = getIntent();
         track = (Track) intent.getSerializableExtra("track");
 
