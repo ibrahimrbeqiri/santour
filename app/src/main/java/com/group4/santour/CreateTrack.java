@@ -120,14 +120,11 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         if (!isLocationEnabled())
             showAlert(1);
-
         points = new ArrayList<>();
         locations = new ArrayList<>();
         gpsDataList = new ArrayList<>();
 
-
-
-
+        
         Button POD = findViewById(R.id.POD);
         POD.setEnabled(false);
         POD.setOnClickListener(new View.OnClickListener(){

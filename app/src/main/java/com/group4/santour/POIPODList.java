@@ -31,8 +31,6 @@ public class POIPODList extends AppCompatActivity{
         setContentView(R.layout.activity_poipodlist);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
-
-
         Intent intent = getIntent();
             poiArrayList = (ArrayList<POI>) intent.getSerializableExtra("poilist");
             podArrayList = (ArrayList<POD>) intent.getSerializableExtra("podlist");

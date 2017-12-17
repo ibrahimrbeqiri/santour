@@ -25,7 +25,6 @@ public class MainActivity extends AppCompatActivity{
         //setContentView(R.layout.fragment_homepage);
 
         setContentView(R.layout.activity_main);
-
         if (savedInstanceState == null) {
             showFragment(new Homepage());
         }
