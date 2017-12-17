@@ -124,7 +124,7 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
         locations = new ArrayList<>();
         gpsDataList = new ArrayList<>();
 
-        
+
         Button POD = findViewById(R.id.POD);
         POD.setEnabled(false);
         POD.setOnClickListener(new View.OnClickListener(){
@@ -160,6 +160,8 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
                 startActivity(intent);
             }
         });
+
+        // POI POD list from this activity the the POIPODList activitie
         POIPODList = findViewById(R.id.POIPODList);
         POIPODList.setEnabled(false);
         POIPODList.setOnClickListener(new View.OnClickListener(){
@@ -174,7 +176,7 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
         });
 
 
-
+        // button stop
         Button stop = findViewById(R.id.stop);
         stop.setEnabled(false);
 
@@ -185,17 +187,14 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
                 R.string.navigation_drawer_open,
                 R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -204,7 +203,6 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
     public void onPause()
     {
         super.onPause();
-
     }
 
     @Override
@@ -233,27 +231,27 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
     public void startTrack(View v) {
 
         mMap.clear();
-
+        //create Track with the buttons
         track = new Track();
+        //start button
         Button start = findViewById(R.id.start);
         start.setEnabled(false);
+        //stop button
         Button stop = findViewById(R.id.stop);
         stop.setEnabled(true);
-
+        //POD and POI button
         Button PODbutton = findViewById(R.id.POD);
         PODbutton.setEnabled(true);
         Button POIbutton = findViewById(R.id.POI);
         POIbutton.setEnabled(true);
 
+        //inizialisation of poi/podlist
         poilist = new ArrayList<>();
         podlist = new ArrayList<>();
-
-
         EditText trackname = findViewById(R.id.editText);
         trackname.setEnabled(false);
 
         distance.setText("Distance: 0.00 km");
-
         options = new PolylineOptions().width(10).color(Color.RED).geodesic(true);
         points = new ArrayList<>();
         locations = new ArrayList<>();
@@ -276,16 +274,21 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
     }
 
     public void stopTrack(View v) {
+
+        // start button
         Button start = findViewById(R.id.start);
         start.setEnabled(true);
+        //stop button
         Button stop = findViewById(R.id.stop);
         stop.setEnabled(false);
-
+        //POD button
         Button POD = findViewById(R.id.POD);
         POD.setEnabled(false);
+        //POI button
         Button POI = findViewById(R.id.POI);
         POI.setEnabled(false);
 
+        //Trackname
         EditText trackname = findViewById(R.id.editText);
         trackname.setEnabled(true);
 
@@ -303,9 +306,7 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
         }
 
         gpsTrack = mMap.addPolyline(options);
-
         distanceMade = 0;
-
         if(locations.size() > 1) {
 
             for(int i = 1; i < locations.size(); i++) {
@@ -337,7 +338,7 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
         LatLng coordinates = new LatLng(location.getLatitude(), location.getLongitude());
         mMap.moveCamera(CameraUpdateFactory.newLatLng(coordinates));
 
-
+        //GPS data Format
         String xGPSData = String.format("%.7f", location.getLatitude());
         String yGPSData = String.format("%.7f", location.getLongitude());
 
@@ -557,7 +558,6 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
         int id = item.getItemId();
-
         switch (id) {
             case R.id.nav_create_track:
                 break;

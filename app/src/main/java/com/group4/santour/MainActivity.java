@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity{
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.fragment_homepage);
-
+        // calls the fragment on the Mainactivity
         setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
             showFragment(new Homepage());

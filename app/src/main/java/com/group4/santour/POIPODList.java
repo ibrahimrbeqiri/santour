@@ -31,6 +31,7 @@ public class POIPODList extends AppCompatActivity{
         setContentView(R.layout.activity_poipodlist);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
+        //get both list from the create Track Activity
         Intent intent = getIntent();
             poiArrayList = (ArrayList<POI>) intent.getSerializableExtra("poilist");
             podArrayList = (ArrayList<POD>) intent.getSerializableExtra("podlist");
@@ -54,6 +55,7 @@ public class POIPODList extends AppCompatActivity{
                     pods.add("Name: " + pod.getNamePOD() + "\n" + "Latitude: " + pod.getGpsLocationPOD().getxGPS() + " Longitude: " + pod.getGpsLocationPOD().getyGPS());
                 }
             }
+            //create and add a Adapter to the listviews
         ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1,pois);
         ArrayAdapter adapter2 = new ArrayAdapter(this, android.R.layout.simple_list_item_1,pods);
         poilistview.setAdapter(adapter);
