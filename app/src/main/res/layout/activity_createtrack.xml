@@ -51,7 +51,6 @@ android:weightSum="10">
 
 </LinearLayout>
 
-
         <LinearLayout
             android:id="@+id/latlong"
             android:orientation="horizontal"

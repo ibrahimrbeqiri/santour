@@ -63,7 +63,6 @@ public class POIPODList extends AppCompatActivity{
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
@@ -73,6 +72,5 @@ public class POIPODList extends AppCompatActivity{
                 startActivity(new Intent(getApplicationContext(),CreateTrack.class));
             }
         });
-
     }
 }
