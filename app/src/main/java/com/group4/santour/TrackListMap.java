@@ -50,22 +50,28 @@ public class TrackListMap extends AppCompatActivity implements OnMapReadyCallbac
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        
+
+        // get the intent from the activity that sent you here
         Intent intent = getIntent();
+
+        // get the track from the intent
         track = (Track) intent.getSerializableExtra("track");
 
+        // set the polyline options
         options = new PolylineOptions().width(10).color(Color.RED).geodesic(true);
+
+        // set the textview equals to the track name
         trackName = findViewById(R.id.trackname);
         trackName.setText(track.getNameTrack());
 
-
+        // get the lists of gps data, pois and pods from the tack
         gpsDatas = track.getGpsTrack();
         poiList = track.getPoiTrack();
         podList = track.getPodTrack();
 
-
-        for(GPSData gpsData : gpsDatas)
-        {
+        // for every gps data object in the list get the coordinates and put them in the polyline options list
+        for (GPSData gpsData : gpsDatas) {
+            // parse from string to double because Google Maps API accepts only LatLng for coordinates
             double latitude = Double.parseDouble(gpsData.getxGPS());
             double longitude = Double.parseDouble(gpsData.getyGPS());
 
@@ -73,6 +79,7 @@ public class TrackListMap extends AppCompatActivity implements OnMapReadyCallbac
             options.add(latLng);
         }
 
+        // action bar in the menu
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -82,19 +89,16 @@ public class TrackListMap extends AppCompatActivity implements OnMapReadyCallbac
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),ListTrackActivity.class));
+                startActivity(new Intent(getApplicationContext(), ListTrackActivity.class));
             }
         });
 
-
     }
-
 
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
      * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
      * If Google Play services is not installed on the device, the user will be prompted to install
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
@@ -102,8 +106,11 @@ public class TrackListMap extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+
+        // draw the path with the polyline
         pathDraw = mMap.addPolyline(options);
 
+        // set the markers for every POI in the list
         for(POI poi : poiList)
         {
             double latitude = Double.parseDouble(poi.getGpsLocationPOI().getxGPS());
@@ -114,6 +121,7 @@ public class TrackListMap extends AppCompatActivity implements OnMapReadyCallbac
                     .title(poi.getNamePOI())).showInfoWindow();
         }
 
+        // set the markes for every POD in the list
         for(POD pod : podList)
         {
             double latitude = Double.parseDouble(pod.getGpsLocationPOD().getxGPS());
@@ -124,12 +132,11 @@ public class TrackListMap extends AppCompatActivity implements OnMapReadyCallbac
                     .title(pod.getNamePOD())).showInfoWindow();
         }
 
+        // move the camera and zoom it to the first gps data object which is the start of the track
         double latitude = Double.parseDouble(gpsDatas.get(0).getxGPS());
         double longitude = Double.parseDouble(gpsDatas.get(0).getyGPS());
-
         LatLng latLng = new LatLng(latitude, longitude);
-        // Add a marker in Sydney and move the camera
-       mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-       mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 20));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 20));
     }
 }

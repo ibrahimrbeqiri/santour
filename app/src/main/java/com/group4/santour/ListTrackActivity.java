@@ -39,6 +39,7 @@ public class ListTrackActivity extends AppCompatActivity implements NavigationVi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_track);
 
+        // get the Firebase reference and get the tracks ordered by name
         sanTourDatabase = FirebaseDatabase.getInstance().getReference().child("tracks");
         sanTourDatabase.orderByChild("nameTrack").addChildEventListener(new ChildEventListener() {
             @Override
@@ -64,10 +65,13 @@ public class ListTrackActivity extends AppCompatActivity implements NavigationVi
             public void onCancelled(DatabaseError databaseError) {}
         });
 
+        // set the adapter with the tacklist which we got from firebase
         adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, trackList);
+        // set the listview in the activity with the adapter
         listViewTrack = findViewById(R.id.listtrack);
         listViewTrack.setAdapter(adapter);
 
+        // if an item is clicked it will go to the Track List Map with the corresponding track
         listViewTrack.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
@@ -80,6 +84,7 @@ public class ListTrackActivity extends AppCompatActivity implements NavigationVi
 
         });
 
+        // action bar and menu initialization
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -99,8 +104,8 @@ public class ListTrackActivity extends AppCompatActivity implements NavigationVi
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
+        // redirect to the selected menu item
         int id = item.getItemId();
-
         switch (id) {
             case R.id.nav_create_track:
                 //showFragment(new HomeFragment());
