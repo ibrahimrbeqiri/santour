@@ -9,6 +9,7 @@ import android.widget.ScrollView;
  * Created by ibraa on 16-Dec-17.
  */
 
+// custom scrollview to add it where the maps are because of being able to scroll the page plus zoom in and out in the map
 public class CustomScrollView extends ScrollView {
 
     public CustomScrollView(Context context) {
