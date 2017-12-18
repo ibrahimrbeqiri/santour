@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.group4.santour">
+
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -10,6 +11,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <!-- To access Google+ APIs: -->
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -43,10 +45,11 @@
         <activity
             android:name=".CreatePoiPodActivity"
             android:configChanges="orientation|keyboardHidden" />
-        <activity android:name=".FireBaseTestActivity" />
         <activity android:name=".PodDetails" />
         <activity android:name=".AboutActivity" />
-        <activity android:name=".ListTrackActivity"></activity>
-        <activity android:name=".POIPODList"></activity>
+        <activity android:name=".ListTrackActivity" />
+        <activity android:name=".POIPODList" />
+        <activity android:name=".TrackListMap"/>
     </application>
+
 </manifest>

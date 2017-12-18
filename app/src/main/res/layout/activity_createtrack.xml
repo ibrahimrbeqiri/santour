@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <android.support.v4.widget.DrawerLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -23,13 +22,11 @@ android:layout_width="fill_parent"
 android:layout_height="fill_parent"
 android:weightSum="10">
 
-
-<ScrollView
-
+<com.group4.santour.CustomScrollView
+    android:descendantFocusability="beforeDescendants"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="60dp">
-
 
     <RelativeLayout
         android:layout_width="fill_parent"
@@ -53,7 +50,6 @@ android:weightSum="10">
         android:layout_height="216dp" />
 
 </LinearLayout>
-
 
         <LinearLayout
             android:id="@+id/latlong"
@@ -213,7 +209,7 @@ android:weightSum="10">
 
         </LinearLayout>
     </RelativeLayout>
-</ScrollView>
+</com.group4.santour.CustomScrollView>
 </RelativeLayout>
 
     <android.support.design.widget.NavigationView

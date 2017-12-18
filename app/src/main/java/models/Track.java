@@ -32,7 +32,7 @@ public class Track implements Serializable{
     public Track() {
         poiTrack=new ArrayList<>();
         podTrack=new ArrayList<>();
-
+        gpsTrack=new ArrayList<>();
     }
 
     public Track(String nameTrack, String descriptionTrack, String pictureTrack, String timer, String km, String startLocation, String endLocation, List<GPSData> gpsTrack, List<POI> poiTrack, List<POD> podTrack, String trackDate) {
@@ -125,20 +125,21 @@ public class Track implements Serializable{
         return poiTrack;
     }
 
-    public void setPoiTrack(POI poiTrack) {
-        this.poiTrack.add(poiTrack);
+    public void setPoiTrack(List<POI> poiTrack) {
+        this.poiTrack = poiTrack;
     }
 
     public List<POD> getPodTrack() {
         return podTrack;
     }
 
-    public void setPodTrack(POD podTrack) {
-        this.podTrack.add(podTrack);
+    public void setPodTrack(List<POD> podTrack) {
+        this.podTrack = podTrack;
     }
 
     public String getTrackDate() { return trackDate;}
 
     public void setTrackDate(String trackDate) {this.trackDate = trackDate;}
+
 
 }

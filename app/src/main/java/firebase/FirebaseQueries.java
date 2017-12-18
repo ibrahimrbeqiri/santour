@@ -32,16 +32,16 @@ public class FirebaseQueries {
     private DatabaseReference trackCloudEndPoint;
     private List<Track> tracksList;
     private StorageReference sanTourStorage;
-    private FirebaseDatabase firebaseDatabase;
+    private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
 
     public FirebaseQueries(){
 
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        firebaseDatabase.setPersistenceEnabled(true);
 
+        firebaseDatabase.setPersistenceEnabled(true);
 
         //get database instance and reference
         sanTourDatabase = firebaseDatabase.getReference();
+        sanTourDatabase.keepSynced(true);
 
         //get storage instance and reference
         sanTourStorage = FirebaseStorage.getInstance().getReference();
@@ -113,16 +113,4 @@ public class FirebaseQueries {
         return BitmapFactory.decodeByteArray(decodedByteArray, 0, decodedByteArray.length);
     }
 
-    //method to encode bitmap to string
-    public String encodeToBase64(Bitmap bitmap) {
-
-        String imageString;
-
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-        imageString = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
-
-        return imageString;
-
-    }
 }
