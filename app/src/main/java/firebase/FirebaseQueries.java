@@ -36,7 +36,6 @@ public class FirebaseQueries {
 
     public FirebaseQueries(){
 
-
         firebaseDatabase.setPersistenceEnabled(true);
 
         //get database instance and reference

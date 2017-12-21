@@ -2,6 +2,7 @@ package com.group4.santour;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -21,7 +22,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import firebase.FirebaseQueries;
@@ -36,9 +42,27 @@ public class CreatePoiPodActivity extends AppCompatActivity{
     private ImageView imageView;
     private Uri uri;
     private boolean isPOI = false;
+    private boolean showtime = false;
 
     private String imageString;
     private Bitmap bitmap;
+    private POI showpoi;
+    private POD showpod;
+    private EditText nameset;
+    private ImageView imageset;
+    private Button takeset;
+    private EditText latset;
+    private EditText longset;
+    private EditText descset;
+    private Button saveset;
+    private Button nextset;
+
+
+    private POD pod = new POD();
+
+    private String vertset = "-1";
+    private String rockset = "-1";
+    private String slopeset = "-1";
 
     private static final int CAMERA_REQUEST_CODE = 1;
 
@@ -48,25 +72,15 @@ public class CreatePoiPodActivity extends AppCompatActivity{
         setContentView(R.layout.activity_create_poi_pod);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
-        btnCamera = findViewById(R.id.takePicture);
-        imageView = findViewById(R.id.imageView);
-
-        btnCamera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intent, CAMERA_REQUEST_CODE);
-            }
-        });
-
-        /*
+         /*
          * Get the intent and take the values from the intent.
          * With the boolean, look if it's a POI or a POD,
          * so you know which button has to be enabled and which one has to be disabled
          */
         Intent i = getIntent();
-        isPOI = (Boolean)i.getSerializableExtra("POI");
-
+        if(i.getSerializableExtra("POI") != null) {
+            isPOI = (Boolean) i.getSerializableExtra("POI");
+        }
 
         double lat;
         double lon;
@@ -110,6 +124,110 @@ public class CreatePoiPodActivity extends AppCompatActivity{
             Button button = findViewById(R.id.nextPOD);
             button.setEnabled(false);
         }
+
+            Intent intent = getIntent();
+        if(intent.getSerializableExtra("poiobject") != null ) {
+            showpoi = (POI) intent.getSerializableExtra("poiobject");
+            nameset = findViewById(R.id.createPoi);
+            nameset.setText(showpoi.getNamePOI());
+            nameset.setEnabled(false);
+
+            imageset = findViewById(R.id.imageView);
+            if(showpoi.getPicturePOI() != null){
+                byte[] decodedByteArray = android.util.Base64.decode(showpoi.getPicturePOI(), Base64.DEFAULT);
+                Bitmap map = BitmapFactory.decodeByteArray(decodedByteArray, 0, decodedByteArray.length);
+                imageset.setImageBitmap(map);
+            }
+
+            if(showpoi.getPicturePOI() ==null) {
+
+                imageset = findViewById(R.id.imageView);
+                imageset.setVisibility(View.GONE);
+            }
+
+            takeset = findViewById(R.id.takePicture);
+            takeset.setVisibility(View.GONE);
+
+            latset = findViewById(R.id.gpsdataX);
+            latset.setText(showpoi.getGpsLocationPOI().getxGPS());
+
+            longset = findViewById(R.id.gpsdataY);
+            longset.setText(showpoi.getGpsLocationPOI().getyGPS());
+
+            descset = findViewById(R.id.description);
+            descset.setText(showpoi.getDescriptionPOI());
+            descset.setEnabled(false);
+
+            saveset = findViewById(R.id.savePOI);
+            saveset.setVisibility(View.GONE);
+
+            nextset = findViewById(R.id.nextPOD);
+            nextset.setVisibility(View.GONE);
+
+        }
+        /*
+         * Set POD View for the List!
+         */
+        if(intent.getSerializableExtra("podobject") != null){
+
+            showpod = (POD) intent.getSerializableExtra("podobject");
+            nameset = findViewById(R.id.createPoi);
+            nameset.setText(showpod.getNamePOD());
+            nameset.setEnabled(false);
+
+            imageset = findViewById(R.id.imageView);
+            if(showpod.getPicturePOD() != null){
+                byte[] decodedByteArray = android.util.Base64.decode(showpod.getPicturePOD(), Base64.DEFAULT);
+                Bitmap map = BitmapFactory.decodeByteArray(decodedByteArray, 0, decodedByteArray.length);
+                imageset.setImageBitmap(map);
+            }
+
+            if(showpod.getPicturePOD()==null) {
+                imageset = findViewById(R.id.imageView);
+                imageset.setVisibility(View.GONE);
+            }
+            takeset = findViewById(R.id.takePicture);
+            takeset.setVisibility(View.GONE);
+
+            latset = findViewById(R.id.gpsdataX);
+            latset.setText(showpod.getGpsLocationPOD().getxGPS());
+
+            longset = findViewById(R.id.gpsdataY);
+            longset.setText(showpod.getGpsLocationPOD().getyGPS());
+
+            descset = findViewById(R.id.description);
+            descset.setText(showpod.getDescriptionPOD());
+            descset.setEnabled(false);
+
+            saveset = findViewById(R.id.savePOI);
+            saveset.setVisibility(View.GONE);
+
+            if(showpod.getDetailVerticality() != null){
+                vertset = showpod.getDetailVerticality();
+            }
+            if(showpod.getDetailRocks() != null){
+                rockset = showpod.getDetailRocks();
+            }
+            if(showpod.getDetailSlope() != null){
+                slopeset = showpod.getDetailSlope();
+            }
+
+            showtime = true;
+        }
+
+
+        btnCamera = findViewById(R.id.takePicture);
+        imageView = findViewById(R.id.imageView);
+
+        btnCamera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(intent, CAMERA_REQUEST_CODE);
+            }
+        });
+
+
 
         //action bar and menu initialization
 
@@ -217,6 +335,8 @@ public class CreatePoiPodActivity extends AppCompatActivity{
         EditText editText1 = findViewById(R.id.createPoi);
         editText1.setText(name);
 
+
+
         EditText editText2 = findViewById(R.id.gpsdataX);
         editText2.setText(dataX);
         EditText editText3 = findViewById(R.id.gpsdataY);
@@ -297,6 +417,8 @@ public class CreatePoiPodActivity extends AppCompatActivity{
      */
     public void sendNextPOD(View view) throws ExecutionException, InterruptedException{
 
+
+
         /*
          * Take all the values from the view objects
          */
@@ -322,7 +444,6 @@ public class CreatePoiPodActivity extends AppCompatActivity{
         /*
          * Create the POD Object with all the values it needs to be saved
          */
-        POD pod = new POD();
         pod.setNamePOD(name);
         pod.setDescriptionPOD(description);
         pod.setGpsLocationPOD(gpsData);
@@ -334,15 +455,25 @@ public class CreatePoiPodActivity extends AppCompatActivity{
          * Put the object in the intent so you can use the POD for later use
          */
         Intent intent = new Intent(this, PodDetails.class);
-        intent.putExtra("pod", pod);
+        if(!showtime) {
+            intent.putExtra("pod", pod);
+        }else{
+            intent.putExtra("vertset", vertset);
+            intent.putExtra("rockset", rockset);
+            intent.putExtra("slopeset", slopeset);
+        }
 
-         /*
+        /*
          * Start the activity with the next intent and finish the view
          * so you won't be able to click back after saving
          */
-
         startActivity(intent);
         finish();
+
+
+
+
+
 
     }
 

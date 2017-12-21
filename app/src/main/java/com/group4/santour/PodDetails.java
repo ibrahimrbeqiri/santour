@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.SeekBar;
@@ -49,11 +50,11 @@ public class PodDetails extends AppCompatActivity implements NavigationView.OnNa
         setContentView(R.layout.activity_pod_details);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
+
         /*
-         * Get the intent to take the pod object which was set in CreatePoiPodActivity
+         * add all the listeners for the checkboxes
          */
-        Intent i = getIntent();
-        pod = (POD)i.getSerializableExtra("pod");
+        addListenerToCheckBox();
 
         /*
          * Get all the require seekbars
@@ -63,9 +64,54 @@ public class PodDetails extends AppCompatActivity implements NavigationView.OnNa
         seekBar3 = findViewById(R.id.seekBar3);
 
         /*
-         * add all the listeners for the checkboxes
+         * Get the intent to take the pod object which was set in CreatePoiPodActivity
          */
-        addListenerToCheckBox();
+        Intent i = getIntent();
+        if(i.getSerializableExtra("pod")!= null) {
+            pod = (POD) i.getSerializableExtra("pod");
+
+        }else{
+            String vertset = (String) i.getSerializableExtra("vertset");
+            String rockset = (String) i.getSerializableExtra("rockset");
+            String slopeset = (String) i.getSerializableExtra("slopeset");
+
+            int intvert = Integer.parseInt(vertset);
+            int introck = Integer.parseInt(rockset);
+            int intslope = Integer.parseInt(slopeset);
+
+            System.out.println("************************************************************");
+            System.out.println(intvert);
+            System.out.println(introck);
+            System.out.println(intslope);
+
+
+            if(intvert != -1){
+                verticality.setChecked(true);
+                seekBar1.setProgress(intvert);
+                seekBar1.setVisibility(View.VISIBLE);
+                textMin1.setVisibility(View.VISIBLE);
+                textMax1.setVisibility(View.VISIBLE);
+            }
+            if(introck != -1){
+                rocks.setChecked(true);
+                seekBar2.setProgress(introck);
+                seekBar2.setVisibility(View.VISIBLE);
+                textMin2.setVisibility(View.VISIBLE);
+                textMax2.setVisibility(View.VISIBLE);
+            }
+            if(intslope != -1){
+                slope.setChecked(true);
+                seekBar3.setProgress(intslope);
+                seekBar3.setVisibility(View.VISIBLE);
+                textMin3.setVisibility(View.VISIBLE);
+                textMax3.setVisibility(View.VISIBLE);
+            }
+
+            Button saveset = findViewById(R.id.saveDetails);
+            saveset.setVisibility(View.GONE);
+        }
+
+
 
         //action bar and menu initialization
 
@@ -81,7 +127,6 @@ public class PodDetails extends AppCompatActivity implements NavigationView.OnNa
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
 
     }
 

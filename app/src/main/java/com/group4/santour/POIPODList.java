@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -60,6 +61,30 @@ public class POIPODList extends AppCompatActivity{
         ArrayAdapter adapter2 = new ArrayAdapter(this, android.R.layout.simple_list_item_1,pods);
         poilistview.setAdapter(adapter);
         podlistview.setAdapter(adapter2);
+
+
+        // if an item is clicked it will go to the CreatePoiPodActivity with the corresponding poi or pod
+        poilistview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Intent intent = new Intent(POIPODList.this, CreatePoiPodActivity.class);
+                intent.putExtra("poiobject", poiArrayList.get(position));
+                startActivity(intent);
+            }
+        });
+
+        podlistview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(POIPODList.this, CreatePoiPodActivity.class);
+                intent.putExtra("podobject", podArrayList.get(position));
+                startActivity(intent);
+            }
+        });
+
+
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
