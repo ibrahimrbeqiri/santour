@@ -19,6 +19,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
@@ -146,13 +147,13 @@ public class TrackListMap extends AppCompatActivity implements OnMapReadyCallbac
         double startLatitude = Double.parseDouble(startLocation.getxGPS());
         double startLongitude = Double.parseDouble(startLocation.getyGPS());
         LatLng LatLngStartLocation = new LatLng(startLatitude, startLongitude);
-        mMap.addMarker(new MarkerOptions().position(LatLngStartLocation).title("start")).showInfoWindow();
+        mMap.addMarker(new MarkerOptions().position(LatLngStartLocation).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)).title("start")).showInfoWindow();
 
         // set the marker for end location
         double endLatitude = Double.parseDouble(endLocation.getxGPS());
         double endLongitude = Double.parseDouble(endLocation.getyGPS());
         LatLng LatLngEndLocation = new LatLng(endLatitude, endLongitude);
-        mMap.addMarker(new MarkerOptions().position(LatLngEndLocation).title("end")).showInfoWindow();
+        mMap.addMarker(new MarkerOptions().position(LatLngEndLocation).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)).title("end")).showInfoWindow();
 
 
         // move the camera and zoom it to the first gps data object which is the start of the track
