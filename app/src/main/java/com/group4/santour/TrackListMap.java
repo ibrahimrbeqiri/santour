@@ -42,6 +42,8 @@ public class TrackListMap extends AppCompatActivity implements OnMapReadyCallbac
     private List<POI> poiList = new ArrayList<>();
     private Track track;
     private TextView trackName;
+    private GPSData startLocation;
+    private GPSData endLocation;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,6 +112,7 @@ public class TrackListMap extends AppCompatActivity implements OnMapReadyCallbac
         // draw the path with the polyline
         pathDraw = mMap.addPolyline(options);
 
+
         // set the markers for every POI in the list
         for(POI poi : poiList)
         {
@@ -131,6 +134,26 @@ public class TrackListMap extends AppCompatActivity implements OnMapReadyCallbac
             mMap.addMarker(new MarkerOptions().position(latLng)
                     .title(pod.getNamePOD())).showInfoWindow();
         }
+
+
+        // set two markers for the start and end location of a track
+        // get first and last GPSData from the track arraylist
+        gpsDatas = track.getGpsTrack();
+        GPSData startLocation = gpsDatas.get(0);
+        GPSData endLocation = gpsDatas.get(gpsDatas.size()-1);
+
+        // set the marker for start location
+        double startLatitude = Double.parseDouble(startLocation.getxGPS());
+        double startLongitude = Double.parseDouble(startLocation.getyGPS());
+        LatLng LatLngStartLocation = new LatLng(startLatitude, startLongitude);
+        mMap.addMarker(new MarkerOptions().position(LatLngStartLocation).title("start")).showInfoWindow();
+
+        // set the marker for end location
+        double endLatitude = Double.parseDouble(endLocation.getxGPS());
+        double endLongitude = Double.parseDouble(endLocation.getyGPS());
+        LatLng LatLngEndLocation = new LatLng(endLatitude, endLongitude);
+        mMap.addMarker(new MarkerOptions().position(LatLngEndLocation).title("end")).showInfoWindow();
+
 
         // move the camera and zoom it to the first gps data object which is the start of the track
         double latitude = Double.parseDouble(gpsDatas.get(0).getxGPS());
