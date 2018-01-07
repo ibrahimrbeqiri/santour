@@ -67,6 +67,9 @@ public class PodDetails extends AppCompatActivity implements NavigationView.OnNa
          * Get the intent to take the pod object which was set in CreatePoiPodActivity
          */
         Intent i = getIntent();
+        /*
+         * If it receives a full pod, it knows, if its only displaying or adding a pod!
+         */
         if(i.getSerializableExtra("pod")!= null) {
             pod = (POD) i.getSerializableExtra("pod");
 
@@ -78,12 +81,6 @@ public class PodDetails extends AppCompatActivity implements NavigationView.OnNa
             int intvert = Integer.parseInt(vertset);
             int introck = Integer.parseInt(rockset);
             int intslope = Integer.parseInt(slopeset);
-
-            System.out.println("************************************************************");
-            System.out.println(intvert);
-            System.out.println(introck);
-            System.out.println(intslope);
-
 
             if(intvert != -1){
                 verticality.setChecked(true);

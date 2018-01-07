@@ -165,7 +165,7 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
             }
         });
 
-        // POI POD list from this activity the the POIPODList activitie
+        // POI POD list from this activity the the POIPODList activity
         POIPODList = findViewById(R.id.POIPODList);
         POIPODList.setEnabled(false);
         POIPODList.setOnClickListener(new View.OnClickListener(){

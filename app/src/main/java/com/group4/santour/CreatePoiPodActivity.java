@@ -125,13 +125,22 @@ public class CreatePoiPodActivity extends AppCompatActivity{
             button.setEnabled(false);
         }
 
-            Intent intent = getIntent();
+        Intent intent = getIntent();
+        /*
+         * Set POI View for the List!
+         */
         if(intent.getSerializableExtra("poiobject") != null ) {
+            /*
+             * Get the chosen POI
+             */
             showpoi = (POI) intent.getSerializableExtra("poiobject");
             nameset = findViewById(R.id.createPoi);
             nameset.setText(showpoi.getNamePOI());
             nameset.setEnabled(false);
 
+            /*
+             * Load the picture if one was taken
+             */
             imageset = findViewById(R.id.imageView);
             if(showpoi.getPicturePOI() != null){
                 byte[] decodedByteArray = android.util.Base64.decode(showpoi.getPicturePOI(), Base64.DEFAULT);
@@ -145,6 +154,9 @@ public class CreatePoiPodActivity extends AppCompatActivity{
                 imageset.setVisibility(View.GONE);
             }
 
+            /*
+             * Remove buttons and add texts
+             */
             takeset = findViewById(R.id.takePicture);
             takeset.setVisibility(View.GONE);
 
@@ -170,11 +182,17 @@ public class CreatePoiPodActivity extends AppCompatActivity{
          */
         if(intent.getSerializableExtra("podobject") != null){
 
+            /*
+             * Get the podobject and display the name of it
+             */
             showpod = (POD) intent.getSerializableExtra("podobject");
             nameset = findViewById(R.id.createPoi);
             nameset.setText(showpod.getNamePOD());
             nameset.setEnabled(false);
 
+            /*
+             * Load the picture if one is taken
+             */
             imageset = findViewById(R.id.imageView);
             if(showpod.getPicturePOD() != null){
                 byte[] decodedByteArray = android.util.Base64.decode(showpod.getPicturePOD(), Base64.DEFAULT);
@@ -186,6 +204,9 @@ public class CreatePoiPodActivity extends AppCompatActivity{
                 imageset = findViewById(R.id.imageView);
                 imageset.setVisibility(View.GONE);
             }
+            /*
+             * Remove buttons and set texts
+             */
             takeset = findViewById(R.id.takePicture);
             takeset.setVisibility(View.GONE);
 
@@ -212,6 +233,10 @@ public class CreatePoiPodActivity extends AppCompatActivity{
                 slopeset = showpod.getDetailSlope();
             }
 
+            /*
+             * Variable needed to be sure, that if you press next, it will know that it has
+             * to show something and not add a new pod
+             */
             showtime = true;
         }
 
@@ -275,7 +300,6 @@ public class CreatePoiPodActivity extends AppCompatActivity{
 
             //Encode into base 64
             imageString = encodeToBase64(bitmap);
-
 
         }
     }
@@ -455,6 +479,9 @@ public class CreatePoiPodActivity extends AppCompatActivity{
          * Put the object in the intent so you can use the POD for later use
          */
         Intent intent = new Intent(this, PodDetails.class);
+        /*
+         * showtime only passes the difficulties of the pod, and not the full object!
+         */
         if(!showtime) {
             intent.putExtra("pod", pod);
         }else{
