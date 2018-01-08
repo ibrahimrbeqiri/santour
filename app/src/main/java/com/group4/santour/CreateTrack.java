@@ -487,15 +487,6 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
                 // set the tracks poilist
                 track.setPoiTrack(poilist);
 
-                // get the coordinates of the poi
-                double xGps = Double.parseDouble(poi.getGpsLocationPOI().getxGPS());
-                double yGps = Double.parseDouble(poi.getGpsLocationPOI().getyGPS());
-
-                // add the marker to poi coordinates
-                LatLng poiLocation = new LatLng(xGps, yGps);
-                mMap.addMarker(new MarkerOptions().position(poiLocation)
-                        .title(poi.getNamePOI())).showInfoWindow();
-
                 //insert poi image into Firebase realtime database
                 if(poi.getPicturePOI() != null) {
                     fbq.insertPicture(poi.getPicturePOI());
@@ -509,15 +500,6 @@ public class CreateTrack extends AppCompatActivity implements OnMapReadyCallback
                 podlist.add(pod);
                 // set the tracks podlist
                 track.setPodTrack(podlist);
-
-                // get the coordinates of the pod
-                double xGps = Double.parseDouble(pod.getGpsLocationPOD().getxGPS());
-                double yGps = Double.parseDouble(pod.getGpsLocationPOD().getyGPS());
-
-                // add the marker to pod coordinates
-                LatLng poiLocation = new LatLng(xGps, yGps);
-                mMap.addMarker(new MarkerOptions().position(poiLocation)
-                        .title(pod.getNamePOD())).showInfoWindow();
 
                 //insert pod image into Firebase
                 if(pod.getPicturePOD() != null) {
