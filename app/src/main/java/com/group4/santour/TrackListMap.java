@@ -121,7 +121,9 @@ public class TrackListMap extends AppCompatActivity implements OnMapReadyCallbac
             double longitude = Double.parseDouble(poi.getGpsLocationPOI().getyGPS());
 
             LatLng latLng = new LatLng(latitude, longitude);
-            mMap.addMarker(new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)).title(poi.getNamePOI())).showInfoWindow();
+            mMap.addMarker(new MarkerOptions().position(latLng).
+                    icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)).
+                    title(poi.getNamePOI())).showInfoWindow();
         }
 
         // set the markes for every POD in the list, marker for PODs are set in orange
@@ -131,7 +133,9 @@ public class TrackListMap extends AppCompatActivity implements OnMapReadyCallbac
             double longitude = Double.parseDouble(pod.getGpsLocationPOD().getyGPS());
 
             LatLng latLng = new LatLng(latitude, longitude);
-            mMap.addMarker(new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)).title(pod.getNamePOD())).showInfoWindow();
+            mMap.addMarker(new MarkerOptions().position(latLng).
+                    icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)).
+                    title(pod.getNamePOD())).showInfoWindow();
         }
 
 
