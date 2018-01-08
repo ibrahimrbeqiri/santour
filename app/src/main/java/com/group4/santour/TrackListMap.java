@@ -114,26 +114,24 @@ public class TrackListMap extends AppCompatActivity implements OnMapReadyCallbac
         pathDraw = mMap.addPolyline(options);
 
 
-        // set the markers for every POI in the list
+        // set the markers for every POI in the list, marker for POIs are set in green
         for(POI poi : poiList)
         {
             double latitude = Double.parseDouble(poi.getGpsLocationPOI().getxGPS());
             double longitude = Double.parseDouble(poi.getGpsLocationPOI().getyGPS());
 
             LatLng latLng = new LatLng(latitude, longitude);
-            mMap.addMarker(new MarkerOptions().position(latLng)
-                    .title(poi.getNamePOI())).showInfoWindow();
+            mMap.addMarker(new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)).title(poi.getNamePOI())).showInfoWindow();
         }
 
-        // set the markes for every POD in the list
+        // set the markes for every POD in the list, marker for PODs are set in orange
         for(POD pod : podList)
         {
             double latitude = Double.parseDouble(pod.getGpsLocationPOD().getxGPS());
             double longitude = Double.parseDouble(pod.getGpsLocationPOD().getyGPS());
 
             LatLng latLng = new LatLng(latitude, longitude);
-            mMap.addMarker(new MarkerOptions().position(latLng)
-                    .title(pod.getNamePOD())).showInfoWindow();
+            mMap.addMarker(new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)).title(pod.getNamePOD())).showInfoWindow();
         }
 
 
